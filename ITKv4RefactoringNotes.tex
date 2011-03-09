@@ -1,0 +1,222 @@
+\documentclass{article}
+\newcommand{\Section}[1]{\vspace{-8pt}\section{\hskip-1em.~~#1}\vspace{-3pt}}
+\newcommand{\SubSection}[1]{\vspace{-3pt}\subsection{\hskip -1em.~~#1}\vspace{-3pt}}
+\newcommand{\X}{{\bf X}}
+\newcommand{\x}{{\bf x}}
+\newcommand{\Y}{{\bf Y}}
+\newcommand{\y}{{\bf y}}
+\newcommand{\Z}{{\bf Z}}
+\newcommand{\z}{{\bf z}}
+\newcommand{\bs}{\boldsymbol}
+\newcommand{\I}{{\bs I}}
+\newcommand{\J}{{\bs J}}
+\newcommand{\R}{{\bs R}}
+\newcommand{\Id}{{\text{\bf Id}}}
+\newcommand{\bSigma}{\boldsymbol \Sigma}
+\usepackage{amsmath,amssymb,algorithm,algorithmic}
+\usepackage{times}
+\usepackage{setspace,verbatim}
+\usepackage{epsfig,url}
+
+\begin{document}
+\vspace{-0.1in}
+\title{ITK v4 refactoring notes}
+\author{Anonymous}
+\maketitle              
+\begin{abstract}
+Current status and goals for the refactoring. 
+\end{abstract}
+
+\section{Introduction}
+
+graceful failure of an algorithm.  Should not be catastrophic.
+A nice feedback loop for software.  
+
+{\bf procedure: 1. clinicians are conservative.  2.  first, prove
+  robustness.  3. provide useful and encouraging feedback.  4. fail gracefully when do fail.   }
+
+good average performance versus good performance on a given dataset.
+
+\section{Nomenclature}
+\begin{description}
+\item [Transport versus diffeomorphism] intrasubject versus intersubject.
+\item [Resolution effects]  ...
+\item [accuracy vs precision] obsessed with accuracy because we dont
+  know the precision we need
+\item [Evaluation data] is there any?
+\item [Serial vs longitudinal]  short time scale versus long time
+  scale
+\item [Pathology] appearance changes ...
+\item [whole body atlas] map any image to whole body
+\item [radiation oncology] techs understand translation versus
+  rotation versus deformation.
+\end{description}
+
+\section{Deliverables}
+\subsection{Usability}
+\begin{description}
+\item [Automate parameter scaling] base this on empirical statistics
+  ``learning'' on a per registration problem basis.
+\item [GetParameterSuggestion] metric and trasformation classes should
+  recommend parameters from a developer-defined set.
+\item [Multi-core implementations] multi threading of metric,
+  regularization, parameter update, etc.  stephen indicates that the
+  setparameters function may cause problems.   
+\item [Unify the dense and sparse frameworks] metrics and
+  transformations should be reusable across frameworks. 
+\end{description}
+
+\subsection{Data Types}
+Transform vectors, curves and tensors with reorientation.
+
+\subsection{Metrics}
+\begin{description}
+\item [metrics]  derivatives should be bi-directional.
+\item [MI and NMI]  Shreyas --- MI and NMI multicore. 
+\item [ATG Neighborhood Cross Correlation] our approximation to the
+  NCC derivative.  
+\item [PSE Metric] with arbitrary data type.  ObjectMetric ...
+\item [Tractography/vector flow metric]  vector based.  distance transform?
+\item [Multivariate metric] plug in metrics and weights and a
+  ``combination'' strategy.  e.g. match 1-norm, 2-norm, etc before weighting. 
+\end{description}
+
+\subsection{Transformations}
+\begin{description}
+\item [BSpline]  Nick DMFFD and refactoring , bug fixing.  Usability
+  and speed. 
+\item [Composite transformation] need to get the composite derivatives
+  right. 
+\item [Deformation and rotation transform] have jeff implement.
+  smooth rotation component internally (after update parameters).
+\item [Velocity field] with fourth order integration.
+\item [Reorientation transformation and derivative]  tensor and vector. 
+\item [Rigid and deformable]  takes a mask that defines which parts
+  are deformable and which are rigid.  the rigid parts are fixed by
+  pre-computation.  the deformable parts are modified according to a
+  registration strategy.  
+\end{description}
+
+\subsection{Regularization}
+For instance, we should be able to compute a ``demons'' registration
+without passing deformations to the filter.  We should pass
+transformations (e.g. affine) and regularization (e.g. distance from
+identity) in addition to the demons metric.  
+
+\subsection{Longitudinal and serial registration}
+Facilitate through transformations and regularization and unbiased design.
+\begin{description}
+\item [longitudinal] multiple images of the same subject over a longer time-scale.
+\item [serial or time series] multiple images of the same subject or
+  scene with high frequency sampling (samples that are dense in time).
+\item [Longitudinal Image] Given a set of 3D images sampled
+  longitudinally (see above), we package these $n$ images---along with
+  $n$ rigid or affine transforms that map them to a common
+  domain---into a standard itk image 
+  interface.
+\item [Serial image] this concept may already be supported.
+\end{description}
+
+\subsection{Algorithms}
+\begin{description}
+\item [SyN]  fully unbiased and lives as an algorithm (not
+  multi-resolution) within ITK.   Multi-resolution SyN is a 2nd
+  algorithm.  
+\item [DMFFD] nick's style---greg's?
+\item [Longitudinal Diffeomorphic Mapping] gang's version.
+\item [vector versions of above]  ... with reorientation in
+  transform.  also in optimization?
+\end{description}
+
+
+\section{The new framework}
+Changes that we need to implement ASAP. 
+\subsection{optimizers with regularization} We use the following
+idea: any gradient based optimizer can be altered to perform the
+following update scheme $ T_{i+1}=R(T_i + \lambda F(g))$ where $g$ is the
+gradient and $\lambda$ is the update step.  The function $F$ is the
+regularization on the gradient which will be dealt with by regularized
+metrics.  So, this object should take a transform, an update to a 
+transform and return the regularized transform $T_{i+1}$.  This requires a class of
+optimizers that takes a regularization function as input \verb ->SetRegularizationFunction.  We will start with the gradient descent
+optimizer.  Build a derived class that has a regularization function
+and that overrides the update step to use that function.  It can be an
+identity function for now.
+\subsection{transform changes} The transforms should add a {\em thread-safe} function
+called IncrementalUpdateToTransformParameters that takes a delta to
+the parameters and updates the transform.  There will be an
+implementation in the base class that just adds the parameters.  But
+special transforms may want to override this function.  We also want a
+function LocalJacobian which will default to the Jacobian computation
+except in the cases where we override the function for the local,
+dense transform types.
+\subsection{deformation field transform} We need to resolve the
+issues with the dense transform parameters.  I.e. map them
+to an image efficiently or define a new local parameter type that is
+based on the itkVector image.
+\subsection{multivariate metric} Takes two ObjectToObjectMetrics as
+input along with a weight function.  Defaults to uniform weighting
+unless otherwise specified.  Weights are applied to the gradients of
+the metric, not the metric itself.  
+\subsection{multi-threading}  We need to be careful in making
+decisions about all the above.  For instance, what is needed to make
+the transforms thread-safe?   The regularizers?
+\subsection{lightweight resampling}  Can we implement a lightweight
+resample function that is local, thread-safe and samples an image in
+such a way that code becomes more readable?  I.e. does the bounds
+checking, reorientation, etc.  Relatedly, can the resample image
+filter be rewritten with code reuse as an objective?
+\subsection{multi-threaded metrics}  Gang wrote an initial
+implementation.  We need to continue to work on this --- the demons
+version needs to take a generic iterator type or allow different
+iterators to be selected by the user.  
+
+\subsection{the first new registration object}
+
+SetImages 
+
+SetRegistrationMachineryObjects --- what type of object is the
+registration machinery?  really just a holder with reasonable defaults
+for the stuff that needs to be set up.  Relies on get recommended
+parameters and baohua's scale parameter setter to set up the defaults
+for optimizer, metric etc.
+
+SetOptimizer --- that will be in the machine but the optimizer might
+have a regularization function which will have parameters.
+Alternatively, we define regularized metrics that takes an
+unregularized metric as input along with a regularizer and just
+returns the regularized gradient---maybe a better idea!  A regularized
+metric will project the gradient to the space in which it should
+live.  
+
+SetResolutions --- virtual domains along with scales?  kind of unclear 
+
+SetVirtualDomain --- related to above 
+
+RunRegistration --- given above, runs the registration.  Need a
+convergence criterion.  
+
+\section{Frobenius norm registration}
+A three-dimensional problem with a derivative on $\x$, the spatial domain.
+Let us assume that $\I \colon \Omega \in [0,1]^d \rightarrow
+\mathbb{R}^d$ where $d$ defines the dimensionality. 
+Homogeneous coordinates make this easier.
+\begin{eqnarray}
+T(\x) =\y = [A(\theta)] \phi(\x)= [A(\theta)] (\x+U(\x)) \\ \notag 
+\J(T) = \R^T\J(\y)\R  \\ \notag 
+\R =\text{R part of polar decomposition of }   \\ \notag
+   [A(\theta)] (\Id+U_\x(\x))   \\ \notag
+ \text{must compose affine with deformation gradient} \\ \notag
+\text{in order that correctly reorients the data.}  \\ \notag
+\| \I - \J (T) \|^2  \\ \notag 
+\frac{\partial}{\partial \x} \| \I - \J (T) \|^2 \\ \notag
+< \I - \J (T) , \frac{\partial}{\partial \x} (  \I - \J (T)  ) >  \\ \notag
+\frac{\partial}{\partial \x} (  \I - \J (T)  ) =  \\ \notag
+\frac{\partial}{\partial \x} \J (T)  =  \\ \notag
+\text{ chain rule gets ugly ...}
+\end{eqnarray}
+
+
+% \bibliographystyle{IEEEbib}
+% \bibliography{./none}
+\end{document}
