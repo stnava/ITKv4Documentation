@@ -20,7 +20,7 @@
 
 \begin{document}
 \vspace{-0.1in}
-\title{ITK Version 4 Registration Framework}
+\title{An introduction to ITK version 4 registration}
 \author{Anonymous}
 \maketitle              
 \begin{abstract}
@@ -42,6 +42,17 @@ set by the user.
 \end{abstract}
 
 \section{Introduction}
+What is the current state of image registration?  How is it applied?
+
+What role has ITK filled in the registration world?  What papers use
+ITK as a standard for comparison?  What other software builds on ITK registration?
+
+How does the v4 registration framework build on the past?  What does
+it contribute that's new?  
+
+What is it? Why were these the tools we chose to contribute?  
+
+What isn't it? Why did we not focus, for instance, on optimal speed implementations?
 
 % graceful failure of an algorithm.  Should not be catastrophic. A nice feedback loop for software.  
 
@@ -50,6 +61,11 @@ set by the user.
 % good average performance versus good performance on a given dataset.
 
 \section{Nomenclature}
+We will use the nomenclature below to designate an image registration
+algorithm pictorially.  This nomenclature is intended to be a
+descriptive, but also technically correct, system for visually
+representing algorithms and applications of registration.  Ideally,
+any standard algorithm can be written in the nomenclature below.
 \begin{description}
 \item [A position:] ${\bf x} \in \Omega$ where $\Omega$ is the domain. 
 \item [An image:]  $ I \colon \Omega^d \to \mathbb{R}^n$ where $n$ is the
@@ -62,6 +78,8 @@ set by the user.
 \item [Diffeomorphic mapping:] $ \leftrightsquigarrow$ 
 \item [Composite mapping:] $\phi=\phi_1(\phi_2({\bf x}))$ is defined by $\leftrightsquigarrow
   \rightarrow$ where $\phi_2$ is of type $\leftrightsquigarrow$ which precedes the application of $\rightarrow$.
+\item[Not invertible:]  $\nleftrightarrow$ indicates a mapping that is
+  not guaranteed invertible.
 % \item [Transport versus diffeomorphism] intrasubject versus intersubject.
 % \item [Resolution effects]  ...
 % \item [accuracy vs precision] obsessed with accuracy because we dont
@@ -72,7 +90,58 @@ set by the user.
 % \item [whole body atlas] map any image to whole body
 % \item [radiation oncology] techs understand translation versus rotation versus deformation.
 \end{description}
+A standard Demons registration application that maps a labeling from
+one image, $I$, into another, $J$, would then be written:
+$$
+J \rightsquigarrow \rightarrow  I .
+$$
+The notation means that the algorithm first computes an affine mapping
+from $I$ to $J$ and then computes a deformation from $I( \rightarrow )$
+to $J$.  Note, also, that the tail of the mapping indicates the
+transform's domain.  The head of the arrow indicates its range.  This
+is an important distinction for deformable maps. 
 
+\section{Overview of the unified framework}
+
+\subsection{Simplified registration example}
+
+\subsection{Transform changes}
+\subsubsection{Deformation field transforms}
+\subsubsection{Composite transforms}
+Composite transform I/O
+
+\subsection{Optimizer changes}
+\subsubsection{Composite transform optimization}
+
+\subsection{Metric changes}
+The model used for multi-threading. 
+\subsubsection{Correlation metrics}
+\subsubsection{Pointset metrics}
+I/O and data representation
+\subsubsection{Revised mutual information metric}
+\subsubsection{Multivariate metric}
+\subsubsection{Multi-channel metric}
+
+
+\section{ITKv4 registration by example}
+
+\subsection{Composite registration}
+\subsection{Demons registration}
+\subsection{BSpline registration}
+\subsection{Multi-channel registration}
+\subsection{Tensor registration}
+\subsection{Diffeomorphic registration}
+\subsection{Diffeomorphic registration with two metrics}
+\subsection{GPU Demons}
+
+\section{ITKv4 registration benchmarks}
+
+Comparison with ANTs and Flirt.  
+
+Speed comparison for multi-threaded implementation.
+
+etc.
+\section{Discussion and future work}
 
 \begin{comment}
 {
