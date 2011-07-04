@@ -20,38 +20,62 @@
 
 \begin{document}
 \vspace{-0.1in}
-\title{ITK v4 refactoring notes}
+\title{ITK Version 4 Registration Framework}
 \author{Anonymous}
 \maketitle              
 \begin{abstract}
-Current status and goals for the refactoring. 
+The ITKv4 registration framework is a unified system for performing
+multi-threaded affine and deformable image registration.  The revised
+framework supports composite transformations, unbiased registration,
+the simultaneous use of multiple similarity metrics,
+multi-channel/tensor image registration and geometrically correct
+transformation of covariant vectors and tensors via the composite
+transform framework and transformations based on finite element
+models.  ITKv4 also contains new metrics that can be used for
+registering point sets, curves and surfaces as well as a set of
+efficiently implemented neighborhood correlation metrics.  Despite
+these significant additions, the user interface to the framework is,
+at the basic level, unchanged from prior versions of ITK.
+Furthermore, we provide new optimization strategies that simplify the
+user experience by reducing the number of parameters that need to be
+set by the user.
 \end{abstract}
 
 \section{Introduction}
 
-graceful failure of an algorithm.  Should not be catastrophic.
-A nice feedback loop for software.  
+% graceful failure of an algorithm.  Should not be catastrophic. A nice feedback loop for software.  
 
-{\bf procedure: 1. clinicians are conservative.  2.  first, prove
-  robustness.  3. provide useful and encouraging feedback.  4. fail gracefully when do fail.   }
+%{\bf procedure: 1. clinicians are conservative.  2.  first, prove robustness.  3. provide useful and encouraging feedback.  4. fail gracefully when do fail.   }
 
-good average performance versus good performance on a given dataset.
+% good average performance versus good performance on a given dataset.
 
 \section{Nomenclature}
 \begin{description}
-\item [Transport versus diffeomorphism] intrasubject versus intersubject.
-\item [Resolution effects]  ...
-\item [accuracy vs precision] obsessed with accuracy because we dont
-  know the precision we need
-\item [Evaluation data] is there any?
-\item [Serial vs longitudinal]  short time scale versus long time
-  scale
-\item [Pathology] appearance changes ...
-\item [whole body atlas] map any image to whole body
-\item [radiation oncology] techs understand translation versus
-  rotation versus deformation.
+\item [A position:] ${\bf x} \in \Omega$ where $\Omega$ is the domain. 
+\item [An image:]  $ I \colon \Omega^d \to \mathbb{R}^n$ where $n$ is the
+  number of components per pixel and $d$ is dimensionality.
+\item [Domain map:] $ \phi \colon \Omega  \to \Omega $ where $\to$ may be
+  replaced with any mapping symbol below. 
+\item [Affine mapping:] $\rightarrow$
+\item [Deformation field:] $ \rightsquigarrow$ deformation field mapping $J$
+  to $I$.
+\item [Diffeomorphic mapping:] $ \leftrightsquigarrow$ 
+\item [Composite mapping:] $\phi=\phi_1(\phi_2({\bf x}))$ is defined by $\leftrightsquigarrow
+  \rightarrow$ where $\phi_2$ is of type $\leftrightsquigarrow$ which precedes the application of $\rightarrow$.
+% \item [Transport versus diffeomorphism] intrasubject versus intersubject.
+% \item [Resolution effects]  ...
+% \item [accuracy vs precision] obsessed with accuracy because we dont
+% know the precision we need
+% \item [Evaluation data] is there any?
+% \item [Serial vs longitudinal]  short time scale versus long time scale
+% \item [Pathology] appearance changes ...
+% \item [whole body atlas] map any image to whole body
+% \item [radiation oncology] techs understand translation versus rotation versus deformation.
 \end{description}
 
+
+\begin{comment}
+{
 \section{Deliverables}
 \subsection{Usability}
 \begin{description}
@@ -215,8 +239,8 @@ T(\x) =\y = [A(\theta)] \phi(\x)= [A(\theta)] (\x+U(\x)) \\ \notag
 \frac{\partial}{\partial \x} \J (T)  =  \\ \notag
 \text{ chain rule gets ugly ...}
 \end{eqnarray}
-
-
+}
+\end{comment}
 % \bibliographystyle{IEEEbib}
 % \bibliography{./none}
 \end{document}
