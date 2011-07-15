@@ -42,23 +42,81 @@ set by the user.
 \end{abstract}
 
 \section{Introduction}
-What is the current state of image registration?  How is it applied?
+{\bf What is the current state of image registration?}  As image
+registration methods mature---and their capabilities become more
+widely recognized---the number of applications increase.
+Consequently, image registration has largely transitioned, over the
+last 10 years, from being a field of active research, and few applied
+results, to one where the main focus is translational.  Image
+registration is now used to derive quantitative biomarkers from
+images, plays a major role in some clinical products (especially in
+radiation oncology), has led to numerous new findings in studies of
+brain and behavior and is a critical component in applications in
+pathology, microscopy, surgical planning and more.
 
-What role has ITK filled in the registration world?  What papers use
-ITK as a standard for comparison?  What other software builds on ITK registration?
+% {\bf How is image registration applied?}
 
-How does the v4 registration framework build on the past?  What does
-it contribute that's new?  
+{\bf What role has ITK filled in the registration world?}  The Insight
+ToolKit is a standard-bearer for medical image processing algorithms
+and, in particular, for image registration methods.  Image
+registration was cited as the number X most important contribution of
+ITK (cite Jesus's work).  Numerous papers use ITK algorithms as
+standard references for implementations of Demons registration and mutual
+information-based rigid registration.  Multiple toolkits extend ITK
+registration methods in exciting ways:  Elastix, Slicer, ANTs (name
+more).  Thus, the impact of having only a few well-implemented
+methods, in the 3.x version of ITK, is significant.  
+%  What papers use ITK as a standard for comparison?  What other software builds on ITK registration?
 
-What is it? Why were these the tools we chose to contribute?  
 
-What isn't it? Why did we not focus, for instance, on optimal speed implementations?
+%How does the v4 registration framework build on the past?  What does it contribute that's new?  
+% What is it? Why were these the tools we chose to contribute?  
+{\bf ITKv4 Registration: What it is.}
+The original goals of the version 4 registration framework refactoring
+were to both simplify and extend the techniques available in version
+3.x.  We aimed to unify the dense (PDE, FEM) registration framework
+with the low-dimensional (B-Spline, Affine, rigid) framework by
+introducing composite transforms, deformation field transforms and
+specializations that allowed these to be optimized efficiently.  We
+intended to add robust metrics to the toolkit.  We aimed to simplify
+parameter setting by adding helper methods that use well-known
+principles of image registration to automatically scale transform
+components and set optimization parameters.  We also sought to apply
+ITK transforms to objects such as variable length vectors, covariant
+vectors and tensors while taking into account orientation if
+necessary.  Finally, our goal was to reconfigure the whole framework
+to use multi-threading in as many locations as possible and ultimately
+compare the multi-core approach to GPU-specific implementations.
+These goals have largely been achieved.  
+
+% Our experience with developing ITK 3.x, ANTs, DTI-TK and numerous Insight Journal articles provided a clear 
+
+% What isn't it? Why did we not focus, for instance, on optimal speed
+% implementations?
+{\bf ITKv4 Registration: What it's not.} Although the current
+framework exploits multi-core architectures, we did not focus on
+optimal speed implementations (except on the GPU).  We did not
+implement parameterized surface-based registration methods, although
+the point-set metric framework can be used to achieve something of the
+sort.  Integration with the FEM framework is currently minimal.
+Additional validation is necessary.  The ability to stream large
+datasets to the registration framework is not tested and has not
+entered, at a deep level, into design considerations.  These issues
+can all be overcome by external toolkits without fundamental changes
+to the existing code base.
 
 % graceful failure of an algorithm.  Should not be catastrophic. A nice feedback loop for software.  
 
 %{\bf procedure: 1. clinicians are conservative.  2.  first, prove robustness.  3. provide useful and encouraging feedback.  4. fail gracefully when do fail.   }
 
 % good average performance versus good performance on a given dataset.
+
+The remainder of the document will provide an overview of the new
+framework.  We first establish nomenclature.  We then summarize the
+new framework's capabilities.  The next section will highlight
+functionality through a series of examples.  We then establish
+performance benchmarks for ITKv4 release XXX.  Finally, we discuss the
+future of the framework.
 
 \section{Nomenclature}
 We will use the nomenclature below to designate an image registration
@@ -72,10 +130,14 @@ any standard algorithm can be written in the nomenclature below.
   number of components per pixel and $d$ is dimensionality.
 \item [Domain map:] $ \phi \colon \Omega  \to \Omega $ where $\to$ may be
   replaced with any mapping symbol below. 
-\item [Affine mapping:] $\rightarrow$
+\item [Affine mapping:] $\rightarrow$ a low-dimensional
+  transformation: affine, rigid, translation, etc. 
 \item [Deformation field:] $ \rightsquigarrow$ deformation field mapping $J$
   to $I$.
-\item [Diffeomorphic mapping:] $ \leftrightsquigarrow$ 
+\item [Spline-based mapping:] $\rightsquigarrow_b$ e.g. B-Spline field mapping $J$
+  to $I$.
+\item [Diffeomorphic mapping:] $ \leftrightsquigarrow$ these maps
+  should have an accurate inverse that is computed in the algorithm or can be computed from the results.
 \item [Composite mapping:] $\phi=\phi_1(\phi_2({\bf x}))$ is defined by $\leftrightsquigarrow
   \rightarrow$ where $\phi_2$ is of type $\leftrightsquigarrow$ which precedes the application of $\rightarrow$.
 \item[Not invertible:]  $\nleftrightarrow$ indicates a mapping that is
