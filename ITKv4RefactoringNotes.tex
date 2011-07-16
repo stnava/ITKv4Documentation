@@ -134,7 +134,10 @@ any standard algorithm can be written in the nomenclature below.
   transformation: affine, rigid, translation, etc. 
 \item [Deformation field:] $ \rightsquigarrow$ deformation field mapping $J$
   to $I$.
-\item [Spline-based mapping:] $\rightsquigarrow_b$ e.g. B-Spline field mapping $J$
+\item [Spline-based mapping:] $\substack{
+   \rightsquigarrow \\
+   b
+  }$ e.g. B-Spline field mapping $J$
   to $I$.
 \item [Diffeomorphic mapping:] $ \leftrightsquigarrow$ these maps
   should have an accurate inverse that is computed in the algorithm or can be computed from the results.
@@ -193,10 +196,14 @@ I/O and data representation
 \subsection{Composite registration}
 \subsection{Demons registration}
 \subsection{BSpline registration}
+\subsection{Diffeomorphic registration}
 \subsection{Multi-channel registration}
 \subsection{Tensor registration}
 \subsection{Diffeomorphic registration}
-\subsection{Diffeomorphic registration with two metrics}
+\subsection{Diffeomorphic registration with two metrics: Image and
+  PointSet}
+\subsection{Optimized SyN registration}
+
 \subsection{GPU Demons}
 
 \section{ITKv4 registration benchmarks}
