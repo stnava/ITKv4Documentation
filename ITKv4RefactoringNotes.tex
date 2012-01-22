@@ -168,6 +168,40 @@ is an important distinction for deformable maps.
 
 \section{Overview of the unified framework}
 
+
+\section{From Mathematics to Code}
+The metric is defined as $M(I,J,T(p,x))$.  For instance, $M=\|
+I(x)-J(T(p,x)) \|^2$. Its gradient with respect to parameter $p$
+is $$\frac{dM}{dp}=\frac{dM}{dJ}\frac{dJ(T(p,x))}{dT} \frac{dT}{dp}|_x
+~~.$$  This is the generic form of the metric gradient specified for
+sum of squared differences but similar forms arise for the correlation
+and mutual information.  
+
+In terms of code $\frac{dT}{dp}|_x$ corresponds to {\em
+ComputeJacobianWithRespectToParameters( mappedFixedPoint, jacobian);
+}.  Note that it is evaluated at point $x$ not at point $T(p,x)$.  We
+then use {\em
+ComputeMovingImageGradientAtPoint( mappedMovingPoint,
+mappedMovingImageGradient );} to compute the moving image gradient
+when there is no pre-warping.  {\em ComputeMovingImageGradientAtPoint} uses central
+differences (or a gradient filter) in the moving image space to
+compute the image gradient, $\frac{dJ(T(p,x))}{dT}$.
+
+ If one is doing pre-warping, then we have an index access to the
+ warped moving image.  We compute the warped $J$ as
+ $J_w(x)=J(T(p,x))$.  Then,
+\begin{eqnarray}
+\frac{dJ_w}{dx}=\frac{dJ(T(p,x))}{dT}\frac{d(T(p,x))}{dx} \\ \notag
+\frac{dJ(T(p,x))}{dT}=\frac{dJ_w}{dx}{\frac{d(T(p,x))}{dx}}^{-1} 
+\end{eqnarray}
+In code, we use {\em ComputeMovingImageGradientAtIndex( index,
+mappedMovingImageGradient );} to get $\frac{dJ_w}{dx}$ and transform
+this image gradient via the inverse jacobian by calling 
+{\em mappedMovingImageGradient=
+TransformCovariantVector(mappedMovingImageGradient, mappedMovingPoint ); }
+
+
+
 \subsection{Simplified registration example}
 
 \subsection{Transform changes}
