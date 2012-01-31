@@ -1,6 +1,40 @@
 \documentclass{llncs}
 \newcommand{\Section}[1]{\vspace{-8pt}\section{\hskip-1em.~~#1}\vspace{-3pt}}
 \newcommand{\SubSection}[1]{\vspace{-3pt}\subsection{\hskip -1em.~~#1}\vspace{-3pt}}
+
+% \section{mathematical notation}
+
+\newcommand{\vect}[1]{\mathbf{#1}}
+\newcommand{\field}[1]{\mathbf{#1}}
+\newcommand{\image}[1]{#1}
+\newcommand{\I}{\image{I}}
+\newcommand{\J}{\image{J}}
+\renewcommand{\u}{\vect{u}}
+\renewcommand{\v}{\vect{v}}
+\renewcommand{\c}{\vect{c}}
+\newcommand{\h}{\vect{h}}
+\newcommand{\w}{\vect{w}}
+\newcommand{\myphi}{\phi}
+\newcommand{\mypsi}{\psi}
+\newcommand{\D}{D}
+\renewcommand{\d}{\nabla}
+\newcommand{\dd}{\text{d}}
+\newcommand{\p}{\partial}
+\renewcommand{\L}{\Delta} % laplacian
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\myS}{S}
+\newcommand{\myR}{R}
+\newcommand{\myE}{E}
+\newcommand{\ld}{\langle}
+\newcommand{\rd}{\rangle}
+\newcommand{\LL}{\mathcal{L}} % operator L
+\newcommand{\tQ}{\mathcal{Q}}
+\newcommand{\Id}{\text{Id}}
+\newcommand{\tG}{{G}} % operator L
+\newcommand{\Diff}{\text{Diff}}
+\newcommand{\VV}{\mathcal{V}}
+\newcommand{\opL}{\mathcal{L}}
+
 \newcommand{\X}{{\bf X}}
 \newcommand{\x}{{\bf x}}
 \newcommand{\Y}{{\bf Y}}
@@ -8,11 +42,20 @@
 \newcommand{\Z}{{\bf Z}}
 \newcommand{\z}{{\bf z}}
 \newcommand{\bs}{\boldsymbol}
-\newcommand{\I}{{\bs I}}
-\newcommand{\J}{{\bs J}}
-\newcommand{\R}{{\bs R}}
-\newcommand{\Id}{{\text{\bf Id}}}
 \newcommand{\bSigma}{\boldsymbol \Sigma}
+\newcommand{\bsp}{$\substack{
+   \rightsquigarrow \\
+   b
+  }$}
+\newcommand{\mi}{$\substack{
+   \approx \\
+   \text{mi}
+  }$}
+\newcommand{\cc}{$\substack{
+   \approx \\
+   \text{cc}
+  }$}
+\newcommand{\tk}{~ITK$^{\text{4}}$~}
 \usepackage{amsmath,amssymb,algorithm,algorithmic}
 \usepackage{times}
 \usepackage{setspace,verbatim}
@@ -20,90 +63,94 @@
 
 \begin{document}
 \vspace{-0.1in}
-\title{An introduction to ITK version 4 registration}
-\author{Anonymous}
+\title{A unified image registration framework for ITK}
+\author{Members of ITK community}
 \maketitle              
 \begin{abstract}
-The ITKv4 registration framework is a unified system for performing
-multi-threaded affine and deformable image registration.  The revised
-framework supports composite transformations, unbiased registration,
-the simultaneous use of multiple similarity metrics,
-multi-channel/tensor image registration and geometrically correct
-transformation of covariant vectors and tensors via the composite
-transform framework and transformations based on finite element
-models.  ITKv4 also contains new metrics that can be used for
-registering point sets, curves and surfaces as well as a set of
-efficiently implemented neighborhood correlation metrics.  Despite
-these significant additions, the user interface to the framework is,
-at the basic level, unchanged from prior versions of ITK.
-Furthermore, we provide new optimization strategies that simplify the
-user experience by reducing the number of parameters that need to be
-set by the user.
+Version 4 of the Insight ToolKit (\tk) contains a unified registration
+framework for performing affine and deformable image
+registration with multi-core acceleration.  The revised framework supports composite
+transformations, diffeomorphic mapping, unbiased registration, the simultaneous use of
+multiple similarity metrics, multi-channel/tensor image registration
+and covariant vector and tensor transformation.  \tk also
+contains new metrics that can be used for registering point sets,
+curves and surfaces as well as standard intensity metrics.
+Despite these significant additions, the user interface to the
+framework is, at the basic level, unchanged from prior versions of
+ITK.  Furthermore, \tk provides new optimization strategies that enable
+application developers to simplify the user experience by reducing the
+number of parameters that need to be tuned.  In this work, we provide
+an overview and preliminary evaluation of the revised toolkit against
+registration based on the previous major ITK
+version (3.20).  Furthermore, we propose a nomenclature that may be used to discuss
+registration frameworks via schematic representations.
 \end{abstract}
 
 \section{Introduction}
-{\bf What is the current state of image registration?}  As image
-registration methods mature---and their capabilities become more
-widely recognized---the number of applications increase.
-Consequently, image registration has largely transitioned, over the
-last 10 years, from being a field of active research, and few applied
-results, to one where the main focus is translational.  Image
-registration is now used to derive quantitative biomarkers from
-images, plays a major role in some clinical products (especially in
-radiation oncology), has led to numerous new findings in studies of
-brain and behavior and is a critical component in applications in
-pathology, microscopy, surgical planning and more.
+As image registration methods mature---and their capabilities become
+more widely recognized---the number of applications increase
+\cite{Rueckert1999,2004,Shelton2005,Miller2005,Chen2008,Cheung2009,Baloch2009,Peyrat2010,Metz2011,Kikinis2011,Fedorov2011,Murphy2011}.
+Consequently, image registration transitioned from being a field of active research, and few applied results, to a
+field where the main focus is translational.  Image registration is
+now used to derive quantitative biomarkers from images
+\cite{Jack2010a}, plays a major role in business models and clinical
+products (especially in radiation oncology) \cite{Cheung2009}, has led
+to numerous new findings in studies of brain and behavior (e.g. \cite{Bearden2007}) and is a critical component in applications in
+pathology, microscopy, surgical planning and more
+\cite{Shelton2005,Miller2005,Floca2007,Chen2008,Cheung2009,Peyrat2010,Kikinis2011,Murphy2011}.
+Despite the increasing relevance of image registration across
+application domains, there are relatively few reference algorithm
+implementations available to the community.
 
+% \cite{Jenkinson2001,Christensen1996,Rueckert1999,Yoo2002,Ackerman2003,2004,Shelton2005,Wolf2005,Miller2005,Floca2007,Chen2008,Khan2008,Cheung2009,Vercauteren2009,Baloch2009,Klein2010,Peyrat2010,Taka2011,Metz2011,Kikinis2011,Fedorov2011,Murphy2011,Avants2011}.
+
+% itk 
+
+% ideas 
+
+% Taka2011,Metz2011,,Fedorov2011,,}.
 % {\bf How is image registration applied?}
 
-{\bf What role has ITK filled in the registration world?}  The Insight
-ToolKit is a standard-bearer for medical image processing algorithms
-and, in particular, for image registration methods.  Image
-registration was cited as the number X most important contribution of
-ITK (cite Jesus's work).  Numerous papers use ITK algorithms as
-standard references for implementations of Demons registration and mutual
-information-based rigid registration.  Multiple toolkits extend ITK
-registration methods in exciting ways:  Elastix, Slicer, ANTs (name
-more).  Thus, the impact of having only a few well-implemented
-methods, in the 3.x version of ITK, is significant.  
+% {\bf What role has ITK filled in the registration world?}  
+
+One source of benchmark methodology is the Insight ToolKit (ITK)
+\cite{Yoo2002,Ackerman2003}, which marked a significant contribution to
+medical image processing when it first emerged over 10 years ago.
+Since that time, ITK has become a standard-bearer for image
+processing algorithms and, in particular, for image registration
+methods.  In a review of ITK user interests, image registration was cited as the most important
+contribution of ITK (personal communication).  Numerous papers use ITK
+algorithms as standard references for implementations of Demons
+registration and mutual information-based affine or B-Spline
+registration \cite{2004,Shelton2005,Wolf2005,Floca2007,Chen2008,Cheung2009,Taka2011}.
+Multiple toolkits extend ITK registration methods in unique ways:
+Elastix \cite{Klein2010}, diffeomorphic demons \cite{Vercauteren2009},
+ANTs \cite{Avants2011} and the brainsfit toolkit \cite{Kikinis2011} each has advantages
+\cite{Klein2010,Murphy2011}.  
 %  What papers use ITK as a standard for comparison?  What other software builds on ITK registration?
 
 
 %How does the v4 registration framework build on the past?  What does it contribute that's new?  
 % What is it? Why were these the tools we chose to contribute?  
-{\bf ITKv4 Registration: What it is.}
-The original goals of the version 4 registration framework refactoring
-were to both simplify and extend the techniques available in version
-3.x.  We aimed to unify the dense (PDE, FEM) registration framework
+% {\bf \tk Registration: What it is.}
+The Insight ToolKit began a major refactoring effort in 2010.
+The refactoring aimed to both simplify and extend the techniques available in version
+3.x with methods and ideas from a new set of prior work
+\cite{Jenkinson2001,Christensen1996,Rueckert1999,Miller2005,Peyrat2010,Avants2011}.
+To make this technology more accessible, \tk unifies the dense
+registration framework (displacement field, diffeomorphisms)
 with the low-dimensional (B-Spline, Affine, rigid) framework by
 introducing composite transforms, deformation field transforms and
-specializations that allowed these to be optimized efficiently.  We
-intended to add robust metrics to the toolkit.  We aimed to simplify
+specializations that allowed these to be optimized efficiently.  A sub-goal set for \tk was to simplify
 parameter setting by adding helper methods that use well-known
 principles of image registration to automatically scale transform
-components and set optimization parameters.  We also sought to apply
-ITK transforms to objects such as variable length vectors, covariant
-vectors and tensors while taking into account orientation if
-necessary.  Finally, our goal was to reconfigure the whole framework
-to use multi-threading in as many locations as possible and ultimately
-compare the multi-core approach to GPU-specific implementations.
-These goals have largely been achieved.  
-
-% Our experience with developing ITK 3.x, ANTs, DTI-TK and numerous Insight Journal articles provided a clear 
-
-% What isn't it? Why did we not focus, for instance, on optimal speed
-% implementations?
-{\bf ITKv4 Registration: What it's not.} Although the current
-framework exploits multi-core architectures, we did not focus on
-optimal speed implementations (except on the GPU).  We did not
-implement parameterized surface-based registration methods, although
-the point-set metric framework can be used to achieve something of the
-sort.  Integration with the FEM framework is currently minimal.
-Additional validation is necessary.  The ability to stream large
-datasets to the registration framework is not tested and has not
-entered, at a deep level, into design considerations.  These issues
-can all be overcome by external toolkits without fundamental changes
-to the existing code base.
+components and set optimization parameters.  \tk transforms are also
+newly applicable to objects such as vectors and tensors and will take into account covariant geometry if
+necessary.  Finally, \tk reconfigures the registration framework
+to use multi-threading in as many locations as possible.
+The revised registration framework within ITK is more thoroughly
+integrated across transform models, is thread-safe and provides
+broader functionality than in prior releases. 
 
 % graceful failure of an algorithm.  Should not be catastrophic. A nice feedback loop for software.  
 
@@ -112,28 +159,30 @@ to the existing code base.
 % good average performance versus good performance on a given dataset.
 
 The remainder of the document will provide an overview of the new
-framework.  We first establish nomenclature.  We then summarize the
-new framework's capabilities.  The next section will highlight
-functionality through a series of examples.  We then establish
-performance benchmarks for ITKv4 release XXX.  Finally, we discuss the
-future of the framework.
+framework via the context of a potential general nomenclature.  We
+also establish performance benchmarks for the current \tk
+registration.  Finally, we discuss future developments in the
+framework.
 
 \section{Nomenclature}
-We will use the nomenclature below to designate an image registration
+The nomenclature below designates an image registration
 algorithm pictorially.  This nomenclature is intended to be a
-descriptive, but also technically correct, system for visually
+descriptive, but also technically consistent, system for visually
 representing algorithms and applications of registration.  Ideally,
 any standard algorithm can be written in the nomenclature below.
 \begin{description}
-\item [A position:] ${\bf x} \in \Omega$ where $\Omega$ is the domain. 
+\item [A position:] $x \in \Omega$ where $\Omega$ is the domain. 
 \item [An image:]  $ I \colon \Omega^d \to \mathbb{R}^n$ where $n$ is the
-  number of components per pixel and $d$ is dimensionality.
-\item [Domain map:] $ \phi \colon \Omega  \to \Omega $ where $\to$ may be
+  number of components per pixel and $d$ is dimensionality.  A second
+  image is $J$. 
+\item [Domain map:] $ \phi \colon \Omega_I \to \Omega_J $ where $\to$ may be
   replaced with any mapping symbol below. 
-\item [Affine mapping:] $\rightarrow$ a low-dimensional
+\item [Affine mapping:] $\leftrightarrow$ a low-dimensional invertible 
   transformation: affine, rigid, translation, etc. 
+\item [Affine mapping:] $\rightarrow$ designates the direction an
+  affine mapping is applied.  
 \item [Deformation field:] $ \rightsquigarrow$ deformation field mapping $J$
-  to $I$.
+  to $I$.  May not be invertible.
 \item [Spline-based mapping:] $\substack{
    \rightsquigarrow \\
    b
@@ -141,10 +190,14 @@ any standard algorithm can be written in the nomenclature below.
   to $I$.
 \item [Diffeomorphic mapping:] $ \leftrightsquigarrow$ these maps
   should have an accurate inverse that is computed in the algorithm or can be computed from the results.
-\item [Composite mapping:] $\phi=\phi_1(\phi_2({\bf x}))$ is defined by $\leftrightsquigarrow
-  \rightarrow$ where $\phi_2$ is of type $\leftrightsquigarrow$ which precedes the application of $\rightarrow$.
+\item [Composite mapping:] $\phi=\phi_1(\phi_2(x))$ is defined by
+  $\rightarrow \circ \leftrightsquigarrow$ where $\phi_2$ is of type $\leftrightsquigarrow$ which precedes the application of $\rightarrow$.
 \item[Not invertible:]  $\nleftrightarrow$ indicates a mapping that is
   not guaranteed invertible.
+\item [Similarity measure:] $\substack{
+   \approx \\
+   s
+  }$ indicates that statistical measure $s$ is used to compare images.
 % \item [Transport versus diffeomorphism] intrasubject versus intersubject.
 % \item [Resolution effects]  ...
 % \item [accuracy vs precision] obsessed with accuracy because we dont
@@ -155,99 +208,387 @@ any standard algorithm can be written in the nomenclature below.
 % \item [whole body atlas] map any image to whole body
 % \item [radiation oncology] techs understand translation versus rotation versus deformation.
 \end{description}
-A standard Demons registration application that maps a labeling from
-one image, $I$, into another, $J$, would then be written:
+We would then write a standard Demons registration application that maps 
+one image, $J$, into the space of $I$ (presumably a template) as:
 $$
-J \rightsquigarrow \rightarrow  I .
+(J \circ \rightarrow \circ \rightsquigarrow ) \approx I
 $$
-The notation means that the algorithm first computes an affine mapping
-from $I$ to $J$ and then computes a deformation from $I( \rightarrow )$
-to $J$.  Note, also, that the tail of the mapping indicates the
-transform's domain.  The head of the arrow indicates its range.  This
-is an important distinction for deformable maps. 
+The notation means that the algorithm first optimizes an affine
+mapping, $ \rightarrow$, 
+between $J$ and $I$.  This is followed by a deformation.  We denote the similarity metric as $\approx$
+which indicates a sum of squared differences (the
+default similarity metric).  \tk supports metrics such as mutual information, $\substack{
+   \approx \\
+   \text{mi}
+  }$, or cross-correlation, $\substack{
+   \approx \\
+   \text{cc}
+  }$.
+The second stage computes a deformation, $\rightsquigarrow$, from $J \circ \rightarrow $
+to $I$.  In terms of transformation composition, we would write
+$J_w(x) =J \circ \rightarrow \circ \rightsquigarrow =
+J( \phi_\text{Affine} ( \phi_\text{Demons} ( x) )) $ where $J_w$ is the
+result of warping $J$ to $I$.  The $\phi$ are the specific
+functions corresponding to the schematic arrows.
+Note, also, that the tail of the arrow indicates the
+transform's domain.  The arrowhead indicates its range.  We will use
+this nomenclature to write schematics for registration applications in
+the following sections.
 
 \section{Overview of the unified framework}
+The key ideas for \tk registration are:
+\begin{figure}[t]
+\begin{center}
+\begin{tabular}{c}
+\includegraphics[width=4.5in]{figs/composemap.pdf}
+\end{tabular}
+\caption{\baselineskip 12pt \small We avoid compounding interpolation
+  error by concatenating transformations.  Thus, we never need to use more than
+  a single interpolation into the data regardless of the nature of the
+  sub-transforms within the composite mapping.  Because transformations may
+  either perform mapping or resampling, this framework also
+  provides the ability to handle changes in resolution.}
+\label{fig:composite}
+\end{center}
+\end{figure}
+\begin{enumerate}
+\item Registration maps can be applied or optimized through the {\em
+    itkCompositeTransform} which chains transforms together as in Figure~\ref{fig:composite}.
+\item Each transform has either global support (affine
+  transform) or local support (a displacement field transform).   If
+  any map in a composite transform has global support then the
+  composite transform has global support.
+\item \tk metrics are applicable to both types of transforms and may
+  optimize over dense or sparse samples from $\Omega$.  Metrics may be
+  multi-channel (e.g. for registering RGB or tensor images).
+\item The optimization framework is multi-threaded and memory
+  efficient to allow high-dimensional transformations to be optimized
+  quickly on multi-core systems.
+\item The \tk optimization framework comes with parameter setting tools
+  that automatically select parameter scales and learning rates for
+  gradient-based optimization schemes.  These parameter setting tools
+  use physical units to help provide the user with intuition on the
+  meaning of parameters.  
+\end{enumerate}
+We will detail a selection of these contributions. 
 
+\section{Optimization Framework}
+The general \tk optimization criterion is summarized as:
+\begin{eqnarray}
+\text{Find mapping}~\phi(p,x) \in \mathcal{T}
+\text{such that}~M(I,J,\phi(p,x))~\text{is minimized}. 
+\label{eq:gen}
+\end{eqnarray}
+While, for functional mappings, this formulation is not strictly correct, the
+practical implementation of even high-dimensional continuous
+transformations involves parameterization. 
+The space $\mathcal{T}$ restricts the possible transformations over
+which to optimize the mapping $\phi$.  The arguments to $\phi$ are its
+parameters, $p$, and the spatial position, $x$.  Note that, in \tk,
+the image $I$ may also contain a mapping, although it is not directly
+optimized in most cases.  As will be seen later in the document, this
+mapping may also be used within large deformation metrics. 
 
-\section{From Mathematics to Code}
-The metric is defined as $M(I,J,T(p,x))$.  For instance, $M=\|
-I(x)-J(T(p,x)) \|^2$. Its gradient with respect to parameter $p$
-is $$\frac{dM}{dp}=\frac{dM}{dJ}\frac{dJ(T(p,x))}{dT} \frac{dT}{dp}|_x
-~~.$$  This is the generic form of the metric gradient specified for
-sum of squared differences but similar forms arise for the correlation
-and mutual information.  
+Denote a parameter set as $p = (p_1, p_2 \ldots p_n)$ where there are
+$n$ parameters.  
+The metric is then defined completely as $M(I,J,\phi(p,x))$.  For instance, $M=\|
+I(x)-J(\phi(p,x)) \|^2$ i.e. the sum of squared differences (SSD) metric. Its gradient with respect to parameter $p_i$
+is (using the chain rule), $$M_{p_i}=\frac{\partial M}{\partial
+  p_i}=\frac{\partial M}{\partial J}\frac{\partial
+  J(\phi(p,x))}{\partial \phi} \frac{\partial \phi}{\partial p_i}|_x
+~~.$$  This equation provides the metric gradient specified for
+sum of squared differences (at point $x$) but similar forms arise for the correlation
+and mutual information \cite{hermosillo}.  Both are implemented in
+\tk for transformations with local and global support.  The
+$\frac{\partial J(\phi(p,x))}{\partial \phi}$ term is the gradient of $J$ at $\phi(x)$
+and $\frac{\partial \phi}{\partial p_i}$ is the jacobian of the transformation taken
+with respect to its parameter.   The transform $\phi(p,x)$ may be
+an affine map i.e. $\phi(p,x)=A x + t$ where $A$ is a matrix and
+$t$ a translation.  Alternatively, it may be a displacement field
+where $\phi(p,x)=x+u(x)$ and
+$u$ is a vector field.  In \tk, both types of maps are interchangeable
+and may be used in a composite transform to compute registrations that
+map to a template via a schematic such as $ J  \circ \rightarrow \approx I $, $ J  \circ
+\rightarrow \circ $ \bsp ~\mi~$I$, or even $ J  \circ
+\rightarrow \circ \leftrightsquigarrow $~\cc~$ I $.  
 
-In terms of code $\frac{dT}{dp}|_x$ corresponds to {\em
+The most commonly used optimization algorithm for image registration
+is gradient descent, or some variant.   In the above framework, the
+gradient descent takes on the form of
+$$
+\phi(p_\text{new},x)=\phi(p_\text{old}+\lambda~[ \frac{\partial
+  M}{\partial p_1} , \cdots , \frac{\partial
+  M}{\partial p_n} ] ,  x ),
+$$
+where $\lambda$ is the overall learning rate and the brackets hold the
+vector of parameter updates.  Note that, as in previous versions of
+ITK, a naive application of gradient descent will not produce a smooth
+change of parameters for transformations with mixed parameter types.
+For instance, a change $\Delta$ to parameter $p_i$ will produce a
+different magnitude of impact on $\phi$ if $p_i$ is a translation rather than a
+rotation.  Thus, we develop an estimation framework that sets
+``parameter scales'' (in ITK parlance) which, essentially, customize
+the learning rate for each parameter.  As a footnote, the update to
+$\phi$ via its gradient may also include other steps (such as Gaussian
+smoothing) that project the updated transform back to space $\mathcal{T}$.
+
+\begin{comment}{
+In terms of code, $\frac{d\phi}{dp}|_x$ corresponds to {\em
 ComputeJacobianWithRespectToParameters( mappedFixedPoint, jacobian);
-}.  Note that it is evaluated at point $x$ not at point $T(p,x)$.  We
+}.  Note that it is evaluated at point $x$ not at point $\phi(p,x)$.  We
 then use {\em
 ComputeMovingImageGradientAtPoint( mappedMovingPoint,
 mappedMovingImageGradient );} to compute the moving image gradient
 when there is no pre-warping.  {\em ComputeMovingImageGradientAtPoint} uses central
 differences (or a gradient filter) in the moving image space to
-compute the image gradient, $\frac{dJ(T(p,x))}{dT}$.
+compute the image gradient, $\frac{dJ(\phi(p,x))}{d\phi}$.
 
  If one is doing pre-warping, then we have an index access to the
  warped moving image.  We compute the warped $J$ as
- $J_w(x)=J(T(p,x))$.  Then,
+ $J_w(x)=J(\phi(p,x))$.  Then,
 \begin{eqnarray}
-\frac{dJ_w}{dx}=\frac{dJ(T(p,x))}{dT}\frac{d(T(p,x))}{dx} \\ \notag
-\frac{dJ(T(p,x))}{dT}=\frac{dJ_w}{dx}{\frac{d(T(p,x))}{dx}}^{-1} 
+\frac{dJ_w}{dx}=\frac{dJ(\phi(p,x))}{d\phi}\frac{d(\phi(p,x))}{dx} \\ \notag
+\frac{dJ(\phi(p,x))}{d\phi}=\frac{dJ_w}{dx}{\frac{d(\phi(p,x))}{dx}}^{-1} 
 \end{eqnarray}
 In code, we use {\em ComputeMovingImageGradientAtIndex( index,
 mappedMovingImageGradient );} to get $\frac{dJ_w}{dx}$ and transform
 this image gradient via the inverse jacobian by calling 
 {\em mappedMovingImageGradient=
 TransformCovariantVector(mappedMovingImageGradient, mappedMovingPoint ); }
+}\end{comment}
+
+
+\subsection{Parameter scale estimation}
+We choose to estimate parameter scales by analyzing the result of a
+small parameter update on the change in the magnitude of physical space deformation
+induced by the transformation.  The impact from a unit change of
+parameter $p_i$ may be defined in multiple ways, such as the maximum shift of
+voxels or the average norm of transform Jacobians \cite{Jenkinson2001}.
+
+Denote the unscaled gradient descent update to $p$ as $\vartriangle
+p$.  The goal is to rescale $\vartriangle p$ to $q = s \cdot \vartriangle p$, where $s$ is a diagonal
+matrix $\text{diag} (s_1, s_2 \ldots s_n)$, such that a unit change of $q_i$ will have
+the same impact on deformation for each parameter $i = 1... n$.   
+As an example, we want $ \| \phi(x,p_{\text{new}}) -
+\phi(x,p_\text{old}) \| = constant $ regardless of which of the
+$i$ parameters is updated by the unit change.  The unit is an epsilon
+value, e.g. 1.e-3.
+
+Rewrite $[ \frac{\partial
+  M}{\partial p_1} , \cdots , \frac{\partial
+  M}{\partial p_n} 
+ ]$ as $\frac{\partial M}{\partial J}\frac{\partial
+  J(\phi(p,x))}{\partial \phi} [ \frac{\partial \phi}{\partial p_1} , \cdots , \frac{\partial \phi}{\partial p_n} ]$.
+To determine the relative scale effects of each parameter, $p_i$, we
+can factor out the constant terms on the outside of the bracket.  
+Then the modified gradient descent step becomes
+$\text{diag}(s)\frac{\partial \phi}{\partial p}$.  We identify the values
+of $\text{diag}(s)$ by explicit computation with respect to the goal of reaching $\| \phi(x,p_{\text{new}}) -
+\phi(x,p_\text{old}) \| = constant $.  A critical variable,
+practically, is which $x$ to choose for evaluation of $\| \phi(x,p_{\text{new}}) -
+\phi(x,p_\text{old}) \| $.  The corners of the image domain work well
+for affine transformations whereas local regions of small radius
+(approximately 5) work well for transformations with local support.
+Additional work is needed to verify optimal parameters for this new
+\tk feature.  However, an evaluation is performed in the results
+section.  The new parameter scale estimation effectively reduces the number of parameters
+that the user must tune from $k+1$ ($\lambda$ plus the scales for each
+parameter type where there are $k$ types) to only 1, the learning
+rate.  
+
+The learning rate, itself, may not be intuitive for a user to set.
+The difficulty---across problem sets---is that a good learning rate for
+one problem may result in a different amount of change per iteration
+in another problem.  Furthermore, the discrete image gradient may
+become invalid beyond one voxel.  Thus, it is good practice to limit a deformation step to one voxel spacing
+\cite{Jenkinson2001}.  We therefore provide the users the ability to
+specify the learning rate in terms of the {\em maximum physical space change
+  per iteration}.  As with the parameter scale estimation, the domain
+over which this maximum change is estimated impacts the outcome and
+similar practices are recommended for both cases.   This feature is
+especially useful for allowing one to tune gradient descent parameters
+without being concerned about which similarity metric is being used.
+That is, it effectively rescales the term $\lambda \partial M / \partial p$ to
+have a consistent effect, for a given $\lambda$, regardless of the metric choice.
+We present preliminary, encouraging evaluation results for this approach to
+gradient descent in Figure~\ref{fig:eval}.
+
+\begin{figure}[t]
+\begin{center}
+\includegraphics[width=4.5in]{figs/evaluation.pdf}
+\caption{We define a schematic as $J_i \circ \rightarrow
+~\approx_\text{mi} I$ for affine mapping a set of $\{ J_i \}$ images
+to a template $I$.  We use this schematic in a registration-based
+brain extraction, from MRI, in an elderly population as a benchmark
+for algorithm performance, similar to \cite{Klein2010}.  To gain an
+idea of performance variance with respect to template, we use each
+image in the set as template and map to all other images.  In this
+study, there are 10 images, thus leading to a total of 45
+registrations.  We compare a well-used and hand optimized
+implementation of multi-resolution gradient descent with the previous
+ITK release with that of the \tk framework where the \tk framework
+uses automatically adjusted parameter scales and the v4 implementation
+of the mutual information metric.  The metric for the v4 registration
+is based on that for v3.  The average brain segmentation Dice overlap
+for the v4 framework is 0.885 $\pm$ 0.01, while that for v3 is 0.870
+$\pm$ 0.01.  The difference in performance is statistically
+significant (p $< 1.e-8$), as assessed with a paired t-test. Thus, our
+new approach to parameter estimation---and refactoring of the
+framework---has allowed us to improve performance even in the basic
+case of whole head registration for brain extraction.}
+\label{fig:eval}
+\end{center}
+\end{figure}
 
 
 
-\subsection{Simplified registration example}
 
-\subsection{Transform changes}
-\subsubsection{Deformation field transforms}
-\subsubsection{Composite transforms}
-Composite transform I/O
 
-\subsection{Optimizer changes}
-\subsubsection{Composite transform optimization}
+\section{Diffeomorphic mapping with arbitrary metrics and consistent parameters}
+\begin{figure}[t]
+\begin{center}
+\begin{tabular}{c}
+\includegraphics[height=1.1in]{figs/c_chalf.pdf}
+\includegraphics[height=1.1in]{figs/c_half_c_grids.pdf}
+\end{tabular}
+\caption{\baselineskip 12pt \small An ITK diffeomorphic mapping of the
+  type $(J \circ \leftrightsquigarrow) \approx I$.  The 
+``C'' and 1/2 ``C'' example illustrate the large deformations that may
+be achieved with time varying velocity fields.  In this case, the moving (deforming) image is
+the 1/2 ``C''.  The right panels illustrate the deformed grid for the
+transformation of the ``C'' to 1/2 ``C'' (middle right) and its
+inverse mapping (far right) which takes the 1/2 ``C'' to the reference
+space.  The unit time interval is discretized into 15 segments in
+order to compute this mapping.  15*5 integration steps were used in
+the Runge-Kutta {\em ode} integration over the velocity field.  A two
+core MacBook Air computed this registration in 110 seconds.  The images
+each were of size $150 \times 150$.}
+\label{fig:chalf}
+\end{center}
+\end{figure}
 
-\subsection{Metric changes}
-The model used for multi-threading. 
-\subsubsection{Correlation metrics}
-\subsubsection{Pointset metrics}
-I/O and data representation
-\subsubsection{Revised mutual information metric}
-\subsubsection{Multivariate metric}
-\subsubsection{Multi-channel metric}
+Beg et al. proposed Large Deformation Diffeomorphic Metric Mapping (LDDMM) algorithm, which used an o.d.e as parameterization to optimize the following energy function:
+\begin{align}
+\myE(\v) = \frac{1}{2} \| I_0 \circ \myphi_{1,0} - I_1 \|^2 
++ 
+\frac{\sigma^2}{2}\int_{0}^{1} \| \opL v_t\|^2 \dd t \;,
+\label{eq:lddmm}
+\end{align}
+where $\myphi_{1,0}$ is a standard integration of the time-varying
+velocity field $v_t$ and the operator $\opL$ represents the
+Cauchy-Navier regularizer $\myR(\v)$: $\opL = \gamma \Id - \alpha \L$.
+In its numerical implementation, the time-varying velocity fields are discretized into $N$ time points $(v_{t_i} )_{0 \leq i \leq N-1}$. For each time point $i$, the steepest descent scheme in the Sobolev space is applied:
+\begin{align}
+\v_{t_i}  \leftarrow \v_{t_i} - \epsilon (\d_{\v_{t_i}} \myE_{t_i})_H \; ,
+\end{align}
+where the gradient has been detailed in numerous other publications.
+A standard result, computed from an ITK implementation, is in figure~\ref{fig:chalf}.
 
-\subsection{The virtual domain}
-\subsubsection{Application in multi-resolution optimization}
-\subsubsection{Unbiased registration}
+The \tk framework has a novel minimization scheme for the objective
+function in equation~\ref{eq:lddmm} that is based on fourth-order
+Runge-Kutta integration and a new approach to enforcing the geodesic
+condition that should be satisfied by $v_t$.  An additional advantage
+of the \tk system is that the objective function being minimized
+easily fits into the general formulation of equation~\ref{eq:gen} even
+for an LDDMM criterion.  Consequently, we can evaluate the
+following schema fairly,
+\begin{eqnarray}
+(J \circ \rightarrow \circ \leftrightsquigarrow ) \approx I  \\  \notag
+(K \circ \rightarrow \circ \leftrightsquigarrow ) \approx_\text{cc} I  \\ \notag
+(K \circ \rightarrow \circ \leftrightsquigarrow ) \approx_\text{mi} I,
+\end{eqnarray}
+where, for each schematic, we use the corresponding metric for both
+affine and diffeomorphic mapping.  Furthermore, we keep the same
+parameters for each registration by exploiting our parameter scale
+estimators.  Figure~\ref{fig:result} shows the candidate images for
+this test. 
 
-\section{ITKv4 registration by example}
+As shown in figure~\ref{fig:result}, very similar results are achieved
+for each schematic with minimal parameter tuning.  The sum of squared differences between the reference
+image $I$ and the three target cases are 14.04, 191.6 and 184.0.  The negative correlation between the reference
+image $I$ and the three target cases are -0.650, -0.680 and -0.50.  The
+mutual information between the reference
+image $I$ and the three target cases are -1.132, -1.057 and -0.992.
+Thus, a single set of tuned parameters provides a reasonable result
+for an affine plus diffeomorphic mapping across three different
+metrics.  While improvement might be gained by further tuning for each
+metric, this result shows that our parameter estimation method
+achieves the goal of reducing user burden.  
+\begin{figure}[t]
+\begin{center}
+\includegraphics[width=4.5in]{figs/three.pdf}
+\caption{\baselineskip 12pt \small Three references images, $I$
+(left), $J$ (middle top), and $K$ (right top), are used to illustrate
+the robustness of our parameter scale estimation for setting
+consistent parameters across both metrics and transform types.  $K$ is
+the negation of $J$ and is used to test the correlation and mutual
+information registrations.  We optimized, by hand, the step-length
+parameters for one metric (the sum of squared differences) for both the affine
+and deformable case.  Thus, two parameters had to be optimized.  We
+then applied these same parameters to register $I$ and $K$ via both
+correlation and mutual information.  The resulting registrations
+(bottom row) were all of similar quality.  Further, the same metric is
+used for both affine and diffeomorphic mapping by exploiting the
+general optimization process given in equation~\ref{eq:gen}.}
+\label{fig:result}
+\end{center}
+\end{figure}
 
-\subsection{Composite registration}
-\subsection{Demons registration}
-\subsection{BSpline registration}
-\subsection{Diffeomorphic registration}
-\subsection{Multi-channel registration}
-\subsection{Tensor registration}
-\subsection{Diffeomorphic registration}
-\subsection{Diffeomorphic registration with two metrics: Image and
-  PointSet}
-\subsection{Optimized SyN registration}
 
-\subsection{GPU Demons}
+\begin{comment}{
+Consider a velocity field that provides a geodesic (or shortest
+distance) mapping between a pair of images, i.e. a registration of the
+type $J \circ \leftrightsquigarrow \approx I$.  Because LDDMM does not
+measure the change of the velocity field {\em over time}, the velocity
+fields in this figure will have a measure of length that appears to be
+equally ``geodesic.''  However, the velocity field at right, though of
+constant arc length, will not minimize geodesic curvature.  Thus, we
+augment the standard LDDMM measure of spatial regularity with a
+measure of the change in velocity over time, $D v/ dt$, which
+represents the covariant derivative of the velocity field.  Our
+revised metric and the LDDMM metric will be equivalent if the velocity
+field describes a true geodesic.
+\begin{figure}[t]
+\begin{center}
+\includegraphics[width=4.5in]{figs/lddmm_comment.pdf}
+\caption{\baselineskip 12pt \small Standard LDDMM minimizes a measure
+  that integrates the velocity field's spatial
+  regularity over time.  In \tk, we explore a novel extension to LDDMM
+  that directly penalizes temporal discontinuities in the velocity field.  This \tk extension
+  will prefer the solution at figure left over the solution at figure
+  right.  On the other hand, if LDDMM is initialized with a velocity field that minimizes the
+similarity metric---but is not a geodesic---LDDMM will not be able to emerge from that local
+minimum.  This is because LDDMM does not directly penalize {\em
+  acceleration} i.e. change in the velocity field.  Geodesic shooting
+also resolves this shortcoming \cite{Beg2006}.}
+\label{fig:geod}
+\end{center}
+\end{figure}
+}\end{comment}
 
-\section{ITKv4 registration benchmarks}
+\section{Discussion and future work} 
+ITK is a community built and maintained toolkit and is a public
+resource for reproducible methods.  The updated \tk registration
+framework provides a novel set of user-friendly parameter setting
+tools and benchmark implementations of both standard and advanced
+algorithms.  Robustness with respect to parameter settings has long
+been a goal of image registration and \tk takes valuable steps toward
+the direction of automated parameter selection.  By the time of the
+workshop, we intend to have a more extensive series of benchmark performance studies
+completed on standard datasets and hope that presentation of this work
+will provide a valuable foundation for future work.  The number of
+possible applications exceeds what can possibly be evaluated via the
+ITK core.  Community involvement is needed in order to increase the
+number of possible registration applications and metric / transform /
+optimizer / data combinations that have been evaluated.  At the same
+time, documentation, usability and examples must be provided by the
+development team in order to improve user involvement.  Future work
+will enhance the depth and breadth of this documentation as well as
+seek to optimize the current implementations for speed and memory.
+With this effort, the user community will be capable of efficiently
+implementing novel applications and even algorithms based on the \tk
+framework.
 
-Comparison with ANTs and Flirt.  
-
-Speed comparison for multi-threaded implementation.
-
-etc.
-\section{Discussion and future work}
 
 \begin{comment}
 {
@@ -416,6 +757,6 @@ T(\x) =\y = [A(\theta)] \phi(\x)= [A(\theta)] (\x+U(\x)) \\ \notag
 \end{eqnarray}
 }
 \end{comment}
-% \bibliographystyle{IEEEbib}
-% \bibliography{./none}
+\bibliographystyle{splncs03}
+\bibliography{./itk}
 \end{document}
