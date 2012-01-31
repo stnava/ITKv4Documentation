@@ -128,12 +128,16 @@ contribution of ITK (personal communication).  Numerous papers use ITK
 algorithms as standard references for implementations of Demons
 registration and mutual information-based affine or B-Spline
 registration \cite{2004,Shelton2005,Wolf2005,Floca2007,Chen2008,Cheung2009,Taka2011}.
-Multiple toolkits extend ITK registration methods in unique ways:
-Elastix \cite{Klein2010}, diffeomorphic demons \cite{Vercauteren2009},
-ANTs \cite{Avants2011} and the brainsfit toolkit \cite{Kikinis2011} each has advantages
-\cite{Klein2010,Murphy2011}.  
+Multiple toolkits extend ITK registration methods in unique ways.
+Elastix provides very fast and accurate B-Spline registration
+\cite{Klein2010,Murphy2011}.  The diffeomorphic demons is a fast/efficient
+approximation to a diffeomorphic mapping \cite{Vercauteren2009}.  
+ANTs provides both flexibility and high average performance
+\cite{Avants2011}.  The BrainsFit algorithm is integrated into slicer
+for user-guided registration \cite{Kikinis2011}.
+Each of these toolkits his both strengths and weaknesses
+\cite{Klein2010,Murphy2011} and was enabled by an ITK core.    
 %  What papers use ITK as a standard for comparison?  What other software builds on ITK registration?
-
 
 %How does the v4 registration framework build on the past?  What does it contribute that's new?  
 % What is it? Why were these the tools we chose to contribute?  
@@ -176,7 +180,8 @@ descriptive, but also technically consistent, system for visually
 representing algorithms and applications of registration.  Ideally,
 any standard algorithm can be written in the nomenclature below.
 \begin{description}
-\item [A position:] $x \in \Omega$ where $\Omega$ is the domain. 
+\item [A physical point:] $x \in \Omega$ where $\Omega$ is the domain,
+  usually of an image.
 \item [An image:]  $ I \colon \Omega^d \to \mathbb{R}^n$ where $n$ is the
   number of components per pixel and $d$ is dimensionality.  A second
   image is $J$. 
@@ -196,13 +201,14 @@ any standard algorithm can be written in the nomenclature below.
 \item [Diffeomorphic mapping:] $ \leftrightsquigarrow$ these maps
   should have an accurate inverse that is computed in the algorithm or can be computed from the results.
 \item [Composite mapping:] $\phi=\phi_1(\phi_2(x))$ is defined by
-  $\rightarrow \circ \leftrightsquigarrow$ where $\phi_2$ is of type $\leftrightsquigarrow$ which precedes the application of $\rightarrow$.
+  $\rightarrow \circ \leftrightsquigarrow$ where $\phi_2$ is of type
+  $\leftrightsquigarrow$. 
 \item[Not invertible:]  $\nleftrightarrow$ indicates a mapping that is
   not guaranteed invertible.
 \item [Similarity measure:] $\substack{
    \approx \\
    s
-  }$ indicates that statistical measure $s$ is used to compare images.
+  }$ or $\approx_s$ indicates that statistical measure $s$ is used to compare images.
 % \item [Transport versus diffeomorphism] intrasubject versus intersubject.
 % \item [Resolution effects]  ...
 % \item [accuracy vs precision] obsessed with accuracy because we dont
@@ -294,9 +300,10 @@ the image $I$ may also contain a mapping, although it is not directly
 optimized in most cases.  As will be seen later in the document, this
 mapping may also be used within large deformation metrics. 
 
+The similarity metric, $M$, is perhaps the most critical component in image registration.  
 Denote a parameter set as $p = (p_1, p_2 \ldots p_n)$ where there are
 $n$ parameters.  
-The metric is then defined completely as $M(I,J,\phi(p,x))$.  For instance, $M=\|
+The metric (or comparison function between images) is then defined completely as $M(I,J,\phi(p,x))$.  For instance, $M=\|
 I(x)-J(\phi(p,x)) \|^2$ i.e. the sum of squared differences (SSD) metric. Its gradient with respect to parameter $p_i$
 is (using the chain rule), $$M_{p_i}=\frac{\partial M}{\partial
   p_i}=\frac{\partial M}{\partial J}\frac{\partial
@@ -392,7 +399,7 @@ of $\text{diag}(s)$ by explicit computation with respect to the goal of reaching
 \phi(x,p_\text{old}) \| = constant $.  A critical variable,
 practically, is which $x$ to choose for evaluation of $\| \phi(x,p_{\text{new}}) -
 \phi(x,p_\text{old}) \| $.  The corners of the image domain work well
-for affine transformations whereas local regions of small radius
+for affine transformations.  In contrast, local regions of small radius
 (approximately 5) work well for transformations with local support.
 Additional work is needed to verify optimal parameters for this new
 \tk feature.  However, an evaluation is performed in the results
@@ -472,7 +479,8 @@ each were of size $150 \times 150$.}
 \end{center}
 \end{figure}
 
-Beg et al. proposed Large Deformation Diffeomorphic Metric Mapping (LDDMM) algorithm, which used an o.d.e as parameterization to optimize the following energy function:
+Beg proposed the Large Deformation Diffeomorphic Metric Mapping
+(LDDMM) algorithm, which uses an o.d.e as parameterization to optimize the following energy function:
 \begin{align}
 \myE(\v) = \frac{1}{2} \| I_0 \circ \myphi_{1,0} - I_1 \|^2 
 + 
