@@ -126,7 +126,7 @@ approximation to a diffeomorphic mapping \cite{Vercauteren2009}.
 ANTs provides both flexibility and high average performance
 \cite{Avants2011}.  The BrainsFit algorithm is integrated into slicer
 for user-guided registration \cite{Kikinis2011}.
-Each of these toolkits his both strengths and weaknesses
+Each of these toolkits has both strengths and weaknesses
 \cite{Klein2010,Murphy2011} and was enabled by an ITK core.    
 %  What papers use ITK as a standard for comparison?  What other software builds on ITK registration?
 
@@ -228,7 +228,7 @@ default similarity metric).  \tk supports metrics such as mutual information, $\
    \approx \\
    \text{cc}
   }$.
-The second stage computes a deformation, $\rightsquigarrow$, from $J \rightarrow $
+The second stage computes a deformation, $\rightsquigarrow$, from $\rightarrow J$
 to $I$.  In terms of transformation composition, we would write
 $\rightsquigarrow \rightarrow  J = J_w(x) =
 J( \phi_\text{Affine} ( \phi_\text{Demons} ( x) )) $ where $J_w$ is the
@@ -248,10 +248,10 @@ The key ideas for \tk registration are:
 \includegraphics[width=4.5in]{figs/RegistrationNomenclature.pdf}
 \end{tabular}
 \caption{\baselineskip 12pt \small The standard approach in the ITKv4
-  registration framework is to map image $J$ to image $I$ by first
+  registration framework is to map image $J$ (b) to image $I$ (a) by first
   identifying the linear transformation that removes (a sub-space of) affine variation
-  between the images.  Second, we remove the shape (diffeomorphic)
-  differences.  This results in a composite mapping, computed via the
+  between the images as in (c).  Second, we remove the shape (diffeomorphic)
+  differences (d).  This results in a composite mapping, computed via the
   mutual information similarity metric, that identifies
   $I(x) ~\approx_\text{mi}  J(A(\phi(x))) =  J_\text{Affine}(y) = J(z)
   $. The image $J_\text{Affine}(y)$
@@ -288,8 +288,8 @@ diffeomorphic matching approach.
 \subsection{Optimization Framework}
 The general \tk optimization criterion is summarized as:
 \begin{eqnarray}
-\text{Find mapping}~\phi(p,x) \in \mathcal{T}
-\text{such that}~M(I,J,\phi(p,x))~\text{is minimized}. 
+\text{Find mapping}~\phi(x,p) \in \mathcal{T}
+\text{such that}~M(I,J,\phi(x,p))~\text{is minimized}. 
 \label{eq:gen}
 \end{eqnarray}
 While, for functional mappings, this formulation is not strictly correct, the
@@ -304,13 +304,13 @@ mapping may also be used within large deformation metrics.
 
 The similarity metric, $M$, is perhaps the most critical component in image registration.  
 Denote a parameter set as $p = (p_1, p_2 \ldots p_n)$.  
-The metric (or comparison function between images) is then defined completely as $M(I,J,\phi(p,x))$.  For instance, $M=\|
-I(x)-J(\phi(p,x)) \|^2$ i.e. the sum of squared differences (SSD) metric. Its gradient with respect to parameter $p_i$
+The metric (or comparison function between images) is then defined completely as $M(I,J,\phi(x,p))$.  For instance, $M=\|
+I(x)-J(\phi(x,p)) \|^2$ i.e. the sum of squared differences (SSD) metric. Its gradient with respect to parameter $p_i$
 is (using the chain rule), 
 \begin{eqnarray}
  M_{p_i}=\frac{\partial M}{\partial
   p_i}=\frac{\partial M}{\partial J}\frac{\partial
-  J(\phi(p,x))}{\partial \phi} \frac{\partial \phi}{\partial p_i}|_x
+  J(\phi(x,p))}{\partial \phi} \frac{\partial \phi}{\partial p_i}|_x
 ~~.
 \label{eq:grad}
 \end{eqnarray}
@@ -318,12 +318,12 @@ This equation provides the metric gradient specified for
 sum of squared differences (at point $x$) but similar forms arise for the correlation
 and mutual information \cite{hermosillo}.  Both are implemented in
 \tk for transformations with local and global support.  The
-$\frac{\partial J(\phi(p,x))}{\partial \phi}$ term is the gradient of $J$ at $\phi(x)$
+$\frac{\partial J(\phi(x,p))}{\partial \phi}$ term is the gradient of $J$ at $\phi(x)$
 and $\frac{\partial \phi}{\partial p_i}$ is the Jacobian of the transformation taken
-with respect to its parameter.   The transform $\phi(p,x)$ may be
-an affine map i.e. $\phi(p,x)=A x + t$ where $A$ is a matrix and
+with respect to its parameter.   The transform $\phi(x,p)$ may be
+an affine map i.e. $\phi(x,p)=A x + t$ where $A$ is a matrix and
 $t$ a translation.  Alternatively, it may be a displacement field
-where $\phi(p,x)=x+u(x)$ and
+where $\phi(x,p)=x+u(x)$ and
 $u$ is a vector field.  In \tk, both types of maps are interchangeable
 and may be used in a composite transform to compute registrations that
 map to a template via a schematic such as $ I \approx \rightarrow J $, $ I $ ~\mi~\bsp~$
@@ -355,20 +355,20 @@ smoothing) that project the updated transform back to space $\mathcal{T}$.
 \begin{comment}{
 In terms of code, $\frac{d\phi}{dp}|_x$ corresponds to {\em
 ComputeJacobianWithRespectToParameters( mappedFixedPoint, Jacobian);
-}.  Note that it is evaluated at point $x$ not at point $\phi(p,x)$.  We
+}.  Note that it is evaluated at point $x$ not at point $\phi(x,p)$.  We
 then use {\em
 ComputeMovingImageGradientAtPoint( mappedMovingPoint,
 mappedMovingImageGradient );} to compute the moving image gradient
 when there is no pre-warping.  {\em ComputeMovingImageGradientAtPoint} uses central
 differences (or a gradient filter) in the moving image space to
-compute the image gradient, $\frac{dJ(\phi(p,x))}{d\phi}$.
+compute the image gradient, $\frac{dJ(\phi(x,p))}{d\phi}$.
 
  If one is doing pre-warping, then we have an index access to the
  warped moving image.  We compute the warped $J$ as
- $J_w(x)=J(\phi(p,x))$.  Then,
+ $J_w(x)=J(\phi(x,p))$.  Then,
 \begin{eqnarray}
-\frac{dJ_w}{dx}=\frac{dJ(\phi(p,x))}{d\phi}\frac{d(\phi(p,x))}{dx} \\ \notag
-\frac{dJ(\phi(p,x))}{d\phi}=\frac{dJ_w}{dx}{\frac{d(\phi(p,x))}{dx}}^{-1} 
+\frac{dJ_w}{dx}=\frac{dJ(\phi(x,p))}{d\phi}\frac{d(\phi(x,p))}{dx} \\ \notag
+\frac{dJ(\phi(x,p))}{d\phi}=\frac{dJ_w}{dx}{\frac{d(\phi(x,p))}{dx}}^{-1} 
 \end{eqnarray}
 In code, we use {\em ComputeMovingImageGradientAtIndex( index,
 mappedMovingImageGradient );} to get $\frac{dJ_w}{dx}$ and transform
@@ -398,7 +398,7 @@ Rewrite $[ \frac{\partial
   M}{\partial p_1} , \cdots , \frac{\partial
   M}{\partial p_n} 
  ]$ as $\frac{\partial M}{\partial J}\frac{\partial
-  J(\phi(p,x))}{\partial \phi} [ \frac{\partial \phi}{\partial p_1} , \cdots , \frac{\partial \phi}{\partial p_n} ]$.
+  J(\phi(x,p))}{\partial \phi} [ \frac{\partial \phi}{\partial p_1} , \cdots , \frac{\partial \phi}{\partial p_n} ]$.
 To determine the relative scale effects of each parameter, $p_i$, we
 can factor out the constant terms on the outside of the bracket.  
 Then the modified gradient descent step becomes
@@ -439,7 +439,7 @@ have a consistent effect, for a given $\lambda$, regardless of the metric choice
 \includegraphics[height=1.1in]{figs/c_half_c_grids.pdf}
 \end{tabular}
 \caption{\baselineskip 12pt \small An ITK diffeomorphic mapping of the
-  type $(J \leftrightsquigarrow) \approx I$.  The 
+  type $I \leftrightsquigarrow J $.  The 
 ``C'' and 1/2 ``C'' example illustrate the large deformations that may
 be achieved with time varying velocity fields.  In this case, the moving (deforming) image is
 the 1/2 ``C''.  The right panels illustrate the deformed grid for the
@@ -463,7 +463,7 @@ to LDDMM that also uses a time varying field and an {\em ode} but minimizes
 the following objective function:
 \begin{align}
 \myE(\v) = M(I,J,\myphi_{1,0})
-+  w \int_{0}^{1}(x) \| \opL v_t\|^2 \dd t \;.
++  w \int_{0}^{1} \| \opL v_t\|^2 \dd t \;.
 \label{eq:lddmm}
 \end{align}
 This is an instance of equation~\ref{eq:gen} where $w$ is a scalar
