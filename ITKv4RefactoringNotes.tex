@@ -192,7 +192,7 @@ any standard algorithm can be written in the nomenclature below.
 \item [Diffeomorphic mapping:] $ \leftrightsquigarrow$ these maps
   should have an accurate inverse that is computed in the algorithm or can be computed from the results.
 \item [Composite mapping:] $\phi=\phi_1(\phi_2(x))$ is defined by
-  $\rightarrow \circ \leftrightsquigarrow$ where $\phi_2$ is of type
+  $ \leftrightsquigarrow \rightarrow $ where $\phi_2$ is of type
   $\leftrightsquigarrow$. 
 \item[Not invertible:]  $\nleftrightarrow$ indicates a mapping that is
   not guaranteed invertible.
@@ -213,8 +213,10 @@ any standard algorithm can be written in the nomenclature below.
 We would then write a standard Demons registration application that maps 
 one image, $J$, into the space of $I$ (presumably a template) as:
 $$
-(J \circ \rightarrow \circ \rightsquigarrow ) \approx I
+ I  \rightsquigarrow \rightarrow  J \text{~~~~~which symbolizes~~~~~} I \approx
+ J( A( \phi( x ) )),
 $$
+with $A$ an affine mapping and $\phi$ a generic deformation. 
 The notation means that the algorithm first optimizes an affine
 mapping, $ \rightarrow$, 
 between $J$ and $I$.  This is followed by a deformation.  We denote the similarity metric as $\approx$
@@ -226,9 +228,9 @@ default similarity metric).  \tk supports metrics such as mutual information, $\
    \approx \\
    \text{cc}
   }$.
-The second stage computes a deformation, $\rightsquigarrow$, from $J \circ \rightarrow $
+The second stage computes a deformation, $\rightsquigarrow$, from $J \rightarrow $
 to $I$.  In terms of transformation composition, we would write
-$J_w(x) =J \circ \rightarrow \circ \rightsquigarrow =
+$\rightsquigarrow \rightarrow  J = J_w(x) =
 J( \phi_\text{Affine} ( \phi_\text{Demons} ( x) )) $ where $J_w$ is the
 result of warping $J$ to $I$.  The $\phi$ are the specific
 functions corresponding to the schematic arrows.
@@ -242,14 +244,20 @@ The key ideas for \tk registration are:
 \begin{figure}[t]
 \begin{center}
 \begin{tabular}{c}
-\includegraphics[width=4.5in]{figs/composemap.pdf}
+% \includegraphics[width=4.5in]{figs/composemap.pdf}
+\includegraphics[width=4.5in]{figs/RegistrationNomenclature.pdf}
 \end{tabular}
-\caption{\baselineskip 12pt \small We avoid compounding interpolation
-  error by concatenating transformations.  Thus, we never need to use more than
-  a single interpolation into the data regardless of the nature of the
-  sub-transforms within the composite mapping.  Because transformations may
-  either perform mapping or resampling, this framework also
-  provides the ability to handle changes in resolution.}
+\caption{\baselineskip 12pt \small The standard approach in the ITKv4
+  registration framework is to map image $J$ to image $I$ by first
+  identifying the linear transformation that removes (a sub-space of) affine variation
+  between the images.  Second, we remove the shape (diffeomorphic)
+  differences.  This results in a composite mapping, computed via the
+  mutual information similarity metric, that identifies
+  $I(x) ~\approx_\text{mi}  J(A(\phi(x))) =  J_\text{Affine}(y) = J(z)
+  $. The image $J_\text{Affine}(y)$
+  represents $J$ after application of the affine transformation $A$
+  i.e. $J(A(x))$.}
+%  We avoid compounding interpolation  error by concatenating transformations.  Thus, we never need to use more than  a single interpolation into the data regardless of the nature of the  sub-transforms within the composite mapping.  Because transformations may  either perform mapping or resampling, this framework also  provides the ability to handle changes in resolution.}
 \label{fig:composite}
 \end{center}
 \end{figure}
@@ -311,16 +319,18 @@ sum of squared differences (at point $x$) but similar forms arise for the correl
 and mutual information \cite{hermosillo}.  Both are implemented in
 \tk for transformations with local and global support.  The
 $\frac{\partial J(\phi(p,x))}{\partial \phi}$ term is the gradient of $J$ at $\phi(x)$
-and $\frac{\partial \phi}{\partial p_i}$ is the jacobian of the transformation taken
+and $\frac{\partial \phi}{\partial p_i}$ is the Jacobian of the transformation taken
 with respect to its parameter.   The transform $\phi(p,x)$ may be
 an affine map i.e. $\phi(p,x)=A x + t$ where $A$ is a matrix and
 $t$ a translation.  Alternatively, it may be a displacement field
 where $\phi(p,x)=x+u(x)$ and
 $u$ is a vector field.  In \tk, both types of maps are interchangeable
 and may be used in a composite transform to compute registrations that
-map to a template via a schematic such as $ J  \circ \rightarrow \approx I $, $ J  \circ
-\rightarrow \circ $ \bsp ~\mi~$I$, or even $ J  \circ
-\rightarrow \circ \leftrightsquigarrow $~\cc~$ I $.  
+map to a template via a schematic such as $ I \approx \rightarrow J $, $ I $ ~\mi~\bsp~$
+\rightarrow  J $, $ I $~\cc~$ \leftrightsquigarrow \rightarrow J $
+or, mixing similarity metrics, $I
+~\approx_\text{cc}  \leftrightsquigarrow \approx_\text{mi}  \rightarrow
+J_i $.  
 
 The most commonly used optimization algorithm for image registration
 is gradient descent, or some variant.   In the above framework, the
@@ -344,7 +354,7 @@ smoothing) that project the updated transform back to space $\mathcal{T}$.
 
 \begin{comment}{
 In terms of code, $\frac{d\phi}{dp}|_x$ corresponds to {\em
-ComputeJacobianWithRespectToParameters( mappedFixedPoint, jacobian);
+ComputeJacobianWithRespectToParameters( mappedFixedPoint, Jacobian);
 }.  Note that it is evaluated at point $x$ not at point $\phi(p,x)$.  We
 then use {\em
 ComputeMovingImageGradientAtPoint( mappedMovingPoint,
@@ -362,7 +372,7 @@ compute the image gradient, $\frac{dJ(\phi(p,x))}{d\phi}$.
 \end{eqnarray}
 In code, we use {\em ComputeMovingImageGradientAtIndex( index,
 mappedMovingImageGradient );} to get $\frac{dJ_w}{dx}$ and transform
-this image gradient via the inverse jacobian by calling 
+this image gradient via the inverse Jacobian by calling 
 {\em mappedMovingImageGradient=
 TransformCovariantVector(mappedMovingImageGradient, mappedMovingPoint ); }
 }\end{comment}
@@ -429,7 +439,7 @@ have a consistent effect, for a given $\lambda$, regardless of the metric choice
 \includegraphics[height=1.1in]{figs/c_half_c_grids.pdf}
 \end{tabular}
 \caption{\baselineskip 12pt \small An ITK diffeomorphic mapping of the
-  type $(J \circ \leftrightsquigarrow) \approx I$.  The 
+  type $(J \leftrightsquigarrow) \approx I$.  The 
 ``C'' and 1/2 ``C'' example illustrate the large deformations that may
 be achieved with time varying velocity fields.  In this case, the moving (deforming) image is
 the 1/2 ``C''.  The right panels illustrate the deformed grid for the
@@ -519,14 +529,15 @@ with an open-source ITK$^3$ registration application.
 \tk provides similarity metrics that may be applied for both
 deformable and affine registration.  In a previous section, we
 provided a parameter estimation strategy that is applicable to both
-deformable and affine transformations with arbitrary metrics.  
-Consequently, we can evaluate the
-following schema fairly,
+deformable and affine transformations with arbitrary metrics.  Denote
+images $I$, $J$, $K$, where the latter two are ``moving'' images, and
+$K$ is an intensity-inverted version of $J$.
+We then evaluate the following schema,
 \begin{eqnarray}
-(J \circ \rightarrow \circ \leftrightsquigarrow ) \approx I  \\  \notag
-(K \circ \rightarrow \circ \leftrightsquigarrow ) \approx_\text{cc} I  \\ \notag
-(K \circ \rightarrow \circ \leftrightsquigarrow ) \approx_\text{mi} I,
-\notag 
+I \approx \leftrightsquigarrow  \rightarrow J \\  \notag
+I \approx_\text{cc} \leftrightsquigarrow  \rightarrow  K   \\ \notag
+I \approx_\text{mi} \leftrightsquigarrow  \rightarrow  K   \\ \notag
+ \notag 
 \end{eqnarray}
 where, for each schematic, we use the corresponding metric for both
 affine and diffeomorphic mapping.  Furthermore, we keep the same
@@ -569,7 +580,7 @@ general optimization process given in equation~\ref{eq:gen}.}
 \begin{comment}{
 Consider a velocity field that provides a geodesic (or shortest
 distance) mapping between a pair of images, i.e. a registration of the
-type $J \circ \leftrightsquigarrow \approx I$.  Because LDDMM does not
+type $J  \leftrightsquigarrow \approx I$.  Because LDDMM does not
 measure the change of the velocity field {\em over time}, the velocity
 fields in this figure will have a measure of length that appears to be
 equally ``geodesic.''  However, the velocity field at right, though of
@@ -611,9 +622,12 @@ of the new \tk diffeomorphic matching.
 \begin{figure}[t]
 \begin{center}
 \includegraphics[width=4.5in]{figs/eval_brain.pdf}
-\caption{We define a schematic as $J_i \circ \rightarrow
-~\approx_\text{mi} I$ for affine mapping a set of $\{ J_i \}$ images
-to a template $I$. We use this schematic in a registration-based
+\caption{We define an affine schema as $I ~\approx_\text{mi}  \rightarrow
+J_i $ for affine mapping a set of $\{ J_i \}$ images
+to a template $I$.  We also define a composite schema as $I
+~\approx_\text{cc}  \leftrightsquigarrow \approx_\text{mi}  \rightarrow
+J_i $ for affine mapping a set of $\{ J_i \}$ images
+to a template $I$.  We use this schematic in a registration-based
 brain extraction, from MRI, in an elderly population as a benchmark
 for algorithm performance, similar to \cite{Klein2010}.  Example images from the dataset are at left.   To gain an
 idea of performance variance with respect to template, we use each
