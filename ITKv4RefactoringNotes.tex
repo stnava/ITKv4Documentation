@@ -71,9 +71,7 @@
   Pennsylvania, Philadelphia, PA, 19104\\ 
   $^\dagger$Dept. of Radiology, \\ University of Virginia,
   Charlottesville, VA 22903\\
-  \href{http://www.insightsoftwareconsortium.org/}{http://www.insightsoftwareconsortium.org/}}\footnote{This
-  work is supported by National Library of Medicine sponsored ARRA
-  stimulus funding.}
+  \href{http://www.insightsoftwareconsortium.org/}{http://www.insightsoftwareconsortium.org/}}
 \maketitle              
 \begin{abstract}
 Publicly available scientific resources help establish evaluation
@@ -88,7 +86,9 @@ total, the \tk contribution is intended as a structure to support
 reproducible research practices, will provide a more extensive
 foundation against which to evaluate new work in image registration
 and also enable application level programmers a broad suite of tools
-on which to build.  
+on which to build. \footnote{This
+  work is supported by National Library of Medicine sponsored ARRA
+  stimulus funding.}  
 \end{abstract}
 
 \section{Introduction}
@@ -541,7 +541,8 @@ In the future, the latest evaluation numbers will be available at:~\textcolor{bl
 \href{https://github.com/stnava/ITKv4Documentation/tree/wbir2012}{ITKv4 latest
   evaluation results}}.
 % \url{github.com/stnava/ITKv4Documentation}.
-\subsection{Parameter estimation across metrics}
+
+\noindent{\bf Parameter estimation across metrics.}
 \tk provides similarity metrics that may be applied for both
 deformable and affine registration.  In a previous section, we
 provided a parameter estimation strategy that is applicable to both
@@ -578,7 +579,7 @@ result shows that our parameter estimation method achieves the goal of
 reducing user burden.
 \begin{figure}[t]
 \begin{center}
-\includegraphics[width=3.5in]{figs/three.pdf}
+\includegraphics[width=4.5in]{figs/three.pdf}
 \caption{\baselineskip 12pt \small Three references images, $I$
 (left), $J$ (middle top), and $K$ (right top), are used to illustrate
 the robustness of our parameter scale estimation for setting
@@ -629,7 +630,7 @@ also resolves this shortcoming \cite{Beg2006}.}
 }\end{comment}
 
 
-\subsection{Comparison against ITK$^3$}
+\noindent{\bf Comparison against ITK$^3$.}
 We compare the \tk registration against an ITK$^3$ registration suite
 BrainsFit (nitrc.org multimodereg).  
 We present preliminary, encouraging evaluation results for this approach to
