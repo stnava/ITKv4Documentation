@@ -65,11 +65,12 @@
 \vspace{-0.1in}
 \title{A unified image registration framework for ITK}
 \author{Brian B. Avants, Nicholas J. Tustison$^\dagger$, Gang Song,\\ Baohua Wu,
-  Michael Stauffer, James C. Gee}
+  Michael Stauffer, James C. Gee and the
+  \textcolor{blue}{\href{http://www.insightsoftwareconsortium.org/}{Insight Software Corsortium}}}
 \institute{Penn Image Computing and Science Lab \\ Dept. of Radiology \\University of
   Pennsylvania, Philadelphia, PA, 19104\\ 
   $^\dagger$Dept. of Radiology, \\ University of Virginia,
-  Charlottesville, VA 22903}
+  Charlottesville, VA 22903\\ \href{http://www.insightsoftwareconsortium.org/}{http://www.insightsoftwareconsortium.org/}}
 \maketitle              
 \begin{abstract}
 Publicly available scientific resources help establish evaluation
@@ -84,7 +85,7 @@ total, the \tk contribution is intended as a structure to support
 reproducible research practices, will provide a more extensive
 foundation against which to evaluate new work in image registration
 and also enable application level programmers a broad suite of tools
-on which to build.
+on which to build.  
 \end{abstract}
 
 \section{Introduction}
@@ -201,6 +202,9 @@ any standard algorithm can be written in the nomenclature below.
   $\leftrightsquigarrow$. 
 \item[Not invertible:]  $\nleftrightarrow$ indicates a mapping that is
   not invertible.
+\item [Image warping:] For example, $ \rightarrow J$ represents
+applying affine transform $\rightsquigarrow$ on image $J$.
+$\rightarrow J = J( A( x ) ) $.
 \item [Similarity measure:] $\substack{
    \approx \\
    s
@@ -224,8 +228,8 @@ $$
 with $A$ an affine mapping and $\phi$ a generic deformation. 
 The notation means that the algorithm first optimizes an affine
 mapping, $ \rightarrow$, 
-between $J$ and $I$.  This is followed by a deformation.  
-The second stage computes a deformation, $\rightsquigarrow$, from $\rightarrow J$
+between $J$ and $I$.  
+This is followed by a deformation in the second stage,$\rightsquigarrow$, from $\rightarrow J$
 to $I$.  In terms of transformation composition, we would write
 $\rightsquigarrow \rightarrow  J = J_w(x) =
 J( \phi_\text{Affine} ( \phi_\text{Demons} ( x) )) $ where $J_w$ is
