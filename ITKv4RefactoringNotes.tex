@@ -3,7 +3,7 @@
 \newcommand{\SubSection}[1]{\vspace{-3pt}\subsection{\hskip -1em.~~#1}\vspace{-3pt}}
 
 % \section{mathematical notation}
-
+\usepackage{hyperref}
 \newcommand{\vect}[1]{\mathbf{#1}}
 \newcommand{\field}[1]{\mathbf{#1}}
 \newcommand{\image}[1]{#1}
@@ -59,7 +59,7 @@
 \usepackage{amsmath,amssymb,algorithm,algorithmic}
 \usepackage{times}
 \usepackage{setspace,verbatim}
-\usepackage{epsfig,url}
+\usepackage{epsfig}
 
 \begin{document}
 \vspace{-0.1in}
@@ -199,7 +199,7 @@ any standard algorithm can be written in the nomenclature below.
 \item [Similarity measure:] $\substack{
    \approx \\
    s
-  }$ or $\approx_s$ indicates that statistical measure $s$ is used to compare images.
+  }$ or $\approx_s$ indicates the metric $s$ that compares images.
 % \item [Transport versus diffeomorphism] intrasubject versus intersubject.
 % \item [Resolution effects]  ...
 % \item [accuracy vs precision] obsessed with accuracy because we dont
@@ -219,25 +219,20 @@ $$
 with $A$ an affine mapping and $\phi$ a generic deformation. 
 The notation means that the algorithm first optimizes an affine
 mapping, $ \rightarrow$, 
-between $J$ and $I$.  This is followed by a deformation.  We denote the similarity metric as $\approx$
-which indicates a sum of squared differences (the
-default similarity metric).  \tk supports metrics such as mutual information, $\substack{
-   \approx \\
-   \text{mi}
-  }$, or cross-correlation, $\substack{
-   \approx \\
-   \text{cc}
-  }$.
+between $J$ and $I$.  This is followed by a deformation.  
 The second stage computes a deformation, $\rightsquigarrow$, from $\rightarrow J$
 to $I$.  In terms of transformation composition, we would write
 $\rightsquigarrow \rightarrow  J = J_w(x) =
-J( \phi_\text{Affine} ( \phi_\text{Demons} ( x) )) $ where $J_w$ is the
-result of warping $J$ to $I$.  The $\phi$ are the specific
-functions corresponding to the schematic arrows.
-Note, also, that the tail of the arrow indicates the
-transform's domain.  The arrowhead indicates its range.  We will use
-this nomenclature to write schematics for registration applications in
-the following sections.
+J( \phi_\text{Affine} ( \phi_\text{Demons} ( x) )) $ where $J_w$ is
+the result of warping $J$ to $I$.  The $\phi$ are the specific
+functions corresponding to the schematic arrows.  Note, also, that the
+tail of the arrow indicates the transform's domain.  The arrowhead
+indicates its range.  Finally, we denote the similarity metric as
+$\approx$ which indicates a sum of squared differences (the default
+similarity metric).  \tk supports metrics such as mutual information,
+$\substack{ \approx \\ \text{mi} }$, or cross-correlation, $\substack{
+\approx \\ \text{cc} }$.  We will use this nomenclature to write
+schematics for registration applications in the following sections.
 
 \section{Overview of the unified framework}
 The key ideas for \tk registration are:
@@ -247,11 +242,13 @@ The key ideas for \tk registration are:
 % \includegraphics[width=4.5in]{figs/composemap.pdf}
 \includegraphics[width=4.5in]{figs/RegistrationNomenclature.pdf}
 \end{tabular}
-\caption{\baselineskip 12pt \small The standard approach in the ITKv4
+\caption{\baselineskip 12pt \small Define $x$ in $\Omega_I$ and $z$ in
+  $\Omega_J$ as the same material point but existing in different
+  domains.  The point $y$ is in a domain that is intermediate between
+  $\Omega_I$ and $\Omega_J$.  The standard approach in the ITKv4
   registration framework is to map image $J$ (b) to image $I$ (a) by first
-  identifying the linear transformation that removes (a sub-space of) affine variation
-  between the images as in (c).  Second, we remove the shape (diffeomorphic)
-  differences (d).  This results in a composite mapping, computed via the
+  identifying the linear transformation, $\rightarrow$, between the images, shown in (c).  Second, we remove the shape (diffeomorphic)
+  differences (d).  Consequently, we have a composite mapping, computed via the
   mutual information similarity metric, that identifies
   $I(x) ~\approx_\text{mi}  J(A(\phi(x))) =  J_\text{Affine}(y) = J(z)
   $. The image $J_\text{Affine}(y)$
@@ -264,10 +261,10 @@ The key ideas for \tk registration are:
 \begin{enumerate}
 \item Registration maps can be applied or optimized through the {\em
     itkCompositeTransform} which chains transforms together as in Figure~\ref{fig:composite}.
-\item Each transform has either global support (affine
-  transform) or local support (a displacement field transform).   If
+\item Each ITK$^4$ transform has either global support (affine
+  transform) or local (or compact) support (a displacement field transform).   If
   any map in a composite transform has global support then the
-  composite transform has global support.
+  composite transform has global support. 
 \item \tk metrics are applicable to both types of transforms and may
   optimize over dense or sparse samples from $\Omega$.  Metrics may be
   multi-channel (e.g. for registering RGB or tensor images).
@@ -304,13 +301,13 @@ mapping may also be used within large deformation metrics.
 
 The similarity metric, $M$, is perhaps the most critical component in image registration.  
 Denote a parameter set as $p = (p_1, p_2 \ldots p_n)$.  
-The metric (or comparison function between images) is then defined completely as $M(I,J,\phi(x,p))$.  For instance, $M=\|
+The metric (or comparison function between images) is then defined by $M(I,J,\phi(x,p))$.  For instance, $M=\|
 I(x)-J(\phi(x,p)) \|^2$ i.e. the sum of squared differences (SSD) metric. Its gradient with respect to parameter $p_i$
 is (using the chain rule), 
 \begin{eqnarray}
  M_{p_i}=\frac{\partial M}{\partial
   p_i}=\frac{\partial M}{\partial J}\frac{\partial
-  J(\phi(x,p))}{\partial \phi} \frac{\partial \phi}{\partial p_i}|_x
+  J(\phi(x,p))}{\partial \phi} \frac{\partial \phi}{\partial p_i}|^T_x
 ~~.
 \label{eq:grad}
 \end{eqnarray}
@@ -348,9 +345,12 @@ For instance, a change $\Delta$ to parameter $p_i$ will produce a
 different magnitude of impact on $\phi$ if $p_i$ is a translation rather than a
 rotation.  Thus, we develop an estimation framework that sets
 ``parameter scales'' (in ITK parlance) which, essentially, customize
-the learning rate for each parameter.  As a footnote, the update to
+the learning rate for each parameter.  The update to
 $\phi$ via its gradient may also include other steps (such as Gaussian
-smoothing) that project the updated transform back to space $\mathcal{T}$.
+smoothing) that project the updated transform back to space
+$\mathcal{T}$.  Multi-threading is achieved in the gradient computation, transformation update
+step and (if used) the regularization by dividing the parameter set
+into computational units that correspond to contiguous sub-regions of the image domain.
 
 \begin{comment}{
 In terms of code, $\frac{d\phi}{dp}|_x$ corresponds to {\em
@@ -525,6 +525,7 @@ publications.
 We first investigate the ability of our automated parameter estimation
 to facilitate parameter tuning across metrics.  We then compare \tk
 with an open-source ITK$^3$ registration application.
+In the future, the latest evaluation numbers will be available at github.com/stnava/ITKv4Documentation.
 \subsection{Parameter estimation across metrics}
 \tk provides similarity metrics that may be applied for both
 deformable and affine registration.  In a previous section, we
@@ -534,18 +535,17 @@ images $I$, $J$, $K$, where the latter two are ``moving'' images, and
 $K$ is an intensity-inverted version of $J$.
 We then evaluate the following schema,
 \begin{eqnarray}
-I \approx \leftrightsquigarrow  \rightarrow J \\  \notag
-I \approx_\text{cc} \leftrightsquigarrow  \rightarrow  K   \\ \notag
-I \approx_\text{mi} \leftrightsquigarrow  \rightarrow  K   \\ \notag
- \notag 
+I \approx \leftrightsquigarrow  \rightarrow J,~~~~~~~
+I \approx_\text{cc} \leftrightsquigarrow  \rightarrow  K,~~~~~~~  
+I \approx_\text{mi} \leftrightsquigarrow  \rightarrow  K   \notag 
 \end{eqnarray}
 where, for each schematic, we use the corresponding metric for both
 affine and diffeomorphic mapping.  Furthermore, we keep the same
-parameters for each registration by exploiting our parameter scale
+parameters for each registration by exploiting parameter scale
 estimators.  Figure~\ref{fig:result} shows the candidate images for
 this test. 
 
-As shown in figure~\ref{fig:result}, very similar results are achieved
+FIXME SEGMENTATION EVAL As shown in figure~\ref{fig:result}, very similar results are achieved
 for each schematic with minimal parameter tuning.  The sum of squared differences between the reference
 image $I$ and the three target cases are 14.04, 191.6 and 184.0.  The negative correlation between the reference
 image $I$ and the three target cases are -0.650, -0.680 and -0.50.  The
@@ -621,7 +621,7 @@ and, as such, this evaluation provides some insight into the benefit
 of the new \tk diffeomorphic matching.
 \begin{figure}[t]
 \begin{center}
-\includegraphics[width=4.5in]{figs/eval_brain.pdf}
+\includegraphics[width=3.5in]{figs/eval_brain.pdf}
 \caption{We define an affine schema as $I ~\approx_\text{mi}  \rightarrow
 J_i $ for affine mapping a set of $\{ J_i \}$ images
 to a template $I$.  We also define a composite schema as $I
