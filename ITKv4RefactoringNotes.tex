@@ -3,7 +3,7 @@
 \newcommand{\SubSection}[1]{\vspace{-3pt}\subsection{\hskip -1em.~~#1}\vspace{-3pt}}
 
 % \section{mathematical notation}
-\usepackage{hyperref}
+\usepackage{hyperref,color}
 \newcommand{\vect}[1]{\mathbf{#1}}
 \newcommand{\field}[1]{\mathbf{#1}}
 \newcommand{\image}[1]{#1}
@@ -307,7 +307,7 @@ is (using the chain rule),
 \begin{eqnarray}
  M_{p_i}=\frac{\partial M}{\partial
   p_i}=\frac{\partial M}{\partial J}\frac{\partial
-  J(\phi(x,p))}{\partial \phi} \frac{\partial \phi}{\partial p_i}|^T_x
+  J(\phi(x,p))}{\partial \phi} \frac{\partial \phi}{\partial p_i}^T|_x
 ~~.
 \label{eq:grad}
 \end{eqnarray}
@@ -525,7 +525,10 @@ publications.
 We first investigate the ability of our automated parameter estimation
 to facilitate parameter tuning across metrics.  We then compare \tk
 with an open-source ITK$^3$ registration application.
-In the future, the latest evaluation numbers will be available at github.com/stnava/ITKv4Documentation.
+In the future, the latest evaluation numbers will be available at:~\textcolor{blue}{
+\href{https://github.com/stnava/ITKv4Documentation/tree/wbir2012}{ITKv4 latest
+  evaluation results}}.
+% \url{github.com/stnava/ITKv4Documentation}.
 \subsection{Parameter estimation across metrics}
 \tk provides similarity metrics that may be applied for both
 deformable and affine registration.  In a previous section, we
@@ -545,17 +548,22 @@ parameters for each registration by exploiting parameter scale
 estimators.  Figure~\ref{fig:result} shows the candidate images for
 this test. 
 
-FIXME SEGMENTATION EVAL As shown in figure~\ref{fig:result}, very similar results are achieved
-for each schematic with minimal parameter tuning.  The sum of squared differences between the reference
-image $I$ and the three target cases are 14.04, 191.6 and 184.0.  The negative correlation between the reference
-image $I$ and the three target cases are -0.650, -0.680 and -0.50.  The
-mutual information between the reference
-image $I$ and the three target cases are -1.132, -1.057 and -0.992.
-Thus, a single set of tuned parameters provides a reasonable result
-for an affine plus diffeomorphic mapping across three different
-metrics.  While improvement might be gained by further tuning for each
-metric, this result shows that our parameter estimation method
-achieves the goal of reducing user burden.  
+As shown in figure~\ref{fig:result}, very similar results are achieved
+for each schematic without additional parameter tuning.  To determine
+this quantitatively, we perform registration for each schematic and
+then compare the Dice overlap of a ground-truth three-tissue
+segmentation.  For each result, we have the Dice overlap of dark
+tissue (cerebrospinal fluid, CSF), medium intensity tissue (gray
+matter) and bright tissue (white matter).  For the mean squares
+metric, we have: 0.588, 0.816 and 0.90; for CC, we have: 0.624, 0.786,
+0.882; for MI, we have: 0.645, 0.779, 0.858.  Mutual information does
+best for the CSF while mean squares does best for other tissues.  CC
+performs in the mid-range for all classes of tissue.  Thus, a single
+set of tuned parameters provides a reasonable result for an affine
+plus diffeomorphic mapping across three different metrics.  While
+improvement might be gained by further tuning for each metric, this
+result shows that our parameter estimation method achieves the goal of
+reducing user burden.
 \begin{figure}[t]
 \begin{center}
 \includegraphics[width=3.5in]{figs/three.pdf}
@@ -621,32 +629,20 @@ and, as such, this evaluation provides some insight into the benefit
 of the new \tk diffeomorphic matching.
 \begin{figure}[t]
 \begin{center}
-\includegraphics[width=3.5in]{figs/eval_brain.pdf}
-\caption{We define an affine schema as $I ~\approx_\text{mi}  \rightarrow
-J_i $ for affine mapping a set of $\{ J_i \}$ images
-to a template $I$.  We also define a composite schema as $I
+\includegraphics[width=4.5in]{figs/eval.pdf}
+\caption{We compare an ITKv4 composite schema as $I
 ~\approx_\text{cc}  \leftrightsquigarrow \approx_\text{mi}  \rightarrow
-J_i $ for affine mapping a set of $\{ J_i \}$ images
-to a template $I$.  We use this schematic in a registration-based
-brain extraction, from MRI, in an elderly population as a benchmark
-for algorithm performance, similar to \cite{Klein2010}.  Example images from the dataset are at left.   To gain an
-idea of performance variance with respect to template, we use each
-image in the set as template and map to all other images.  In this
-study, there are 10 images, thus leading to a total of 45
-registrations.  We compare a well-used and hand optimized
-implementation of multi-resolution gradient descent with the previous
-ITK release with that of the \tk framework where the \tk framework
-uses automatically adjusted parameter scales and the v4 implementation
-of the mutual information metric.  The metric for the v4 registration
-is based on that for v3.  For affine registration, the average brain parcenchyma Dice overlap
-for the v4 framework is 0.885, while that for v3 is 0.870.  The difference in performance is statistically
-significant (p $< 1.e-8$), as assessed with a paired t-test.  For
-deformable registration \tk produces an average Dice of 0.929, while
-ITK$^3$ leads to Dice of 0.925.  This difference is also significant
-at p$< 1.e-3$.Thus, our
-new approach to parameter estimation---and refactoring of the
-framework---has allowed us to improve performance even in the basic
-case of whole head registration for brain extraction.}
+J_i $ for mapping a set of $\{ J_i \}$ images
+to a template $I$ to a v3 schema:  $I
+~\approx_\text{mi} \rightsquigarrow_b    \approx_\text{mi}  \rightarrow
+J_i $.  We use this schematic in a registration-based
+segmentation of multiple brain structures in an elderly population as a benchmark
+for algorithm performance, similar to \cite{Klein2010}.  Example
+large-deformation results from the dataset are at right.  The largest
+improvement in performance is within hippocampus, where a 13\%
+improvement in v4 is gained.  Overlap improvement from v3 to v4, quantified via
+paired t-test, is significant.  The example pair of images will be
+included in v4 for regression testing.}
 \label{fig:eval}
 \end{center}
 \end{figure}
