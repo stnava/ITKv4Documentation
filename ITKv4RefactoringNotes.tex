@@ -1,9 +1,48 @@
-\documentclass{llncs}
-\newcommand{\Section}[1]{\vspace{-8pt}\section{\hskip-1em.~~#1}\vspace{-3pt}}
-\newcommand{\SubSection}[1]{\vspace{-3pt}\subsection{\hskip -1em.~~#1}\vspace{-3pt}}
-
+\newcommand{\tool}{\text{ANTsR}}
+\documentclass[11pt]{article}
+% Use Helvetica font.
+\usepackage{helvet}
+\usepackage{floatflt}
+\renewcommand{\familydefault}{\sfdefault}
 % \section{mathematical notation}
 \usepackage{hyperref,color}
+\usepackage[margin=0.5in]{geometry}
+% No page numbers.
+\pagestyle{empty}
+\newcommand{\instructions}[1]{}
+% Palatino font that NIH allows
+% \usepackage[T1]{fontenc}
+% \usepackage[sc]{mathpazo}
+% \linespread{1.05}
+% \setlength{\topmargin}{-50 pt}
+% \setlength{\headsep}{7pt}
+% \setlength{\footskip}{20pt}
+% \setlength{\oddsidemargin}{-0.5truein}
+% \setlength{\evensidemargin}{-0.5truein}
+% \setlength{\textwidth}{7.4truein}
+% \setlength{\textheight}{9.75truein}
+\usepackage{float,wrapfig}
+\usepackage[natbib=true,sorting=none,doi=false,url=false]{biblatex}
+% \floatstyle{boxed} 
+% \restylefloat{figure}
+\usepackage{hyperref,outline}
+\usepackage{soul,url,verbatim}
+\usepackage{amsmath,amssymb,amsfonts,graphicx,amsthm,colortbl}
+\usepackage{graphicx,subfigure}
+\usepackage{tabularx,ragged2e,booktabs,caption}
+\usepackage[usenames,dvipsnames]{xcolor}
+\newcommand{\R}{{\bf R}}
+\newcommand{\X}{{\bf X}}
+\newcommand{\Xh}{{\hat{{\bf X}}}}
+\newcommand{\x}{{\bf x}}
+\newcommand{\Y}{{\bf Y}}
+% \newcommand{\U}{{\bf U}}
+\newcommand{\V}{{\bf V}}
+\newcommand{\E}{{\bf E}}
+\newcommand{\y}{{\bf y}}
+\newcommand{\Z}{{\bf Z}}
+\newcommand{\z}{{\bf z}}
+\newcommand{\bSigma}{\boldsymbol \Sigma}
 \newcommand{\vect}[1]{\mathbf{#1}}
 \newcommand{\field}[1]{\mathbf{#1}}
 \newcommand{\image}[1]{#1}
@@ -21,7 +60,6 @@
 \newcommand{\dd}{\text{d}}
 \newcommand{\p}{\partial}
 \renewcommand{\L}{\Delta} % laplacian
-\newcommand{\R}{\mathbb{R}}
 \newcommand{\myS}{S}
 \newcommand{\myR}{R}
 \newcommand{\myE}{E}
@@ -34,15 +72,7 @@
 \newcommand{\Diff}{\text{Diff}}
 \newcommand{\VV}{\mathcal{V}}
 \newcommand{\opL}{\mathcal{L}}
-
-\newcommand{\X}{{\bf X}}
-\newcommand{\x}{{\bf x}}
-\newcommand{\Y}{{\bf Y}}
-\newcommand{\y}{{\bf y}}
-\newcommand{\Z}{{\bf Z}}
-\newcommand{\z}{{\bf z}}
 \newcommand{\bs}{\boldsymbol}
-\newcommand{\bSigma}{\boldsymbol \Sigma}
 \newcommand{\bsp}{$\substack{
    \rightsquigarrow \\
    b
@@ -60,14 +90,17 @@
 \usepackage{times}
 \usepackage{setspace,verbatim}
 \usepackage{epsfig}
+\bibliography{./itk}
+\AtEveryBibitem{\clearlist{language}} % clears language
+\AtEveryBibitem{\clearfield{note}}    % clears notes
 \begin{document}
 \vspace{-0.1in}
 \title{A unified image registration framework for ITK}
 \author{Brian B. Avants$^1$, Nicholas J. Tustison$^2$, Gang Song$^1$, Baohua Wu$^1$,
-  Michael Stauffer$^1$, Matthew M. McCormick$^3$, Hans J. Johnson$^4$,
+  Michael Stauffer$^1$, \\Matthew M. McCormick$^3$, Hans J. Johnson$^4$,
   James C. Gee$^1$ \\and the
-  $^5$\href{http://www.insightsoftwareconsortium.org/}{Insight Software Consortium}}
-\institute{$^1$Penn Image Computing and Science Lab \\ Dept. of Radiology \\University of
+  $^5$\href{http://www.insightsoftwareconsortium.org/}{Insight Software Consortium}\\
+$^1$Penn Image Computing and Science Lab \\ Dept. of Radiology \\University of
   Pennsylvania, Philadelphia, PA, 19104\\ 
   $^2$Dept. of Radiology and Medical Imaging, \\ University of Virginia,
   Charlottesville, VA 22903\\
@@ -75,23 +108,20 @@
   $^4$Kitware, Inc. \\ Clifton Park, NY 12065\\
   $^5$\href{http://www.insightsoftwareconsortium.org/}{http://www.insightsoftwareconsortium.org/}}
 \maketitle              
-\begin{abstract}
-Publicly available scientific resources help establish evaluation
-standards, provide a platform for teaching and may improve reproducibility.
-Version 4 of the Insight ToolKit (\tk) seeks to establish new
-standards in publicly available image registration methodology.  In this
-work, we provide an overview and preliminary evaluation of the revised
-toolkit against registration based on the previous major ITK version
-(3.20).  Furthermore, we propose a nomenclature that may be used to
-discuss registration frameworks via schematic representations.  In
-total, the \tk contribution is intended as a structure to support
-reproducible research practices, will provide a more extensive
-foundation against which to evaluate new work in image registration
-and also enable application level programmers a broad suite of tools
-on which to build. \footnote{This
-  work is supported by National Library of Medicine sponsored ARRA
-  stimulus funding.}  
-\end{abstract}
+\section{Abstract}
+Publicly available scientific resources determine evaluation
+standards, provide a platform for teaching and may improve
+reproducibility.  The image registration team, centered at the
+University of Pennsylvania's Penn Image Computing and Science
+Laboratory, established new standards in publicly available image registration
+methodology in Version 4 of the Insight ToolKit (\tk).  In this work,
+we provide an overview of the revised toolkit.  In total, the \tk contribution is intended
+as a structure to support reproducible research practices, will
+provide a more extensive foundation against which to evaluate new work
+in image registration and also enable application level programmers a
+broad suite of tools on which to build. \footnote{This work is
+supported by National Library of Medicine sponsored ARRA stimulus
+funding.}
 
 \section{Introduction}
 As image registration methods mature---and their capabilities become
@@ -366,7 +396,6 @@ $\mathcal{T}$.  Multi-threading is achieved in the gradient computation, transfo
 step and (if used) the regularization by dividing the parameter set
 into computational units that correspond to contiguous sub-regions of the image domain.
 
-\begin{comment}{
 In terms of code, $\frac{d\phi}{dp}|_x$ corresponds to {\em
 ComputeJacobianWithRespectToParameters( mappedFixedPoint, Jacobian);
 }.  Note that it is evaluated at point $x$ not at point $\phi(x,p)$.  We
@@ -388,8 +417,7 @@ In code, we use {\em ComputeMovingImageGradientAtIndex( index,
 mappedMovingImageGradient );} to get $\frac{dJ_w}{dx}$ and transform
 this image gradient via the inverse Jacobian by calling 
 {\em mappedMovingImageGradient=
-TransformCovariantVector(mappedMovingImageGradient, mappedMovingPoint ); }
-}\end{comment}
+TransformCovariantVector(mappedMovingImageGradient, mappedMovingPoint ); }.
 
 
 \subsection{Parameter scale estimation}
@@ -854,6 +882,216 @@ T(\x) =\y = [A(\theta)] \phi(\x)= [A(\theta)] (\x+U(\x)) \\ \notag
 \end{eqnarray}
 }
 \end{comment}
-\bibliographystyle{splncs03}
-\bibliography{./itk}
+
+
+The overall purpose of the registration refactoring for ITKv4 was to simplify the user experience and to accelerate and improve performance. Below, we summarize current progress toward the original goals of the team where bold-faced quotations are taken from our contract application:
+
+\noindent{\bf Image registration should be achievable in one step:}
+This overarching goal is best illustrated by Modules/Registration/RegistrationMethodsv4/ in which a user may string together a series of registration tools to perform (for instance) a translation registration, followed by an affine registration, followed by a diffeomorphic mapping each of which might use a different image similarity metric.  The different transforms are accumulated in the new ITKCompositeTransform (Modules/Core/Transform/include/itkCompositeTransform.h).  Thus, this framework provides unprecedented ability to perform complex and staged registration mappings.  Furthermore, as shown in a paper accepted to the Workshop on Biomedical Image Registration 2012 (WBIR2012), the framework’s automated parameter scaling (e.g. Modules/Numerics/Optimizersv4/include/itkRegistrationParameterScalesEstimator.h) vastly reduces the difficulty of tuning parameters for different transform/metric combinations (see https://github.com/stnava/ITKv4Documentation/tree/wbir2012).  A second WBIR 2012 submission by Tustison \& Avants shows that the ITKv4 framework also allows a BSpline-based extension to the top-ranked SyN registration method that may outperform the original algorithm.  Thus, the contributed technology not only updates v3 but also provides technological advances, including new SyN implementations and an improvement to the Large Deformation Diffeomorphic Metric Mapping (LDDMM) algorithm of Michael I. Miller.  
+
+\noindent{\bf Registration mappings should be applicable to a number of popular data
+types, including DTI:}
+
+Our revisions to the ITK transform hierarchy validated and extended the v3 transforms for thread safety and applicability to not only vectors but also tensors.  Reorientation steps necessary for diffusion tensor mappings are also included.   
+
+\noindent{\bf Affine and deformable similarity metrics should look as similar as possible:}
+The Metricsv4 framework supports this goal in that it is as trivial to
+implement a “mutual information” Demons algorithm as it is to
+implement a “sum of squared differences” BSpline or affine
+registration algorithm.  Thus, full “plug-and-play” support exists
+across transforms.   BSplines also work with the automated parameter scale estimation that we contributed.  
+
+\noindent{\bf Users should be able to combine multiple similarity metrics, some of which may operate on different data types: }
+This is achievable with the existing itkMultiGradientOptimizerv4,
+through the multivariate metric or through the multi-channel metric
+all of which were contributed in 2012.
+
+\noindent{\bf Flexible choice of optimizers and transformations:  }
+See ITK/Modules/Numerics/Optimizersv4/ for a set of optimizers that are applicable to both linear and deformable transformations, which include convergence monitoring and which enable 2nd order optimization (itkQuasiNewtonOptimizerv4), multiple objective optimization (itkMultiGradientOptimizerv4), or global optimization (itkMultiStartOptimizerv4).  
+
+\noindent{\bf GPU and multi-core acceleration will open up new applications for image registration:  }
+See .//Modules/Registration/GPUPDEDeformable and the new metric framework in Modules/Registration/Metricsv4/ which exploits N cores to accelerate metric, gradient and optimization steps.  
+
+We now comment on our progress toward overall project themes.
+
+\noindent{\bf Simplification:}
+The automated parameter scaling routines developed as part of the v4 project have now been tested in a variety of contexts and shown to reliably map the gradient parameters into a flat, linear space with well-defined units (image spacing). For standard registration methods, this means that only one parameter tunes the performance and the range of the parameter exploration space is much narrower than in previous versions of ITK. Typically useful gradient descent parameters take on optimal values lying within the 0.5 - 1 range and, remarkably, this is the case across multiple different transformation models including translation, affine, B-Spline (a significant speed-up and improved performance over what existed previously) and diffeomorphic mappings. This simplification will drastically reduce the user time needed to set up a registration pipeline. 
+
+\noindent{\bf Acceleration:}
+A recent real-world application of the new Insight ToolKit implementation of the symmetric normalization algorithm showed a speed-up of almost a factor of six when comparing single core to eight core execution time. This speed-up is achieved by multi-threading the similarity metric, the gradient descent update, the regularization terms and the composition components of the method. Thus, every essential step exploits intrinsic parallelism in the algorithm. Decreased execution time means more rapid turnaround for users, faster turn-around in testing and higher throughput on large-scale computing tasks.  Furthermore, our GPU demons implementation is currently available in v4 for testing and further refinement.
+
+\noindent{\bf Improved performance:}
+An evaluation of the revised registration pipeline showed considerable improvement in performance in comparison to the best registration available in previous versions of ITK. In a brain mapping study, we found that ITKv4 significantly improves brain overlap in a number of structures when compared to ITKv4. 
+
+\noindent{\bf Other technical advances:}
+A multivariate optimizer was contributed. A multivariate metric and multi-channel extensions to the image metric framework are currently being refined for inclusion to v4 by summer. 
+
+The multi-level and multi-stage v4 registration pipeline was fully refactored such that it is easily included in the SimpleITK scripting environment and the NAMIC-sponsored Slicer project.
+
+The symmetric normalization algorithm, in two forms, was contributed and finalized in the v4 registration pipeline. Both a fast version that implements digital diffeomorphisms is available as well as a more time-consuming continuous diffeomorphic implementation. Both methods are easily combined with the host of new similarity metrics available in v4 which include: Mattes mutual information, global correlation, fast neighborhood correlation, and two intensity difference metrics. 
+
+We also contributed a novel B-Spline based diffeomorphic method which will be presented, along with a separate paper that provides an overview of the new framework, at the Workshop on Biomedical Image Registration in summer 2012.
+
+Finally, we reiterate some of our contributions through quantitative metrics:
+\begin{itemize}
+\item $\star$ 22 new multi-threaded image registration metrics are available in v4 with a few of these being refactored. A minimum of 3 more implementing multivariate approaches will be contributed by summer.
+
+\item $\star$ 4 application-level registration methods are available for high-level inclusion in SimpleITK and related projects.
+
+\item $\star$ A new optimization framework that is multi-threaded and includes gradient descent and 2nd order (quasi-Newton) approaches with automated parameter setting specifically designed for registration.
+
+\item $\star$ All contributions are unit-tested and have greater than 85% code coverage, in accordance with ITK standards.
+
+\item $\star$ An example-based tutorial for the new framework was presented at SPIE 2012 by Nicholas Tustison.
+
+\item $\star$ A complete refactoring of the ITK transform hierarchy that makes transforms thread-safe, applicable to high-dimensional optimization and easily used in multi-core computing. 41 classes, in total, were impacted by this refactoring.
+
+\item $\star$ Transform adaptors that allow all ITK transforms to be used in the same multi-resolution framework. 
+
+Vector support for the nearest neighbor and linear interpolators as well as two new Gaussian interpolators.
+
+\item $\star$ An example of vector support for image metrics is in : itkMeanSquaresImageToImageMetricv4VectorRegistrationTest.cxx.
+\end{itemize}
+
+Future work will extend the approaches here with additional support
+for diffusion tensor registration and additional evaluation.
+
+
+\noindent{\bf Deliverables}
+
+ANTSNeighborhoodCorrelationImageToImageMetricv4
+
+ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreader
+
+BSplineSmoothingOnUpdateDisplacementFieldTransform
+
+BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor 
+
+BSplineSyNImageRegistrationMethod
+
+BSplineTransform
+
+BSplineTransformInitializer
+
+BSplineTransformParametersAdaptor
+
+ComposeDisplacementFieldsImageFilter
+
+CompositeTransform
+
+CompositeTransformIOHelper
+
+ConvergenceMonitoringFunction
+
+CSVArray2DDataObject
+
+CSVArray2DFileReader
+
+CSVFileReaderBase
+
+CSVNumericObjectFileWriter 
+
+DemonsImageToImageMetricv4
+
+DemonsImageToImageMetricv4DenseGetValueAndDerivativeThreader
+
+DisplacementFieldToBSplineImageFilter
+
+DisplacementFieldTransform 
+
+DisplacementFieldTransformParametersAdaptor
+
+EuclideanDistancePointSetToPointSetMetricv4
+
+ExpectationBasedPointSetToPointSetMetricv4
+
+GaussianInterpolateImageFunction
+
+GaussianSmoothingOnUpdateDisplacementFieldTransform 
+
+GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor
+
+GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform
+
+GradientDescentOptimizerBasev4
+
+GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreader
+
+GradientDescentOptimizerBasev4ModifyGradientByScalesThreader
+
+GradientDescentOptimizerv4
+
+ImageRegistrationMethodv4
+
+ImageToImageMetricv4
+
+ImageToImageMetricv4GetValueAndDerivativeThreader
+
+ImageToImageMetricv4GetValueAndDerivativeThreaderBase
+
+InvertDisplacementFieldImageFilter
+
+JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4 
+
+JointHistogramMutualInformationComputeJointPDFThreader
+
+JointHistogramMutualInformationComputeJointPDFThreaderBase
+
+JointHistogramMutualInformationGetValueAndDerivativeThreader
+
+JointHistogramMutualInformationImageToImageMetricv4 
+
+LabelImageGaussianInterpolateImageFunction
+
+ManifoldParzenWindowsPointSetFunction
+
+MattesMutualInformationImageToImageMetricv4
+
+MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader
+
+MeanSquaresImageToImageMetricv4
+
+MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader
+
+OptimizerParameters
+
+OptimizerParameterScalesEstimator
+
+OptimizerParametersHelper
+
+PointSetToPointSetMetricv4
+
+QuasiNewtonOptimizerv4 
+
+QuasiNewtonOptimizerv4EstimateNewtonStepThreader
+
+RegistrationParameterScalesEstimator
+
+RegistrationParameterScalesFromJacobian
+
+RegistrationParameterScalesFromShift
+
+SyNImageRegistrationMethod 
+
+TimeVaryingBSplineVelocityFieldImageRegistrationMethod
+
+TimeVaryingBSplineVelocityFieldTransform
+
+TimeVaryingBSplineVelocityFieldTransformParametersAdaptor
+
+TimeVaryingVelocityFieldImageRegistrationMethodv4
+
+TimeVaryingVelocityFieldIntegrationImageFilter
+
+TimeVaryingVelocityFieldTransform
+
+\noindent{\bf Major Fixes}
+
+KdTree
+
+PointsLocator 
+
+CentralDifferenceImageFunction
+
+\printbibliography
 \end{document}
