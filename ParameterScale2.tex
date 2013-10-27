@@ -1,0 +1,48 @@
+\documentclass{letter}
+\usepackage{geometry,amsmath,amssymb}
+\geometry{letterpaper}
+
+%%%%%%%%%% Start TeXmacs macros
+\newcommand{\subsection}[1]{\medskip\bigskip
+
+\noindent\textbf{\Large #1}}
+\newcommand{\tmop}[1]{\ensuremath{\operatorname{#1}}}
+%%%%%%%%%% End TeXmacs macros
+
+\begin{document}
+
+\title{Parameter Scales Estimation}\author{PICSL, UPENN}\maketitle
+
+\subsection{1. Parameter Scales Estimation}
+
+We estimate the scales of transform parameters from their impacts on
+deformation. Let us denote the parameters by $p = (p_1, p_2 \ldots p_n)$, and
+the transform function by $T (x)$. The impact $s_i$ from a unit change of
+parameter $p_i$ may be defined in multiple ways, such as the maximum shift of
+voxels or the average norm of transform Jacobians.
+
+The gradient descent step in $p$ is $\vartriangle p = \frac{\partial
+T}{\partial p}$. If we rescale $p$ to $q = s \cdot p$ where $s$ is a diagonal
+matrix $\tmop{diag} (s_1, s_2 \ldots s_n)$, a unit change of $q_i$ will have
+the same impact on deformation for $i = 1... n$. Now the gradient descent step
+in $q$ becomes $\vartriangle q = \frac{\partial T}{\partial q} =
+\frac{\partial T}{\partial p} \cdot s^{- 1}$. And in space of $p$, the step
+becomes $\vartriangle p' = \vartriangle q \cdot s^{- 1} = \frac{\partial
+T}{\partial p} \cdot s^{- 2}$. That is, we use the squared reciprocal of the
+deformation impacts from parameters as the gradient scales.
+
+\subsection{2. Step Size Estimation}
+
+Since the descrete image gradient may become invalid beyond one voxel, it is a
+good practice to limit a deformation step to one voxel spacing[1]. We allow
+users to specify a maximum displacement to normalize a gradient step.
+
+
+
+[1] M. Jenkinson and S.M. Smith, "A global optimisation method for robust
+affine registration of brain images," Medical Image Analysis, vol. 5(2), pp.
+143-156, June 2001.
+
+
+
+\end{document}

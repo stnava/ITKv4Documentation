@@ -1,0 +1,7 @@
+ford.jpg : cars_diff.nii.gz => MI -0.945463
+ford.jpg : cars_diff.nii.gz => MI -0.896218
+ford.jpg : cars_diff.nii.gz => MI -0.916077
+ford.jpg : cars_diff.nii.gz => MI -1.00768
+ford.jpg : cars_diff.nii.gz => MI -1.00791
+ford.jpg : cars_diff.nii.gz => MI -1.07124
+ford.jpg : cars_diff.nii.gz => MI -0.96958
