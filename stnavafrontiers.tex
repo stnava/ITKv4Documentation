@@ -1,35 +1,36 @@
-\newcommand{\tool}{\text{ANTsR}}
-\documentclass[11pt]{article}
-% Use Helvetica font.
-\usepackage{helvet}
-\usepackage{floatflt}
-\renewcommand{\familydefault}{\sfdefault}
-% \section{mathematical notation}
-\usepackage{hyperref,color}
-\usepackage[margin=0.5in]{geometry}
-% No page numbers.
-\pagestyle{empty}
-\newcommand{\instructions}[1]{}
-% Palatino font that NIH allows
-% \usepackage[T1]{fontenc}
-% \usepackage[sc]{mathpazo}
-% \linespread{1.05}
-% \setlength{\topmargin}{-50 pt}
-% \setlength{\headsep}{7pt}
-% \setlength{\footskip}{20pt}
-% \setlength{\oddsidemargin}{-0.5truein}
-% \setlength{\evensidemargin}{-0.5truein}
-% \setlength{\textwidth}{7.4truein}
-% \setlength{\textheight}{9.75truein}
-\usepackage{float,wrapfig}
-\usepackage[natbib=true,sorting=none,doi=false,url=false]{biblatex}
-% \floatstyle{boxed} 
-% \restylefloat{figure}
+%\documentclass[preprint,authoryear,review,12pt]{elsarticle}
+\documentclass{frontiersSCNS}
+%% Use the option review to obtain double line spacing
+%% \documentclass[preprint,review,12pt]{elsarticle}
+
+%% Use the options 1p,two column; 3p; 3p,twocolumn; 5p; or 5p,twocolumn
+%% for a journal layout:
+%% \documentclass[final,1p,times]{elsarticle}
+%% \documentclass[final,1p,times,twocolumn]{elsarticle}
+%% \documentclass[final,3p,times]{elsarticle}
+%% \documentclass[final,3p,times,twocolumn]{elsarticle}
+%% \documentclass[final,5p,times]{elsarticle}
+%% \documentclass[final,5p,times,twocolumn]{elsarticle}
+
+
+\usepackage{color}
+\usepackage{multirow,booktabs,ctable,array}
+\usepackage{lscape}
+\usepackage{amsmath}
+\usepackage{lineno}
+\usepackage{ulem}
+\usepackage{setspace}
+\usepackage{listings}
+\usepackage{float}
+\usepackage{amssymb}
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
 \usepackage{hyperref,outline}
 \usepackage{soul,url,verbatim}
 \usepackage{amsmath,amssymb,amsfonts,graphicx,amsthm,colortbl}
 \usepackage{graphicx,subfigure}
-\usepackage{tabularx,ragged2e,booktabs,caption}
+\usepackage{tabularx,ragged2e,booktabs}
 \usepackage[usenames,dvipsnames]{xcolor}
 \newcommand{\R}{{\bf R}}
 \newcommand{\X}{{\bf X}}
@@ -65,7 +66,6 @@
 \newcommand{\myE}{E}
 \newcommand{\ld}{\langle}
 \newcommand{\rd}{\rangle}
-\newcommand{\LL}{\mathcal{L}} % operator L
 \newcommand{\tQ}{\mathcal{Q}}
 \newcommand{\Id}{\text{Id}}
 \newcommand{\tG}{{G}} % operator L
@@ -86,16 +86,142 @@
    \text{cc}
   }$}
 \newcommand{\tk}{~ITK$^{\text{4}}$~}
-\usepackage{amsmath,amssymb,algorithm,algorithmic}
+\usepackage{amsmath,amssymb}
 \usepackage{times}
 \usepackage{setspace,verbatim}
 \usepackage{epsfig}
-\bibliography{./itk}
-\AtEveryBibitem{\clearlist{language}} % clears language
-\AtEveryBibitem{\clearfield{note}}    % clears notes
+
+
+\usepackage[english]{babel}
+
+
+\floatstyle{plain}
+\newfloat{command}{thp}{lop}
+\floatname{command}{Command}
+
+%\usepackage[nomarkers,notablist]{endfloat}
+
+%% if you use PostScript figures in your article
+%% use the graphics package for simple commands
+%% \usepackage{graphics}
+%% or use the graphicx package for more complicated commands
+%% \usepackage{graphicx}
+%% or use the epsfig package if you prefer to use the old commands
+%% \usepackage{epsfig}
+
+%% The amssymb package provides various useful mathematical symbols
+%% The amsthm package provides extended theorem environments
+% \usepackage{amsthm}
+
+
+%% The lineno packages adds line numbers. Start line numbering with
+%% \begin{linenumbers}, end it with \end{linenumbers}. Or switch it on
+%% for the whole article with \linenumbers after \end{frontmatter}.
+%% \usepackage{lineno}
+
+%% natbib.sty is loaded by default. However, natbib options can be
+%% provided with \biboptions{...} command. Following options are
+%% valid:
+
+%%   round  -  round parentheses are used (default)
+%%   square -  square brackets are used   [option]
+%%   curly  -  curly braces are used      {option}
+%%   angle  -  angle brackets are used    <option>
+%%   semicolon  -  multiple citations separated by semi-colon
+%%   colon  - same as semicolon, an earlier confusion
+%%   comma  -  separated by comma
+%%   numbers-  selects numerical citations
+%%   super  -  numerical citations as superscripts
+%%   sort   -  sorts multiple citations according to order in ref. list
+%%   sort&compress   -  like sort, but also compresses numerical citations
+%%   compress - compresses without sorting
+%%
+%% \biboptions{comma,round}
+
+% \biboptions{}
+
+\providecommand{\OO}[1]{\operatorname{O}\bigl(#1\bigr)}
+
+\graphicspath{{./Figures/}
+              {./Results/}}
+
+\long\def\symbolfootnote[#1]#2{\begingroup%
+\def\thefootnote{\fnsymbol{footnote}}\footnote[#1]{#2}\endgroup}
+
+    \usepackage{color}
+
+    \definecolor{listcomment}{rgb}{0.0,0.5,0.0}
+    \definecolor{listkeyword}{rgb}{0.0,0.0,0.5}
+    \definecolor{listnumbers}{gray}{0.65}
+    \definecolor{listlightgray}{gray}{0.955}
+    \definecolor{listwhite}{gray}{1.0}
+
+\newcommand{\lstsetcpp}
+{
+\lstset{frame = tb,
+        framerule = 0.25pt,
+        float,
+        fontadjust,
+        backgroundcolor={\color{listlightgray}},
+        basicstyle = {\ttfamily\scriptsize},
+        keywordstyle = {\ttfamily\color{listkeyword}\textbf},
+        identifierstyle = {\ttfamily},
+        commentstyle = {\ttfamily\color{listcomment}\textit},
+        stringstyle = {\ttfamily},
+        showstringspaces = false,
+        showtabs = false,
+        numbers = none,
+        numbersep = 6pt,
+        numberstyle={\ttfamily\color{listnumbers}},
+        tabsize = 2,
+        language=[ANSI]C++,
+        floatplacement=!h,
+        caption={},
+        captionpos=b,
+        }
+}
+
+\providecommand{\e}[1]{\ensuremath{\times 10^{#1}}}
+
+\copyrightyear{}
+\pubyear{}
+
+\def\journal{Neuroscience}%%% write here for which journal %%%
+\def\DOI{}
+\def\articleType{Methods}
+\def\keyFont{\fontsize{8}{11}\helveticabold }
+%\def\firstAuthorLast{Tustison {et~al.}} %use et al only if is more than 1 author
+\def\firstAuthorLast{Avants and Gee} %use et al only if is more than 1 author
+\def\Authors{Brian B. Avants, Nicholas J. Tustison\,$^{1,*}$ and James C. Gee\,$^{2}$
+ }
+% Affiliations should be keyed to the author's name with superscript numbers and be listed as follows: Laboratory, Institute, Department, Organization, City, State abbreviation (USA, Canada, Australia), and Country (without detailed address information such as city zip codes or street names).
+% If one of the authors has a change of address, list the new address below the correspondence details using a superscript symbol and use the same symbol to indicate the author in the author list.
+\def\Address{$^{1}$University of Virginia, Department of Radiology and Medical Imaging, Charlottesville, VA, USA \\
+$^{2}$Penn Image Computing and Science Laboratory, University of Pennsylvania, Department of Radiology, Philadelphia, PA, USA }
+% The Corresponding Author should be marked with an asterisk
+% Provide the exact contact address (this time including street name and city zip code) and email of the corresponding author
+\def\corrAuthor{Brian B. Avants}
+\def\corrAddress{University of Pennsylvania, Department of Radiology,
+  3600 Market St, Philadelphia, PA, 19104}
+\def\corrEmail{avants@grasp.cis.upenn.edu}
 \begin{document}
-\vspace{-0.1in}
-\title{A unified image registration framework for ITK}
+\onecolumn
+\firstpage{1}
+
+\title[ITKv4 Image Registration]{A unified image registration
+  framework for the Insight ToolKit}
+\author[\firstAuthorLast ]{\Authors}
+\address{}
+\correspondance{}
+\editor{}
+\topic{}
+
+\maketitle
+
+%\linenumbers
+
+
+\begin{comment}
 \author{Brian B. Avants$^1$, Nicholas J. Tustison$^2$, Gang Song$^1$, Baohua Wu$^1$,
   Michael Stauffer$^1$, \\Matthew M. McCormick$^3$, Hans J. Johnson$^4$,
   James C. Gee$^1$ \\and the
@@ -107,8 +233,8 @@ $^1$Penn Image Computing and Science Lab \\ Dept. of Radiology \\University of
   $^3$Department of Psychiatry \\The University of Iowa, IA 52242\\
   $^4$Kitware, Inc. \\ Clifton Park, NY 12065\\
   $^5$\href{http://www.insightsoftwareconsortium.org/}{http://www.insightsoftwareconsortium.org/}}
-\maketitle              
-\section{Abstract}
+\end{comment}
+\begin{abstract}
 Publicly available scientific resources determine evaluation
 standards, provide a platform for teaching and may improve
 reproducibility.  The image registration team, centered at the
@@ -122,6 +248,7 @@ in image registration and also enable application level programmers a
 broad suite of tools on which to build. \footnote{This work is
 supported by National Library of Medicine sponsored ARRA stimulus
 funding.}
+\end{abstract}
 
 \section{Introduction}
 As image registration methods mature---and their capabilities become
@@ -211,7 +338,7 @@ algorithm pictorially.  This nomenclature is intended to be a
 descriptive, but also technically consistent, system for visually
 representing algorithms and applications of registration.  Ideally,
 any standard algorithm can be written in the nomenclature below.
-\begin{description}
+\begin{enumerate}
 \item [A physical point:] $x \in \Omega$ where $\Omega$ is the domain,
   usually of an image.
 \item [An image:]  $ I \colon \Omega^d \to \mathbb{R}^n$ where $n$ is the
@@ -253,7 +380,7 @@ $\rightarrow J = J( A( x ) ) $.
 % \item [Pathology] appearance changes ...
 % \item [whole body atlas] map any image to whole body
 % \item [radiation oncology] techs understand translation versus rotation versus deformation.
-\end{description}
+\end{enumerate}
 We would then write a standard Demons registration application that maps 
 one image, $J$, into the space of $I$ (presumably a template) as:
 $$
@@ -491,7 +618,9 @@ space.  The unit time interval is discretized into 15 segments in
 order to compute this mapping.  15*5 integration steps were used in
 the Runge-Kutta {\em ode} integration over the velocity field.  A two
 core MacBook Air computed this registration in 110 seconds.  The images
-each were of size $150 \times 150$.}
+each were of size $150 \times 150$.  See
+\href{http://stnava.github.io/C/}{C} for a reproducible example of
+this registration and the data.}
 \label{fig:chalf}
 \end{center}
 \end{figure}
@@ -567,10 +696,9 @@ publications.
 We first investigate the ability of our automated parameter estimation
 to facilitate parameter tuning across metrics.  We then compare \tk
 with an open-source ITK$^3$ registration application.
-In the future, the latest evaluation numbers will be available at:~\textcolor{blue}{
-\href{https://github.com/stnava/ITKv4Documentation/tree/wbir2012}{ITKv4 latest
+The latest evaluation numbers will be available at:
+~\textcolor{blue}{\href{https://github.com/ntustison/BSplineMorphisms}{ITKv4 latest
   evaluation results}}.
-% \url{github.com/stnava/ITKv4Documentation}.
 
 \noindent{\bf Parameter estimation across metrics.}
 \tk provides similarity metrics that may be applied for both
@@ -1093,5 +1221,6 @@ PointsLocator
 
 CentralDifferenceImageFunction
 
-\printbibliography
+\bibliographystyle{frontiersinSCNS}
+\bibliography{itk}
 \end{document}
