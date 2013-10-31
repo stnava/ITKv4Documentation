@@ -626,15 +626,17 @@ have a consistent effect, for a given $\lambda$, regardless of the metric choice
 
 \begin{enumerate}
 
-  \item We use updated ITK methods in template construction with a
+  \item~\href{https://github.com/stnava/BasicBrainMapping}{Basic Brain Mapping}.
+
+  \item~We use updated ITK methods in template construction with a
     reproducible example based on face and brain data:
     \href{https://github.com/ntustison/TemplateBuildingExample}{ANTs
       template construction}.  % done
 
-  \item A \href{http://stnava.github.io/C/}{large deformation
+  \item~A \href{http://stnava.github.io/C/}{large deformation
       example}. % done
 
-  \item ITK uses LPS coordinates to represent physical space.  If you
+  \item~ITK uses LPS coordinates to represent physical space.  If you
     need to convert landmarks to physical space, see the discussion here:
     \href{http://sourceforge.net/p/advants/discussion/840261/thread/2a1e9307/}{LPS
       physical
@@ -642,38 +644,38 @@ have a consistent effect, for a given $\lambda$, regardless of the metric choice
     coordinates and apply to landmarks
     \href{http://stnava.github.io/chicken/}{here}. % done
 
-  \item time series data
+  \item~time series data
     \href{https://github.com/stnava/ANTs/blob/master/Scripts/antsMotionCorrExample}{here}. % done
 
-   \item  An advanced example with heavy use of statistics via {\em
+   \item~ An advanced example with heavy use of statistics via {\em
        R} and \href{http://stnava.github.io/ANTsR/}{{\em ANTsR}} is
        \href{http://stnava.github.io/RfMRI/}{fmri analysis} on public data. % done
 
-  \item classic car example \href{http://stnava.github.io/cars/}{here}. % done
+  \item~classic car example \href{http://stnava.github.io/cars/}{here}. % done
 
-  \item A basic \href{http://stnava.github.io/butterfly/}{multistart example}.  A more advanced
+  \item~A basic \href{http://stnava.github.io/butterfly/}{multistart example}.  A more advanced
     example for brain mapping with a template mask is available in
     {\em antsCorticalThickness.sh}. % done
 
-   \item   This \href{http://stnava.github.io/asymmetry/}{asymmetry
+   \item~  This \href{http://stnava.github.io/asymmetry/}{asymmetry
        analysis} example uses the ``virtual domain'' feature to reduce
      bias.  % done 
 
-  \item landmarks / points e.g. initialize CAP data with heart center
+  \item~landmarks / points e.g. initialize CAP data with heart center
     ---
     multivariate. \href{http://stnava.github.io/LabelMyHeart/}{multivariate
     registration guided by (crude) labels}.
 
-  \item multivariate example ( as in SATA 2013 ) \href{http://stnava.github.io/LabelMyHeart/}{multivariate
+  \item~multivariate example ( as in SATA 2013 ) \href{http://stnava.github.io/LabelMyHeart/}{multivariate
     registration guided by (crude) labels}.
 
- \item A simple orange to apple RGB image registration example for
+ \item~A simple orange to apple RGB image registration example for
    color images is listed as
    \href{https://github.com/Kitware/ITK/blob/master/Modules/Registration/Metricsv4/test/CMakeLists.txt}{itkMeanSquaresImageToImageMetricv4VectorRegistrationTest}.
    If one compiles the ITK tests, then this example can be run to
    produce figure~\ref{fig:appleorange}.
 
-   \item unbiased map - initial fixed image transform is used in \href{http://stnava.github.io/asymmetry/}{asymmetry analysis}
+   \item~unbiased map - initial fixed image transform is used in \href{http://stnava.github.io/asymmetry/}{asymmetry analysis}
 
 
 
@@ -692,8 +694,8 @@ have a consistent effect, for a given $\lambda$, regardless of the metric choice
 \begin{figure}[t]
 \begin{center}
 \begin{tabular}{c}
-\includegraphics[height=1.1in]{figs/c_chalf.pdf}
-\includegraphics[height=1.1in]{figs/c_half_c_grids.pdf}
+\includegraphics[height=1.6in]{figs/c_chalf.pdf}
+\includegraphics[height=1.6in]{figs/c_half_c_grids.pdf}
 \end{tabular}
 \caption{\baselineskip 12pt \small An ITK diffeomorphic mapping of the
   type $I \leftrightsquigarrow J $.  The 
@@ -936,14 +938,14 @@ framework.
 \section{Deliverables}
 \subsection{Usability}
 \begin{description}
-\item [Automate parameter scaling] base this on empirical statistics
+\item~[Automate parameter scaling] base this on empirical statistics
   ``learning'' on a per registration problem basis.
-\item [GetParameterSuggestion] metric and trasformation classes should
+\item~[GetParameterSuggestion] metric and trasformation classes should
   recommend parameters from a developer-defined set.
-\item [Multi-core implementations] multi threading of metric,
+\item~[Multi-core implementations] multi threading of metric,
   regularization, parameter update, etc.  stephen indicates that the
   setparameters function may cause problems.   
-\item [Unify the dense and sparse frameworks] metrics and
+\item~[Unify the dense and sparse frameworks] metrics and
   transformations should be reusable across frameworks. 
 \end{description}
 
@@ -952,27 +954,27 @@ Transform vectors, curves and tensors with reorientation.
 
 \subsection{Metrics}
 \begin{description}
-\item [metrics]  derivatives should be bi-directional.
-\item [MI and NMI]  Shreyas --- MI and NMI multicore. 
-\item [ATG Neighborhood Cross Correlation] our approximation to the
+\item~[metrics]  derivatives should be bi-directional.
+\item~[MI and NMI]  Shreyas --- MI and NMI multicore. 
+\item~[ATG Neighborhood Cross Correlation] our approximation to the
   NCC derivative.  
-\item [PSE Metric] with arbitrary data type.  ObjectMetric ...
-\item [Tractography/vector flow metric]  vector based.  distance transform?
-\item [Multivariate metric] plug in metrics and weights and a
+\item~[PSE Metric] with arbitrary data type.  ObjectMetric ...
+\item~[Tractography/vector flow metric]  vector based.  distance transform?
+\item~[Multivariate metric] plug in metrics and weights and a
   ``combination'' strategy.  e.g. match 1-norm, 2-norm, etc before weighting. 
 \end{description}
 
 \subsection{Transformations}
 \begin{description}
-\item [BSpline]  Nick DMFFD and refactoring , bug fixing.  Usability
+\item~[BSpline]  Nick DMFFD and refactoring , bug fixing.  Usability
   and speed. 
-\item [Composite transformation] need to get the composite derivatives
+\item~[Composite transformation] need to get the composite derivatives
   right. 
-\item [Deformation and rotation transform] have jeff implement.
+\item~[Deformation and rotation transform] have jeff implement.
   smooth rotation component internally (after update parameters).
-\item [Velocity field] with fourth order integration.
-\item [Reorientation transformation and derivative]  tensor and vector. 
-\item [Rigid and deformable]  takes a mask that defines which parts
+\item~[Velocity field] with fourth order integration.
+\item~[Reorientation transformation and derivative]  tensor and vector. 
+\item~[Rigid and deformable]  takes a mask that defines which parts
   are deformable and which are rigid.  the rigid parts are fixed by
   pre-computation.  the deformable parts are modified according to a
   registration strategy.  
@@ -987,25 +989,25 @@ identity) in addition to the demons metric.
 \subsection{Longitudinal and serial registration}
 Facilitate through transformations and regularization and unbiased design.
 \begin{description}
-\item [longitudinal] multiple images of the same subject over a longer time-scale.
-\item [serial or time series] multiple images of the same subject or
+\item~[longitudinal] multiple images of the same subject over a longer time-scale.
+\item~[serial or time series] multiple images of the same subject or
   scene with high frequency sampling (samples that are dense in time).
-\item [Longitudinal Image] Given a set of 3D images sampled
+\item~[Longitudinal Image] Given a set of 3D images sampled
   longitudinally (see above), we package these $n$ images---along with
   $n$ rigid or affine transforms that map them to a common
   domain---into a standard itk image 
   interface.
-\item [Serial image] this concept may already be supported.
+\item~[Serial image] this concept may already be supported.
 \end{description}
 
 \subsection{Algorithms}
 \begin{description}
-\item [SyN]  fully unbiased and lives as an algorithm (not
+\item~[SyN]  fully unbiased and lives as an algorithm (not
   multi-resolution) within ITK.   Multi-resolution SyN is a 2nd
   algorithm.  
-\item [DMFFD] nick's style---greg's?
-\item [Longitudinal Diffeomorphic Mapping] gang's version.
-\item [vector versions of above]  ... with reorientation in
+\item~[DMFFD] nick's style---greg's?
+\item~[Longitudinal Diffeomorphic Mapping] gang's version.
+\item~[vector versions of above]  ... with reorientation in
   transform.  also in optimization?
 \end{description}
 
@@ -1150,23 +1152,23 @@ We also contributed a novel B-Spline based diffeomorphic method which will be pr
 
 Finally, we reiterate some of our contributions through quantitative metrics:
 \begin{itemize}
-\item $\star$ 22 new multi-threaded image registration metrics are available in v4 with a few of these being refactored. A minimum of 3 more implementing multivariate approaches will be contributed by summer.
+\item~$\star$ 22 new multi-threaded image registration metrics are available in v4 with a few of these being refactored. A minimum of 3 more implementing multivariate approaches will be contributed by summer.
 
-\item $\star$ 4 application-level registration methods are available for high-level inclusion in SimpleITK and related projects.
+\item~$\star$ 4 application-level registration methods are available for high-level inclusion in SimpleITK and related projects.
 
-\item $\star$ A new optimization framework that is multi-threaded and includes gradient descent and 2nd order (quasi-Newton) approaches with automated parameter setting specifically designed for registration.
+\item~$\star$ A new optimization framework that is multi-threaded and includes gradient descent and 2nd order (quasi-Newton) approaches with automated parameter setting specifically designed for registration.
 
-\item $\star$ All contributions are unit-tested and have greater than 85\% code coverage, in accordance with ITK standards.
+\item~$\star$ All contributions are unit-tested and have greater than 85\% code coverage, in accordance with ITK standards.
 
-\item $\star$ An example-based tutorial for the new framework was presented at SPIE 2012 by Nicholas Tustison.
+\item~$\star$ An example-based tutorial for the new framework was presented at SPIE 2012 by Nicholas Tustison.
 
-\item $\star$ A complete refactoring of the ITK transform hierarchy that makes transforms thread-safe, applicable to high-dimensional optimization and easily used in multi-core computing. 41 classes, in total, were impacted by this refactoring.
+\item~$\star$ A complete refactoring of the ITK transform hierarchy that makes transforms thread-safe, applicable to high-dimensional optimization and easily used in multi-core computing. 41 classes, in total, were impacted by this refactoring.
 
-\item $\star$ Transform adaptors that allow all ITK transforms to be used in the same multi-resolution framework. 
+\item~$\star$ Transform adaptors that allow all ITK transforms to be used in the same multi-resolution framework. 
 
 Vector support for the nearest neighbor and linear interpolators as well as two new Gaussian interpolators.
 
-\item $\star$ An example of vector support for image metrics is in : itkMeanSquaresImageToImageMetricv4VectorRegistrationTest.cxx.
+\item~$\star$ An example of vector support for image metrics is in : itkMeanSquaresImageToImageMetricv4VectorRegistrationTest.cxx.
 \end{itemize}
 
 Future work will extend the approaches here with additional support
