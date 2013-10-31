@@ -11,11 +11,11 @@
 %% \documentclass[final,3p,times,twocolumn]{elsarticle}
 %% \documentclass[final,5p,times]{elsarticle}
 %% \documentclass[final,5p,times,twocolumn]{elsarticle}
-
-
+\usepackage{enumerate}
 \usepackage{color}
 \usepackage{multirow,booktabs,ctable,array}
 \usepackage{lscape}
+\usepackage{parallel}
 \usepackage{amsmath}
 \usepackage{lineno}
 \usepackage{ulem}
@@ -26,8 +26,8 @@
 
 \usepackage{algorithm}
 \usepackage{algpseudocode}
-\usepackage{hyperref,outline}
-\usepackage{soul,url,verbatim}
+\usepackage[colorlinks=true,urlcolor=cyan]{hyperref}
+\usepackage{soul,url,verbatim,outline}
 \usepackage{amsmath,amssymb,amsfonts,graphicx,amsthm,colortbl}
 \usepackage{graphicx,subfigure}
 \usepackage{tabularx,ragged2e,booktabs}
@@ -208,8 +208,8 @@ $^{2}$Penn Image Computing and Science Laboratory, University of Pennsylvania, D
 \onecolumn
 \firstpage{1}
 
-\title[ITKv4 Image Registration]{A unified image registration
-  framework for the Insight ToolKit}
+\title[ITKv4 Image Registration]{The Insight ToolKit Image
+  Registration Framework}
 \author[\firstAuthorLast ]{\Authors}
 \address{}
 \correspondance{}
@@ -338,39 +338,57 @@ algorithm pictorially.  This nomenclature is intended to be a
 descriptive, but also technically consistent, system for visually
 representing algorithms and applications of registration.  Ideally,
 any standard algorithm can be written in the nomenclature below.
-\begin{enumerate}
-\item [A physical point:] $x \in \Omega$ where $\Omega$ is the domain,
-  usually of an image.
-\item [An image:]  $ I \colon \Omega^d \to \mathbb{R}^n$ where $n$ is the
+\newline
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+\newline
+\noindent{\em begin nomenclature definition}
+\vspace{0.1in}
+\begin{Parallel}[c]{0.24\textwidth}{0.74\textwidth}
+\ParallelLText{A physical point:} \ParallelRText{\noindent $x \in \Omega$ where $\Omega$ is the domain,
+  usually of an image.}\vspace{0.075in}
+\ParallelPar
+\ParallelLText{An image:} \ParallelRText{\noindent $ I \colon \Omega^d \to \mathbb{R}^n$ where $n$ is the
   number of components per pixel and $d$ is dimensionality.  A second
-  image is $J$. 
-\item [Domain map:] $ \phi \colon \Omega_I \to \Omega_J $ where $\to$ may be
-  replaced with any mapping symbol below. 
-\item [Affine mapping:] $\leftrightarrow$ a low-dimensional invertible 
-  transformation: affine, rigid, translation, etc. 
-\item [Affine mapping:] $\rightarrow$ designates the direction an
-  affine mapping is applied.  
-\item [Deformation field:] $ \rightsquigarrow$ deformation field mapping $J$
-  to $I$.  May not be invertible.
-\item [Spline-based mapping:] $\substack{
+  image is $J$.}\vspace{0.075in}
+\ParallelPar
+\ParallelLText{Domain map:} \ParallelRText{\noindent $ \phi \colon \Omega_I \to \Omega_J $ where $\to$ may be
+  replaced with any mapping symbol below.} \vspace{0.075in}
+\ParallelPar
+\ParallelLText{Affine mapping:} \ParallelRText{\noindent $\leftrightarrow$ a low-dimensional invertible 
+  transformation: affine, rigid, translation, etc.} \vspace{0.075in}
+\ParallelPar
+\ParallelLText{Affine mapping:} \ParallelRText{\noindent $\rightarrow$ designates the direction an
+  affine mapping is applied.}\vspace{0.075in}
+\ParallelPar
+\ParallelLText{Deformation field:} \ParallelRText{\noindent  $ \rightsquigarrow$ deformation field mapping $J$
+  to $I$.  May not be invertible.}\vspace{0.075in}
+\ParallelPar
+\ParallelLText{Spline-based mapping:} \ParallelRText{\noindent  $\substack{
    \rightsquigarrow \\
    b
   }$ e.g. B-Spline field mapping $J$
-  to $I$.
-\item [Diffeomorphic mapping:] $ \leftrightsquigarrow$ these maps
-  should have an accurate inverse that is computed in the algorithm or can be computed from the results.
-\item [Composite mapping:] $\phi=\phi_1(\phi_2(x))$ is defined by
+  to $I$.}\vspace{0.075in}
+\ParallelPar
+\ParallelLText{Diffeomorphism:} \ParallelRText{\noindent Represented
+  as $\leftrightsquigarrow$, these are differentiable maps with
+  differentiable inverse.  Ideally, the algorithm should output the
+  inverse and forward mapping.}\vspace{0.075in}
+\ParallelPar
+\ParallelLText{Composite mapping:} \ParallelRText{\noindent $\phi=\phi_1(\phi_2(x))$ is defined by
   $ \leftrightsquigarrow \rightarrow $ where $\phi_2$ is of type
-  $\leftrightsquigarrow$. 
-\item[Not invertible:]  $\nleftrightarrow$ indicates a mapping that is
-  not invertible.
-\item [Image warping:] For example, $ \rightarrow J$ represents
+  $\leftrightsquigarrow$.}\vspace{0.075in}
+\ParallelPar
+\ParallelLText{Not invertible:} \ParallelRText{\noindent $\nleftrightarrow$ indicates a mapping that is
+  not invertible.}\vspace{0.075in}
+\ParallelPar
+\ParallelLText{Image warping:} \ParallelRText{\noindent For example, $ \rightarrow J$ represents
 applying affine transform $\rightarrow$ on image $J$.
-$\rightarrow J = J( A( x ) ) $.
-\item [Similarity measure:] $\substack{
+$\rightarrow J = J( A( x ) ) $.}\vspace{0.075in}
+\ParallelPar\vspace{0.075in}
+\ParallelLText{Similarity measure:}\ParallelRText{\noindent $\substack{
    \approx \\
    s
-  }$ or $\approx_s$ indicates the metric $s$ that compares images.
+  }$ or $\approx_s$ indicates the metric $s$ that compares a pair of images.}
 % \item [Transport versus diffeomorphism] intrasubject versus intersubject.
 % \item [Resolution effects]  ...
 % \item [accuracy vs precision] obsessed with accuracy because we dont
@@ -380,7 +398,12 @@ $\rightarrow J = J( A( x ) ) $.
 % \item [Pathology] appearance changes ...
 % \item [whole body atlas] map any image to whole body
 % \item [radiation oncology] techs understand translation versus rotation versus deformation.
-\end{enumerate}
+\end{Parallel}
+\vspace{0.1in}
+\noindent{\em end nomenclature definition}\newline
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+\newline
+
 We would then write a standard Demons registration application that maps 
 one image, $J$, into the space of $I$ (presumably a template) as:
 $$
@@ -411,7 +434,7 @@ The key ideas for \tk registration are:
 \begin{center}
 \begin{tabular}{c}
 % \includegraphics[width=4.5in]{figs/composemap.pdf}
-\includegraphics[width=4.5in]{figs/RegistrationNomenclature.pdf}
+\includegraphics[width=6in]{figs/RegistrationNomenclature.pdf}
 \end{tabular}
 \caption{\baselineskip 12pt \small Define $x$ in $\Omega_I$ and $z$ in
   $\Omega_J$ as the same material point but existing in different
@@ -424,25 +447,25 @@ The key ideas for \tk registration are:
   $I(x) ~\approx_\text{mi}  J(A(\phi(x))) =  J_\text{Affine}(y) = J(z)
   $. The image $J_\text{Affine}(y)$
   represents $J$ after application of the affine transformation $A$
-  i.e. $J(A(x))$.}
+  i.e. $J(A(x))$.  Code and data for this example is \href{http://stnava.github.io/cars/}{here}.}
 %  We avoid compounding interpolation  error by concatenating transformations.  Thus, we never need to use more than  a single interpolation into the data regardless of the nature of the  sub-transforms within the composite mapping.  Because transformations may  either perform mapping or resampling, this framework also  provides the ability to handle changes in resolution.}
 \label{fig:composite}
 \end{center}
 \end{figure}
 \begin{enumerate}
-\item Registration maps can be applied or optimized through the {\em
+\item~~Registration maps can be applied or optimized through the {\em
     itkCompositeTransform} which chains transforms together as in Figure~\ref{fig:composite}.
-\item Each ITK$^4$ transform has either global support (affine
+\item~~Each ITK$^4$ transform has either global support (affine
   transform) or local (or compact) support (a displacement field transform).   If
   any map in a composite transform has global support then the
   composite transform has global support. 
-\item \tk metrics are applicable to both types of transforms and may
+\item~~\tk metrics are applicable to both types of transforms and may
   optimize over dense or sparse samples from $\Omega$.  Metrics may be
   multi-channel (e.g. for registering RGB or tensor images).
-\item The optimization framework is multi-threaded and memory
+\item~~The optimization framework is multi-threaded and memory
   efficient to allow high-dimensional transformations to be optimized
   quickly on multi-core systems.
-\item The \tk optimization framework comes with parameter setting tools
+\item~~The \tk optimization framework comes with parameter setting tools
   that automatically select parameter scales and learning rates for
   gradient-based optimization schemes.  These parameter setting tools
   use physical units to help provide the user with intuition on the
@@ -603,25 +626,67 @@ have a consistent effect, for a given $\lambda$, regardless of the metric choice
 
 \begin{enumerate}
 
-  \item template construction - faces are fine 
+  \item We use updated ITK methods in template construction with a
+    reproducible example based on face and brain data:
+    \href{https://github.com/ntustison/TemplateBuildingExample}{ANTs
+      template construction}.  % done
 
-  \item large deformation 
+  \item A \href{http://stnava.github.io/C/}{large deformation
+      example}. % done
 
-  \item landmarks / points e.g. initialize CAP data with heart center 
+  \item ITK uses LPS coordinates to represent physical space.  If you
+    need to convert landmarks to physical space, see the discussion here:
+    \href{http://sourceforge.net/p/advants/discussion/840261/thread/2a1e9307/}{LPS
+      physical
+      space}.  We have an example illustrating how to change point
+    coordinates and apply to landmarks
+    \href{http://stnava.github.io/chicken/}{here}. % done
 
-  \item LPS coordinates ( reference website ) 
+  \item time series data
+    \href{https://github.com/stnava/ANTs/blob/master/Scripts/antsMotionCorrExample}{here}. % done
 
-  \item time series data ... 
+   \item  An advanced example with heavy use of statistics via {\em
+       R} and \href{http://stnava.github.io/ANTsR/}{{\em ANTsR}} is
+       \href{http://stnava.github.io/RfMRI/}{fmri analysis} on public data. % done
 
-  \item car example 
+  \item classic car example \href{http://stnava.github.io/cars/}{here}. % done
 
-  \item color images - apple / orange 
+  \item A basic \href{http://stnava.github.io/butterfly/}{multistart example}.  A more advanced
+    example for brain mapping with a template mask is available in
+    {\em antsCorticalThickness.sh}. % done
 
-  \item multivariate example ( as in SATA ) 
+   \item   This \href{http://stnava.github.io/asymmetry/}{asymmetry
+       analysis} example uses the ``virtual domain'' feature to reduce
+     bias.  % done 
 
-   \item unbiased map - initial fixed image transform 
+  \item landmarks / points e.g. initialize CAP data with heart center
+    ---
+    multivariate. \href{http://stnava.github.io/LabelMyHeart/}{multivariate
+    registration guided by (crude) labels}.
+
+  \item multivariate example ( as in SATA 2013 ) \href{http://stnava.github.io/LabelMyHeart/}{multivariate
+    registration guided by (crude) labels}.
+
+ \item A simple orange to apple RGB image registration example for
+   color images is listed as
+   \href{https://github.com/Kitware/ITK/blob/master/Modules/Registration/Metricsv4/test/CMakeLists.txt}{itkMeanSquaresImageToImageMetricv4VectorRegistrationTest}.
+   If one compiles the ITK tests, then this example can be run to
+   produce figure~\ref{fig:appleorange}.
+
+   \item unbiased map - initial fixed image transform is used in \href{http://stnava.github.io/asymmetry/}{asymmetry analysis}
+
+
 
 \end{enumerate}
+
+\begin{figure}[t]
+\begin{center}
+\includegraphics[width=6.5in]{figs/appleorange.pdf}
+\caption{\baselineskip 12pt \small RGB image registration.}
+\label{fig:appleorange}
+\end{center}
+\end{figure}
+
 
 \subsection{Diffeomorphic mapping with arbitrary metrics}
 \begin{figure}[t]
