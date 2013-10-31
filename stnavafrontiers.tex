@@ -209,7 +209,7 @@ $^{2}$Penn Image Computing and Science Laboratory, University of Pennsylvania, D
 \firstpage{1}
 
 \title[ITKv4 Image Registration]{The Insight ToolKit Image
-  Registration Framework}
+  Registration Framework: 2013}
 \author[\firstAuthorLast ]{\Authors}
 \address{}
 \correspondance{}
@@ -266,7 +266,11 @@ pathology, microscopy, surgical planning and more
 \cite{Shelton2005,Miller2005,Floca2007,Chen2008,Cheung2009,Peyrat2010,Kikinis2011,Murphy2011}.
 Despite the increasing relevance of image registration across
 application domains, there are relatively few reference algorithm
-implementations available to the community.
+implementations available to the community.  Furthermore, these
+resources have become critical to setting performance standards in
+international challenges that evaluate ``real world'' registration
+scenaries (see, for instance, the SATA 2013 and BRATS 2013 challenges
+at MICCAI in Nagoya, Japan). 
 
 % \cite{Jenkinson2001,Christensen1996,Rueckert1999,Yoo2002,Ackerman2003,2004,Shelton2005,Wolf2005,Miller2005,Floca2007,Chen2008,Khan2008,Cheung2009,Vercauteren2009,Baloch2009,Klein2010,Peyrat2010,Taka2011,Metz2011,Kikinis2011,Fedorov2011,Murphy2011,Avants2011}.
 
@@ -285,7 +289,7 @@ medical image processing when it first emerged over 10 years ago.
 Since that time, ITK has become a standard-bearer for image
 processing algorithms and, in particular, for image registration
 methods.  In a review of ITK user interests, image registration was cited as the most important
-contribution of ITK (personal communication).  Numerous papers use ITK
+contribution of ITK (personal communication with Terry Yoo).  Numerous papers use ITK
 algorithms as standard references for implementations of Demons
 registration and mutual information-based affine or B-Spline
 registration \cite{2004,Shelton2005,Floca2007,Chen2008,Cheung2009}.
@@ -328,11 +332,23 @@ broader functionality than in prior releases.
 
 % good average performance versus good performance on a given dataset.
 
-The remainder of the document will provide an overview of the new
-framework via the context of a potential general nomenclature.  We
-also establish performance benchmarks for the current \tk
-registration.  Finally, we discuss future developments in the
-framework.
+David Donoho once commented (in paraphrase) that academic publications
+are merely ``advertisements'' for the real work which is constituted
+by the ``complete instruction set'' that produces the results reported
+in the publication.  The remainder of this document will provide an
+``advertisement'' for the ITK framework via the context of a potential
+general nomenclature.  While this work is indeed incomplete, in the
+sense of Donoho, we do provide links to source code and data that
+illustrate the major advances available within the ITK framework, as
+of 2013.  These occur in section \ref{sec:applications}.  Several
+areas relevant to neuroinformatics are highlighted: optimal template
+construction, ``challenging'' registration scenarios involving brain
+mapping in the presence of lesions or resection, registration when
+initialization priors are weak, asymmetry analyses, functional MRI and
+non-traditional registration strategies are all highlighted.  We also
+establish performance benchmarks for the current \tk registration via
+reference to a parallel work.  Finally, we discuss future developments
+in the framework.
 
 \section{Nomenclature}
 The nomenclature below designates an image registration
@@ -383,8 +399,8 @@ any standard algorithm can be written in the nomenclature below.
 \ParallelLText{Not invertible:} \ParallelRText{\noindent $\nleftrightarrow$ indicates a mapping that is
   not invertible.}\vspace{0.075in}
 \ParallelPar
-\ParallelLText{Image warping:} \ParallelRText{\noindent For example, $ \rightarrow J$ represents
-applying affine transform $\rightarrow$ on image $J$.
+\ParallelLText{Perform Image warping:} \ParallelRText{\noindent As an example, $ \rightarrow J$ represents
+the application of an affine transform $\rightarrow$ to image $J$ such that
 $\rightarrow J = J( A( x ) ) $.}\vspace{0.075in}
 \ParallelPar\vspace{0.075in}
 \ParallelLText{Similarity measure:}\ParallelRText{\noindent $\substack{
