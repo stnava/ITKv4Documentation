@@ -447,7 +447,7 @@ $\substack{ \approx \\ \text{mi} }$, or cross-correlation, $\substack{
 schematics for registration applications in the following sections.
 
 \section{Overview of the unified framework}
-The key ideas for \tk registration are:
+The key contributions in 2013 to \tk registration are:
 \begin{figure}[t]
 \begin{center}
 \begin{tabular}{c}
@@ -488,11 +488,16 @@ The key ideas for \tk registration are:
   gradient-based optimization schemes.  These parameter setting tools
   use physical units to help provide the user with intuition on the
   meaning of parameters.  
+\item~~Both ``fixed'' and ``moving'' images may have initial
+  transforms.  This allows one to reduce ``registration bias'' that
+  may be induced by asymmetric interpolation \cite{Yushkevich2010a}. 
 \end{enumerate}
 Below we will discuss (1) gradient-based optimization within the
 framework, (2) techniques to estimate optimization parameters for
-arbitrary metric and transformation combinations and (3) a generalized
-diffeomorphic matching approach.  
+arbitrary metric and transformation combinations, (3) several
+applications of the updated framework within different
+neuroinformatics relevant domains, (4) a generalized diffeomorphic
+matching approach.
 
 \subsection{Optimization Framework}
 The general \tk optimization criterion is summarized as:
@@ -550,7 +555,26 @@ $$
   M}{\partial p_n} ] ,  x ),
 $$
 where $\lambda$ is the overall learning rate and the brackets hold the
-vector of parameter updates.  Note that, as in previous versions of
+vector of parameter updates.  
+
+In addition to basic gradient descent, we implement nonlinear gradient
+descent optimization strategies which combine the conjugate gradient
+or gradient descent method with line search.  In ITK$^4$, we implement the classic {\em
+  golden section} approach to identifying the optimal gradient
+step-size at each iteration.  The generic conjugate gradient approach
+is performed via: 
+\begin{align}
+\gamma=\frac{\|\nabla M_{t}-\|\nabla M_{t-1}\|^2\|^2}{\|\nabla
+  M_{t-1}\|^2}, \\ \notag
+CG_t = \nabla M_t + \gamma CG_{t-1},
+\end{align}
+where $CG$ is the conjugate gradient.  The golden section line search
+determines the specific weight, $\epsilon_\text{opt}$, of the update to the current parameters
+such that 
+$$ 
+p_{\text{new}}=p_{\text{old}}+CG_t \epsilon_\text{opt}.
+$$
+Note that, as in previous versions of
 ITK, a naive application of gradient descent will not produce a smooth
 change of parameters for transformations with mixed parameter types.
 For instance, a change $\Delta$ to parameter $p_i$ will produce a
@@ -1330,5 +1354,5 @@ PointsLocator
 CentralDifferenceImageFunction
 
 \bibliographystyle{frontiersinSCNS}
-\bibliography{itk}
+\bibliography{itk,../CV/avantsCV}
 \end{document}
