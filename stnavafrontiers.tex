@@ -698,58 +698,48 @@ A list of these examples follows:
     composite transform may be used to initialize new registration
     solutions as well as how masking functionality may be employed to
     ignore information that is irrelevant or obstructive to the
-    registration optimization. 
+    registration optimization.  We have previously employed these
+    strategies in brain mapping with lesions \cite{Avants2008,Kim2008,Kim2010,Tustison2011a,Kim2013}. 
   \item~We use updated ITK methods in template construction with a
     reproducible example based on face and brain data:
     \href{https://github.com/ntustison/TemplateBuildingExample}{ANTs
       template construction}.  % done
-
   \item~A \href{http://stnava.github.io/C/}{large deformation
-      example}. % done
-
-  \item~ITK uses LPS coordinates to represent physical space.  If you
+      example} implementing the classic ``letter C'' example provided,
+     originally, by Gary Christensen. % done
+  \item~We present a separate example of how to compute landmark-based
+    registration error.  ITK uses LPS coordinates to represent physical space.  If you
     need to convert landmarks to physical space, see the discussion here:
     \href{http://sourceforge.net/p/advants/discussion/840261/thread/2a1e9307/}{LPS
       physical
       space}.  We have an example illustrating how to change point
-    coordinates and apply to landmarks
+    coordinates and apply ITK transforms to landmarks
     \href{http://stnava.github.io/chicken/}{here}. % done
-
-  \item~time series data
-    \href{https://github.com/stnava/ANTs/blob/master/Scripts/antsMotionCorrExample}{here}. % done
-
+  \item~We show how to peform motion correction to time series data
+    \href{https://github.com/stnava/ANTs/blob/master/Scripts/antsMotionCorrExample}{here}
+    although we do not claim this approach is optimal. 
    \item~ An advanced example with heavy use of statistics via {\em
-       R} and \href{http://stnava.github.io/ANTsR/}{{\em ANTsR}} is
-       \href{http://stnava.github.io/RfMRI/}{fmri analysis} on public data. % done
-
-  \item~classic car example \href{http://stnava.github.io/cars/}{here}. % done
-
+       R} and \href{http://stnava.github.io/ANTsR/}{{\em ANTsR}} is in
+     a study of \href{http://stnava.github.io/RfMRI/}{public test-retest fmri data}. % done
+  \item~The classic car example shown in ANTs talks is \href{http://stnava.github.io/cars/}{here}. % done
   \item~A basic \href{http://stnava.github.io/butterfly/}{multistart example}.  A more advanced
     example for brain mapping with a template mask is available in
-    {\em antsCorticalThickness.sh}. % done
-
+    {\em antsCorticalThickness.sh}.  These optimization methods
+    overcome local minima.
    \item~  This \href{http://stnava.github.io/asymmetry/}{asymmetry
        analysis} example uses the ``virtual domain'' feature to reduce
-     bias.  % done 
-
-  \item~landmarks / points e.g. initialize CAP data with heart center
-    ---
-    multivariate. \href{http://stnava.github.io/LabelMyHeart/}{multivariate
-    registration guided by (crude) labels}.
-
-  \item~multivariate example ( as in SATA 2013 ) \href{http://stnava.github.io/LabelMyHeart/}{multivariate
-    registration guided by (crude) labels}.
-
+     bias caused by mapping an image asymmetrically to a reference.
+     Longitudinal analysis and asymmetry analysis potentially suffer
+     from the same confound \cite{Yushkevich2010a}.
+  \item~We also show how manual labelings can be used to restrict
+    registration in a challenging registration scenario (this example
+    will be improved in the future): \href{http://stnava.github.io/LabelMyHeart/}{
+    registration guided by (crude) labels}.  
  \item~A simple orange to apple RGB image registration example for
-   color images is listed as
+   color images is listed at:
    \href{https://github.com/Kitware/ITK/blob/master/Modules/Registration/Metricsv4/test/CMakeLists.txt}{itkMeanSquaresImageToImageMetricv4VectorRegistrationTest}.
    If one compiles the ITK tests, then this example can be run to
    produce figure~\ref{fig:appleorange}.
-
-   \item~unbiased map - initial fixed image transform is used in \href{http://stnava.github.io/asymmetry/}{asymmetry analysis}
-
-
-
 \end{enumerate}
 
 \begin{figure}[t]
