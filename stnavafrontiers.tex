@@ -669,22 +669,36 @@ this strategy drastically reduces the parameter setting burden for
 users. 
 
 \section{Enabling Diverse Applications of the ITK$^4$ Framework}
-As part of our work in ITK refactoring, we built, in parallel, an
+As part of our work in ITK refactoring, we built, in parallel to
+library programming, an
 application interface that allows high-level access to the deep layers
 of ITK registration.  These currently exist in the {\em Advanced
   Normalization Tools} (ANTs) software
-\href{http://stnava.github.io/ANTs}{(link)}. 
+\href{http://stnava.github.io/ANTs}{(link)}.  While ANTs still serves
+as intermediate (vs. direct) access-point to these tools, it provides
+a high-degree of customization possibilities simply through a command
+line interface and scripting.  Therefore a user is not required to
+write new low-level (interestingly, C++ is now considered ``low-level'') software.  
 
-While it is not possible to solve all registration problems with a
-general framework, our general optimization-driven strategies have
+This contribution is valuable because of the tremendous range of
+possible registration problems.  While it is not possible to solve all registration problems with a
+general framework, one cannot afford to invent new
+solutions for every instance one encounters.  Our general optimization-driven strategies have
 proven to be invaluable to setting performance standards in a variety
 of application domains.   In this section, we highlight some of the
 lesser known capabilities of ANTs and ITK$^4$ with reproducible
-examples that include data and specific commands to ANTs and/or ITK. 
+examples that include data and specific commands to ANTs and/or ITK.  
+A list of these examples follows:
 \begin{enumerate}
-
-  \item~\href{https://github.com/stnava/BasicBrainMapping}{Basic Brain Mapping}.
-
+  \item~The \href{https://github.com/stnava/BasicBrainMapping}{Basic
+      Brain Mapping} example shows how one can map two ``whole head''
+    T1-weighted MRI where one is a template with some user-based prior
+    knowledge defining the ``interesting'' parts of the image.
+    Furhermore, a second part of this example shows how the ITK
+    composite transform may be used to initialize new registration
+    solutions as well as how masking functionality may be employed to
+    ignore information that is irrelevant or obstructive to the
+    registration optimization. 
   \item~We use updated ITK methods in template construction with a
     reproducible example based on face and brain data:
     \href{https://github.com/ntustison/TemplateBuildingExample}{ANTs
