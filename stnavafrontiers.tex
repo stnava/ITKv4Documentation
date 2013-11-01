@@ -574,8 +574,7 @@ such that
 $$ 
 p_{\text{new}}=p_{\text{old}}+CG_t \epsilon_\text{opt}.
 $$
-Note that, as in previous versions of
-ITK, a naive application of gradient descent will not produce a smooth
+Note that a naive application of gradient descent will not produce a smooth
 change of parameters for transformations with mixed parameter types.
 For instance, a change $\Delta$ to parameter $p_i$ will produce a
 different magnitude of impact on $\phi$ if $p_i$ is a translation rather than a
@@ -663,9 +662,25 @@ similar practices are recommended for both cases.   This feature is
 especially useful for allowing one to tune gradient descent parameters
 without being concerned about which similarity metric is being used.
 That is, it effectively rescales the term $\lambda \partial M / \partial p$ to
-have a consistent effect, for a given $\lambda$, regardless of the metric choice.
+have a consistent effect, for a given $\lambda$, regardless of the
+metric choice.  In combination with our nonlinear conjugate gradient
+approach (our current optimization of choice for linear registration),
+this strategy drastically reduces the parameter setting burden for
+users. 
 
+\section{Enabling Diverse Applications of the ITK$^4$ Framework}
+As part of our work in ITK refactoring, we built, in parallel, an
+application interface that allows high-level access to the deep layers
+of ITK registration.  These currently exist in the {\em Advanced
+  Normalization Tools} (ANTs) software
+\href{http://stnava.github.io/ANTs}{(link)}. 
 
+While it is not possible to solve all registration problems with a
+general framework, our general optimization-driven strategies have
+proven to be invaluable to setting performance standards in a variety
+of application domains.   In this section, we highlight some of the
+lesser known capabilities of ANTs and ITK$^4$ with reproducible
+examples that include data and specific commands to ANTs and/or ITK. 
 \begin{enumerate}
 
   \item~\href{https://github.com/stnava/BasicBrainMapping}{Basic Brain Mapping}.
