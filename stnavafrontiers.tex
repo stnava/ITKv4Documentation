@@ -449,8 +449,7 @@ The key contributions in 2013 to \tk registration are:
 \begin{figure}[t]
 \begin{center}
 \begin{tabular}{c}
-% \includegraphics[width=4.5in]{figs/composemap.pdf}
-\includegraphics[width=6in]{figs/RegistrationNomenclature.pdf}
+\includegraphics[width=5in]{figs/software_design.pdf}
 \end{tabular}
 \caption{\baselineskip 12pt \small Define $x$ in $\Omega_I$ and $z$ in
   $\Omega_J$ as the same material point but existing in different
@@ -667,8 +666,14 @@ approach (our current optimization of choice for linear registration),
 this strategy drastically reduces the parameter setting burden for
 users. 
 
+\begin{figure}[t]
+\begin{center}
+\includegraphics[width=4.5in]{figs/three.pdf}
+\caption{\baselineskip 12pt \small Three references images, $I$}
+\end{center}
+\end{figure}
 
-\section{Appendix: ITK$^4$ Details}
+\subsection{ITK$^4$ Software Design}
 The overall purpose of the registration refactoring for ITKv4 was to simplify the user experience and to accelerate and improve performance. Below, we summarize current progress toward the original goals of the team where bold-faced quotations are taken from our contract application:
 
 \noindent{\bf Image registration should be achievable in one step:}
@@ -800,7 +805,7 @@ QuasiNewtonOptimizer - implements a Quasi-Newton optimizer with BFGS Hessian est
 
 \section{Results}
 
-\subsection{Enabling Diverse Applications of the ITK$^4$ Framework}
+\subsection{Example Applications of the ITK$^4$ Framework}
 \label{sec:applications}
 As part of our work in ITK refactoring, we built, in parallel to
 library programming, an
