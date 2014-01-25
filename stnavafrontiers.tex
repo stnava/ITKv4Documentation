@@ -1047,8 +1047,9 @@ to a template $I$ to a \tkt schema:  $I
 ~\approx_\text{mi} \rightsquigarrow_b    \approx_\text{mi}  \rightarrow
 J_i $.  We use this schematic in a registration-based
 segmentation of multiple brain structures in a pediatric population as a benchmark
-for algorithm performance, similar to \cite{Klein2010}.  Example
-large-deformation results from the dataset are at right.  The largest
+for algorithm performance, similar to \cite{Klein2010}.  An example ANTs-based
+large-deformation result from the dataset is shown for illustration.
+Overall, the largest
 improvement in performance is within FIXME, where a FIXME \%
 improvement in v4 is gained.  Overlap improvement from v3 to v4, quantified via
 paired t-test, is significant at level FIXME.}
@@ -1143,3 +1144,53 @@ for diffusion tensor registration and additional evaluation.
 
 
 
+
+library(ANTsR)
+dd<-paste(getwd(),"brains",sep='/')
+myFileList<-list.files(path=dd, pattern = glob2rx("*.nii.gz"),full.names = T,recursive = T)
+dsimdata<-pairwiseImageDistanceMatrix( 3, myFileList, nclusters = 5 ) 
+
+regpairs<-matrix( rep( 0,(2*10) ), ncol=2 )
+myreps<-c("01","02","03","04","05")
+regpairs[1, ]<-c(myreps[5],myreps[4])
+regpairs[2, ]<-c(myreps[5],myreps[3])
+regpairs[3, ]<-c(myreps[5],myreps[2])
+regpairs[4, ]<-c(myreps[5],myreps[1])
+regpairs[5, ]<-c(myreps[4],myreps[3])
+regpairs[6, ]<-c(myreps[4],myreps[2])
+regpairs[7, ]<-c(myreps[4],myreps[1])
+regpairs[8, ]<-c(myreps[3],myreps[2])
+regpairs[9, ]<-c(myreps[3],myreps[1])
+regpairs[10,]<-c(myreps[2],myreps[1])
+for ( pp in 1:nrow(regpairs) )
+{
+  cmd<-paste( "./runBFit.sh ", regpairs[pp,1] , regpairs[pp,2] ) 
+  cmd<-paste( "./runANTs.sh ", regpairs[pp,1] , regpairs[pp,2] ) 
+  cmd<-paste( "./runANTsMI.sh ", regpairs[pp,1] , regpairs[pp,2] ) 
+  print( cmd )
+}
+
+
+antsdicefn<-Sys.glob("*/*ant*sv")[c(1,2)]
+bfitdicefn<-Sys.glob("*/*bf*sv")
+mydice<-matrix( rep(1, (length(antsdicefn)*83*2) ), nrow=83 )
+labelnames<-read.csv("GousiasStructures.csv")$LabelName
+labelnames<-read.csv("GousiasStructures.csv")$BriefName
+rownames(mydice)<-labelnames
+mynames<-rep(NA,ncol(mydice) )
+ct<-1
+for ( i in 1:length(antsdicefn) )
+ {
+ mynames[ct]<-antsdicefn[i]
+ mydice[,ct]<-read.csv(antsdicefn[i])$Dice[2:84]
+ ct<-ct+1
+ mynames[ct]<-bfitdicefn[i]
+ mydice[,ct]<-read.csv(bfitdicefn[i])$Dice[2:84]
+ ct<-ct+1
+ }
+colnames(mydice)<-mynames
+palette(rainbow(83, s = 0.6, v = 0.75))
+pdf("star_ants_bfit.pdf")
+stars( t(mydice), len = 0.8,main = "BFIT V ANTS", nrow=2, draw.segments = F,  scale=F )
+dev.off()
+# key.loc = c(4.5,2.25),
