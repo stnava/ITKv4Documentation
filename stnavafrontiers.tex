@@ -458,8 +458,9 @@ $\substack{ \approx \\ \text{mi} }$, or cross-correlation, $\substack{
 schematics for registration applications in the following sections.
 \footnote{In the Demons example above, the reader may ask: why does the affine
 mapping, $A$, not appear ``inside'' the deformable mapping, $\phi$?
-We note that this approach is a feasible one.  However, this is not
-what we typically use in our own practice of image registration.  The
+Indeed, this ordering of transformations is feasible.  However, this is not
+what we typically use in our own practice of image registration and is
+not what we recommend.  The
 reason is that we usually seek a deformable mapping into a template
 space that is common across many subjects (i.e. the ``tail'' is in the
 same domain across subjects).  This enables methods such as
@@ -467,7 +468,114 @@ Jacobian-based morphometry and other groupwise comparison
 conveniences.  It is not, however, the only way to do things.}
 
 \subsection{Overview of the unified framework}
-The key contributions in 2013 to \tk registration are:
+The overall purpose of the registration refactoring for \tk was to
+simplify the user experience and to accelerate and improve
+performance. Here, we summarize how \tk works toward these goals.
+\begin{figure}[t]
+\begin{center}
+\begin{tabular}{c}
+\includegraphics[width=5in]{figs/software_design.pdf}
+\end{tabular}
+\caption{\baselineskip 12pt \small A schematic overview of the
+  prototypical \tk registration method.  This design is overall similar to
+  that of \tkt.  A few key components differ:  (1) optimizers request that
+  transforms update themselves; (2) metrics and optimizers are
+  multi-threaded; (3) memory is shared across both optimizers and metrics,
+greatly increasing efficiency; (4) automated (usually hidden) parameter
+estimators are available; (5) transforms may include high-dimensional
+deformation fields.  One additional difference (not shown) is that ``fixed''
+images may also have a transformation, although this is not modified
+by the optimizer.}
+\label{fig:softw}
+\end{center}
+\end{figure}
+\subsubsection{Core Software Components.} Figure~\ref{fig:softw} sketches the \tk architecture at a high level.
+Registration applications are known as ``registration methods'' as
+they were in \tkt.  The methods, with source contained in \tk's \texttt{RegistrationMethodsv4}
+directory, hold together the different
+subcomponents that make a working instantiation of a registration
+strategy.  These subcomponents include the optimization technique (in
+the \texttt{Optimizersv4} directory), the
+metric measuring the registration quality \footnote{All \tk metrics
+  are set to be minimized.  For instance, the
+  \texttt{itkMattesMutualInformationImageToImageMetricv4} returns negative mutual information.} (the \texttt{Metricsv4} directory), the images or other data
+objects that enter the metric and the parameters that are being
+optimized.  The parameters are usually defined by a geometric
+transformation but may point to other relevant objects.  Any of \tk's
+transformations may be optimized by the framework.  New
+transformations, relative to \tkt, include the
+\texttt{*DisplacementField*} transforms that are useful for
+engendering Demons or B-Spline registration strategies.  New
+\texttt{*VelocityField*} transforms are also available.  A typical
+application developer would employ all of these components.  A good
+starting point for new users who wish to see how these tools work
+together, in source code, is found in the tests.  For instance, see the
+files
+\texttt{itkTimeVaryingBSplineVelocityFieldImageRegistrationTest.cxx}
+for an example of a B-Spline diffeomorphism application,
+\texttt{itkSyNImageRegistrationTest.cxx} to see SyN in \tk and
+\texttt{itkSimpleImageRegistrationTest2.cxx} for a more basic example.
+
+% \textcolor{red}{The paper assumes a high-level of familiarity with the ITKv3 and ITKv4 framework. It would be helpful for readers who have little or limited familiarity with the software framework, if the paper contains a brief overview of the registration framework (the classes and the primary methods). For example, how methods such as ComputeJacobian... would fit in the overall registration framework would be unclear to a basic ITK user.}
+
+Several usability goals spurred \tk development.  We summarize these here.
+
+\subsubsection{Image registration should be achievable in one step.}
+This overarching goal is best illustrated by \texttt{RegistrationMethodsv4} in which a user may string
+together a series of registration tools to perform (for instance) a
+translation registration, followed by an affine registration, followed
+by a diffeomorphic mapping each of which might use a different image
+similarity metric.  The different transforms are accumulated in the
+new \texttt{itkCompositeTransform} which chains transforms together as in Figure~\ref{fig:composite}.
+Thus, this
+framework provides unprecedented ability to perform complex and staged
+registration mappings.  Furthermore, the framework’s automated
+parameter scaling, \texttt{itkRegistrationParameterScalesEstimator}, 
+vastly reduces the difficulty of tuning parameters for different
+transform/metric combinations.  
+
+\subsubsection{ITK Transforms should be unified.}
+Each ITK$^4$ transform now has either global support (affine
+  transform) or local (or compact) support (a displacement field transform).   If
+  any map in a composite transform has global support then the
+  composite transform has global support.  Both ``fixed'' and ``moving'' images may have initial
+  transforms.  This allows one to reduce ``registration bias'' that
+  may be induced by asymmetric interpolation \cite{Yushkevich2010a}. 
+
+\subsubsection{Registration mappings should be applicable to a number of popular data
+types, including DTI.}  Our revisions to the \tkt transform hierarchy
+validated and extended the \tkt transforms for thread safety and
+applicability to not only vectors but also tensors.  Reorientation
+steps necessary for diffusion tensor mappings are now included in
+\tk.  
+
+\subsubsection{Affine and deformable similarity metrics should look as similar as possible.}
+The \texttt{Metricsv4} framework supports this goal in that it is as trivial to
+implement a “mutual information” Demons algorithm as it is to
+implement a “sum of squared differences” BSpline or affine
+registration algorithm.  Thus, full “plug-and-play” support exists
+across transforms.   
+
+
+\subsubsection{Users should be able to combine multiple similarity metrics, some of which may operate on different data types.}
+This is achievable with the existing \texttt{itkMultiGradientOptimizerv4}
+through the multivariate \texttt{itkObjectToObjectMultiMetricv4} or
+through the multi-channel traits
+(\texttt{itkVectorImageToImageMetricTraitsv4}) that allow metrics to deal with
+multi-channel pixels, all of which were contributed for \tk.  The
+\texttt{itkObjectToObjectMultiMetricv4} was used in our winning entry
+fo the SATA 2013 ``dog leg'' challenge. 
+
+\subsubsection{Optimizers and transformations should interact flexibly.}
+\texttt{Optimizersv4} includes optimizers that are applicable to both linear and deformable transformations, which include convergence monitoring and which enable 2nd order optimization (\texttt{itkQuasiNewtonOptimizerv4}), multiple objective optimization (\texttt{itkMultiGradientOptimizerv4}), or global optimization (\texttt{itkMultiStartOptimizerv4}).  
+
+\subsubsection{GPU and multi-core acceleration will open up new applications for image registration.}
+See \texttt{GPUPDEDeformable} for a GPU example.  Furthermore, the new metric framework $N$ cores to accelerate metric, gradient and optimization steps.  A recent real-world application of the new Insight ToolKit implementation of the symmetric normalization algorithm showed a speed-up of almost a factor of six when comparing single core to eight core execution time. This speed-up is achieved by multi-threading the similarity metric, the gradient descent update, the regularization terms and the composition components of the method. Thus, every essential step exploits intrinsic parallelism in the algorithm. Decreased execution time means more rapid turnaround for users, faster turn-around in testing and higher throughput on large-scale computing tasks.  
+
+\subsubsection{Improve memory efficiency in optimization framework.}
+Memory optimizations are critical for efficient use of large local transforms.
+In \tk, transform parameters are no longer copied within the optimizer, but rather left in-place in transform. 
+Metric gradient memory is shared between optimizer and metric, and modifications by the optimizer  are done in place when possible.
 \begin{figure}[t]
 \begin{center}
 \begin{tabular}{c}
@@ -491,48 +599,25 @@ The key contributions in 2013 to \tk registration are:
 \label{fig:composite}
 \end{center}
 \end{figure}
-\begin{enumerate}
-\item~~Registration maps can be applied or optimized through the {\em
-    itkCompositeTransform} which chains transforms together as in Figure~\ref{fig:composite}.
-\item~~Each ITK$^4$ transform has either global support (affine
-  transform) or local (or compact) support (a displacement field transform).   If
-  any map in a composite transform has global support then the
-  composite transform has global support. 
-\item~~\tk metrics are applicable to both types of transforms and may
-  optimize over dense or sparse samples from $\Omega$.  Metrics may be
-  multi-channel (e.g. for registering RGB or tensor images as in
-  figure \ref{fig:appleorange}).
-\item~~The optimization framework is multi-threaded and memory
-  efficient to allow high-dimensional transformations to be optimized
-  quickly on multi-core systems.
-\item~~The \tk optimization framework comes with parameter setting tools
-  that automatically select parameter scales and learning rates for
-  gradient-based optimization schemes.  These parameter setting tools
-  use physical units to help provide the user with intuition on the
-  meaning of parameters.  
-\item~~Both ``fixed'' and ``moving'' images may have initial
-  transforms.  This allows one to reduce ``registration bias'' that
-  may be induced by asymmetric interpolation \cite{Yushkevich2010a}. 
-\end{enumerate}
+
+Finally, we summarize \tk changes through quantitative metrics:
+\begin{itemize}
+\item~Over 22 new multi-threaded image registration metrics are available in v4.
+\item~4 application-level registration methods are available
+  for high-level inclusion in projects such as Slicer and SimpleITK.
+\item~All contributions are unit-tested and have greater than 85\% code coverage, in accordance with ITK standards.
+\item~A complete refactoring of the ITK transform hierarchy that makes transforms thread-safe, applicable to high-dimensional optimization and easily used in multi-core computing. 41 classes, in total, were impacted by this refactoring.
+\item~We added transparent vector support to two key interpolators that are used
+  pervasively in ITK: the nearest neighbor and linear interpolators.
+  We added two new Gaussian interpolators.
+\item~An example of vector support for image metrics is in \newline \texttt{itkMeanSquaresImageToImageMetricv4VectorRegistrationTest.cxx}.
+\end{itemize}
 Below we will discuss (1) gradient-based optimization within the
 framework, (2) techniques to estimate optimization parameters for
 arbitrary metric and transformation combinations, (3) several
 applications of the updated framework within different
 neuroinformatics relevant domains, (4) a generalized diffeomorphic
 matching approach.
-
-\subsubsection{Core Software Components}
-\begin{figure}[t]
-\begin{center}
-\begin{tabular}{c}
-\includegraphics[width=5in]{figs/software_design.pdf}
-\end{tabular}
-\caption{\baselineskip 12pt \small Sketch}
-\label{fig:softw}
-\end{center}
-\end{figure}
-
-\textcolor{red}{The paper assumes a high-level of familiarity with the ITKv3 and ITKv4 framework. It would be helpful for readers who have little or limited familiarity with the software framework, if the paper contains a brief overview of the registration framework (the classes and the primary methods). For example, how methods such as ComputeJacobian... would fit in the overall registration framework would be unclear to a basic ITK user.}
 
 \subsection{Optimization Framework}
 The general \tk optimization criterion is summarized as:
@@ -643,7 +728,7 @@ In code, we use {\em ComputeMovingImageGradientAtIndex( index,
 mappedMovingImageGradient );} to get $\frac{dJ_w}{dx}$ and transform
 this image gradient via the inverse Jacobian by calling 
 {\em mappedMovingImageGradient=
-TransformCovariantVector(mappedMovingImageGradient, mappedMovingPoint ); }.
+TransformCovariantVector(mappedMovingImageGradient, mappedMovingPoint )}.
 
 
 \subsection{Diffeomorphic mapping with arbitrary metrics}
@@ -662,7 +747,7 @@ transformation of the ``C'' to 1/2 ``C'' (middle right) and its
 inverse mapping (far right) which takes the 1/2 ``C'' to the reference
 space.  The unit time interval is discretized into 15 segments in
 order to compute this mapping.  15*5 integration steps were used in
-the Runge-Kutta {\em ode} integration over the velocity field.  A two
+the Runge-Kutta ODE integration over the velocity field.  A two
 core MacBook Air computed this registration in 110 seconds.  The images
 each were of size $150 \times 150$.  See
 \href{http://stnava.github.io/C/}{C} for a reproducible example of
@@ -677,9 +762,9 @@ strategies.  Beg proposed the Large Deformation Diffeomorphic Metric Mapping
 (LDDMM) algorithm \cite{Miller2005} which minimizes the sum of squared differences
 criterion between two images.  LDDMM parameterizes a
 diffeomorphism through a time varying velocity field that is
-integrated through an {\em ode}.  In \tk, we implement an alternative
-to LDDMM that also uses a time varying field and an {\em ode} but minimizes
-the following objective function:
+integrated through an ODE.  In \tk, we implement an alternative
+to LDDMM that also uses a time varying field and an ODE but minimizes
+a more general objective function:
 \begin{align}
 \myE(\v) = M(I,J,\myphi_{1,0})
 +  w \int_{0}^{1} \| \opL v_t\|^2 \dd t \;.
@@ -694,11 +779,9 @@ This objective is readily optimized using an approach that is similar
 to that proposed by Beg.  Generalization of the LDDMM gradient 
 for other metrics basically follows \cite{hermosillo} with a few
 adjustments to accomodate diffeomorphic mapping.
-Figure~\ref{fig:chalf} shows an ITK result on a standard example for large
-deformation registration.  We will evaluate this diffeomorphic
+Figure~\ref{fig:chalf} shows an ITK result on a standard example for
+large deformation registration.  We will evaluate this diffeomorphic
 mapping, along with parameter estimation, in a later section.
-
-
 
 \subsection{Parameter scale estimation}
 We choose to estimate parameter scales by analyzing the result of a
@@ -760,139 +843,22 @@ users.
 \begin{figure}[t]
 \begin{center}
 \includegraphics[width=4.5in]{figs/three.pdf}
-\caption{\baselineskip 12pt \small Three references images, $I$}
+\caption{\baselineskip 12pt \small Three references images, $I$
+(left), $J$ (middle top), and $K$ (right top), are used to illustrate
+the robustness of our parameter scale estimation for setting
+consistent parameters across both metrics and transform types.  $K$ is
+the negation of $J$ and is used to test the correlation and mutual
+information registrations.  We optimized, by hand, the step-length
+parameters for one metric (the sum of squared differences) for both the affine
+and deformable case.  Thus, two parameters had to be optimized.  We
+then applied these same parameters to register $I$ and $K$ via both
+correlation and mutual information.  The resulting registrations
+(bottom row) were all of similar quality.  Further, the same metric is
+used for both affine and diffeomorphic mapping by exploiting the
+general optimization process given in equation~\ref{eq:gen}.}
+\label{fig:result}
 \end{center}
 \end{figure}
-
-\subsection{ITK$^4$ Software Design}
-The overall purpose of the registration refactoring for ITKv4 was to simplify the user experience and to accelerate and improve performance. Below, we summarize current progress toward the original goals of the team where bold-faced quotations are taken from our contract application:
-
-\noindent{\bf Image registration should be achievable in one step:}
-This overarching goal is best illustrated by
-Modules/Registration/RegistrationMethodsv4/ in which a user may string
-together a series of registration tools to perform (for instance) a
-translation registration, followed by an affine registration, followed
-by a diffeomorphic mapping each of which might use a different image
-similarity metric.  The different transforms are accumulated in the
-new ITKCompositeTransform
-(Modules/Core/Transform/include/itkCompositeTransform.h).  Thus, this
-framework provides unprecedented ability to perform complex and staged
-registration mappings.  Furthermore, the framework’s automated
-parameter scaling
-(e.g. Modules/Numerics/Optimizersv4/include/itkRegistrationParameterScalesEstimator.h)
-vastly reduces the difficulty of tuning parameters for different
-transform/metric combinations.  A second contribution to the Frontiers
-ITK topic by Tustison \& Avants shows that the ITKv4 framework also allows a BSpline-based extension to the top-ranked SyN registration method that may outperform the original algorithm.  Thus, the contributed technology not only updates v3 but also provides technological advances, including new SyN implementations and an improvement to the Large Deformation Diffeomorphic Metric Mapping (LDDMM) algorithm of Michael I. Miller.  
-
-\noindent{\bf Registration mappings should be applicable to a number of popular data
-types, including DTI:}
-
-Our revisions to the ITK transform hierarchy validated and extended the v3 transforms for thread safety and applicability to not only vectors but also tensors.  Reorientation steps necessary for diffusion tensor mappings are also included.   
-
-\noindent{\bf Affine and deformable similarity metrics should look as similar as possible:}
-The Metricsv4 framework supports this goal in that it is as trivial to
-implement a “mutual information” Demons algorithm as it is to
-implement a “sum of squared differences” BSpline or affine
-registration algorithm.  Thus, full “plug-and-play” support exists
-across transforms.   BSplines also work with the automated parameter scale estimation that we contributed.  
-
-\noindent{\bf Users should be able to combine multiple similarity metrics, some of which may operate on different data types: }
-This is achievable with the existing itkMultiGradientOptimizerv4,
-through the multivariate metric or through the multi-channel metric
-all of which were contributed to ITK over the last few years.
-
-\noindent{\bf Flexible choice of optimizers and transformations:  }
-See ITK/Modules/Numerics/Optimizersv4/ for a set of optimizers that are applicable to both linear and deformable transformations, which include convergence monitoring and which enable 2nd order optimization (itkQuasiNewtonOptimizerv4), multiple objective optimization (itkMultiGradientOptimizerv4), or global optimization (itkMultiStartOptimizerv4).  
-
-\noindent{\bf GPU and multi-core acceleration will open up new applications for image registration:  }
-See .//Modules/Registration/GPUPDEDeformable and the new metric framework in Modules/Registration/Metricsv4/ which exploits N cores to accelerate metric, gradient and optimization steps.  
-
-We now comment on our progress toward overall project themes.
-
-\noindent{\bf Simplification:}
-The automated parameter scaling routines developed as part of the v4 project have now been tested in a variety of contexts and shown to reliably map the gradient parameters into a flat, linear space with well-defined units (image spacing). For standard registration methods, this means that only one parameter tunes the performance and the range of the parameter exploration space is much narrower than in previous versions of ITK. Typically useful gradient descent parameters take on optimal values lying within the 0.5 - 1 range and, remarkably, this is the case across multiple different transformation models including translation, affine, B-Spline (a significant speed-up and improved performance over what existed previously) and diffeomorphic mappings. This simplification will drastically reduce the user time needed to set up a registration pipeline. 
-
-\noindent{\bf Acceleration:}
-A recent real-world application of the new Insight ToolKit implementation of the symmetric normalization algorithm showed a speed-up of almost a factor of six when comparing single core to eight core execution time. This speed-up is achieved by multi-threading the similarity metric, the gradient descent update, the regularization terms and the composition components of the method. Thus, every essential step exploits intrinsic parallelism in the algorithm. Decreased execution time means more rapid turnaround for users, faster turn-around in testing and higher throughput on large-scale computing tasks.  Furthermore, our GPU demons implementation is currently available for testing and further refinement.
-
-\noindent{\bf Other technical advances:}
-A multivariate optimizer was contributed. A multivariate metric and multi-channel extensions to the image metric framework are currently being refined for inclusion to v4 by summer. The symmetric normalization algorithm, in two forms, was contributed and finalized in the v4 registration pipeline. Both a fast version that implements digital diffeomorphisms is available as well as a more time-consuming continuous diffeomorphic implementation. Both methods are easily combined with the host of new similarity metrics available in v4 which include: Mattes mutual information, global correlation, fast neighborhood correlation, and two intensity difference metrics. 
-
-Finally, we reiterate some of our contributions through quantitative metrics:
-\begin{itemize}
-\item~$\star$ Over 22 new multi-threaded image registration metrics are available in v4.
-\item~$\star$ 4 application-level registration methods are available
-  for high-level inclusion in projects such as Slicer and SimpleITK.
-\item~$\star$ A new optimization framework that is multi-threaded and includes gradient descent and 2nd order (quasi-Newton) approaches with automated parameter setting specifically designed for registration.
-\item~$\star$ All contributions are unit-tested and have greater than 85\% code coverage, in accordance with ITK standards.
-\item~$\star$ A complete refactoring of the ITK transform hierarchy that makes transforms thread-safe, applicable to high-dimensional optimization and easily used in multi-core computing. 41 classes, in total, were impacted by this refactoring.
-
-\item~$\star$ Transform adaptors that allow all ITK transforms to be used in the same multi-resolution framework. 
-
-\item~$\star$ Vector support for the nearest neighbor and linear interpolators as well as two new Gaussian interpolators.
-\item~$\star$ An example of vector support for image metrics is in : itkMeanSquaresImageToImageMetricv4VectorRegistrationTest.cxx.
-\end{itemize}
-
-
-Single framework for local/deformable/displacement and global transformations [Not sure of desired terminology]
-Greatly simplifies development of metrics to handle both local and global transform types.
-Greatlly simplifies registration methods that combine local and global transforms.
-
-Generalized “object-to-object” metric and optimizer frameworks
-Support for metrics and optimizers that operate on various data types such as point-sets, images, etc.
-Allows shared code and more robust development.
-Allows metrics that combine different data types, e.g. new MultiMetric class.
-
-Improvements in memory efficiency
-Memory optimizations are critical for efficient use of large local transforms.
-Transform parameters are no longer copied within the optimizer, but rather left in-place in transform. 
-Metric gradient memory is shared between optimizer and metric, and modifications by the optimizer  are done in place when possible.
-
-Improvements in speed
-Metric multi-threading is achieved using a common parallelization helper class for better standardization between metrics.
-Optimizer design allows for easier multi-threading of derived classes.
-
-New transform parameter model
-New class hides details of parameter implementation from transforms and the rest of the pipeline, and implements transform parameter updating within transform themselves.
-Allows transparent parameter handing, provides a common interface and simplifies future expansion of parameter types.
-Allows transforms to handle different complex parameter types.
-Allows transforms to implements different parameter-updating methods, e.g. different smoothing methods for bspline transforms, independent of the rest of the pipeline.
-Allows the new composite transform to contain transforms with different parameter-update methods.
-
-Virtual Domains
-Metrics now integrate a virtual domain rather than always working in the fixed domain.
-Simplifies implementation of unbiased registration.
-Other?
-
-New Capabilities
-
-Multi-variate pixel support
-Added support for variable-length pixel types within metrics.
-Greatly simplifies the use of a wider range of data, e.g. DTI images.
-
-Automated parameter scaling and learning rate estimation
-Used in optimizers.
-Greatly simplifies registration initialization for the user by automatically setting reasonable parameter scales.
-Enables constant-shift/adaptive-step optimization. [terminolgy?]
-Simplifies development and implementation of additional methods.
-
-CompositeTransform
-New class contains multiple separate transforms, concatenating them by composition.
-Allow independent optimization of its component transforms.
-Greatly simplifies the process of multi-transform optimization.
-Directly usable at any point in the pipeline.
-
-TransformParameterAdaptors
-Helper class to facilitate multi-resolution registration.
-
-New Optimizers
-MultiGradientOptimizerv - enables multi-objective optimization.
-MultiStartOptimizer - optimizes over a large number of starting points and returns the best solution.
-QuasiNewtonOptimizer - implements a Quasi-Newton optimizer with BFGS Hessian estimation.
-
-
-
-
 
 \section{Results}
 
@@ -1145,6 +1111,7 @@ Future work will extend the approaches here with additional support
 for diffusion tensor registration and additional evaluation.
 
 
+
 \bibliographystyle{frontiersinSCNS}
 \bibliography{itk,../CV/avantsCV}
 \end{document}
@@ -1155,170 +1122,3 @@ for diffusion tensor registration and additional evaluation.
 
 
 
-\begin{comment}
-{
-\section{Deliverables}
-\subsection{Usability}
-\begin{description}
-\item~[Automate parameter scaling] base this on empirical statistics
-  ``learning'' on a per registration problem basis.
-\item~[GetParameterSuggestion] metric and trasformation classes should
-  recommend parameters from a developer-defined set.
-\item~[Multi-core implementations] multi threading of metric,
-  regularization, parameter update, etc.  Stephan indicates that the
-  setparameters function may cause problems.   
-\item~[Unify the dense and sparse frameworks] metrics and
-  transformations should be reusable across frameworks. 
-\end{description}
-
-\subsection{Data Types}
-Transform vectors, curves and tensors with reorientation.
-
-\subsection{Metrics}
-\begin{description}
-\item~[metrics]  derivatives should be bi-directional.
-\item~[MI and NMI]  Shreyas --- MI and NMI multicore. 
-\item~[ATG Neighborhood Cross Correlation] our approximation to the
-  NCC derivative.  
-\item~[PSE Metric] with arbitrary data type.  ObjectMetric ...
-\item~[Tractography/vector flow metric]  vector based.  distance transform?
-\item~[Multivariate metric] plug in metrics and weights and a
-  ``combination'' strategy.  e.g. match 1-norm, 2-norm, etc before weighting. 
-\end{description}
-
-\subsection{Transformations}
-\begin{description}
-\item~[BSpline]  Nick DMFFD and refactoring , bug fixing.  Usability
-  and speed. 
-\item~[Composite transformation] need to get the composite derivatives
-  right. 
-\item~[Deformation and rotation transform] have jeff implement.
-  smooth rotation component internally (after update parameters).
-\item~[Velocity field] with fourth order integration.
-\item~[Reorientation transformation and derivative]  tensor and vector. 
-\item~[Rigid and deformable]  takes a mask that defines which parts
-  are deformable and which are rigid.  the rigid parts are fixed by
-  pre-computation.  the deformable parts are modified according to a
-  registration strategy.  
-\end{description}
-
-\subsection{Regularization}
-For instance, we should be able to compute a ``demons'' registration
-without passing deformations to the filter.  We should pass
-transformations (e.g. affine) and regularization (e.g. distance from
-identity) in addition to the demons metric.  
-
-\subsection{Longitudinal and serial registration}
-Facilitate through transformations and regularization and unbiased design.
-\begin{description}
-\item~[longitudinal] multiple images of the same subject over a longer time-scale.
-\item~[serial or time series] multiple images of the same subject or
-  scene with high frequency sampling (samples that are dense in time).
-\item~[Longitudinal Image] Given a set of 3D images sampled
-  longitudinally (see above), we package these $n$ images---along with
-  $n$ rigid or affine transforms that map them to a common
-  domain---into a standard itk image 
-  interface.
-\item~[Serial image] this concept may already be supported.
-\end{description}
-
-\subsection{Algorithms}
-\begin{description}
-\item~[SyN]  fully unbiased and lives as an algorithm (not
-  multi-resolution) within ITK.   Multi-resolution SyN is a 2nd
-  algorithm.  
-\item~[DMFFD] nick's style---greg's?
-\item~[Longitudinal Diffeomorphic Mapping] gang's version.
-\item~[vector versions of above]  ... with reorientation in
-  transform.  also in optimization?
-\end{description}
-
-
-\section{The new framework}
-Changes that we need to implement ASAP. 
-\subsection{optimizers with regularization} We use the following
-idea: any gradient based optimizer can be altered to perform the
-following update scheme $ T_{i+1}=R(T_i + \lambda F(g))$ where $g$ is the
-gradient and $\lambda$ is the update step.  The function $F$ is the
-regularization on the gradient which will be dealt with by regularized
-metrics.  So, this object should take a transform, an update to a 
-transform and return the regularized transform $T_{i+1}$.  This requires a class of
-optimizers that takes a regularization function as input \verb ->SetRegularizationFunction.  We will start with the gradient descent
-optimizer.  Build a derived class that has a regularization function
-and that overrides the update step to use that function.  It can be an
-identity function for now.
-\subsection{transform changes} The transforms should add a {\em thread-safe} function
-called IncrementalUpdateToTransformParameters that takes a delta to
-the parameters and updates the transform.  There will be an
-implementation in the base class that just adds the parameters.  But
-special transforms may want to override this function.  We also want a
-function LocalJacobian which will default to the Jacobian computation
-except in the cases where we override the function for the local,
-dense transform types.
-\subsection{deformation field transform} We need to resolve the
-issues with the dense transform parameters.  I.e. map them
-to an image efficiently or define a new local parameter type that is
-based on the itkVector image.
-\subsection{multivariate metric} Takes two ObjectToObjectMetrics as
-input along with a weight function.  Defaults to uniform weighting
-unless otherwise specified.  Weights are applied to the gradients of
-the metric, not the metric itself.  
-\subsection{multi-threading}  We need to be careful in making
-decisions about all the above.  For instance, what is needed to make
-the transforms thread-safe?   The regularizers?
-\subsection{lightweight resampling}  Can we implement a lightweight
-resample function that is local, thread-safe and samples an image in
-such a way that code becomes more readable?  I.e. does the bounds
-checking, reorientation, etc.  Relatedly, can the resample image
-filter be rewritten with code reuse as an objective?
-\subsection{multi-threaded metrics}  Gang wrote an initial
-implementation.  We need to continue to work on this --- the demons
-version needs to take a generic iterator type or allow different
-iterators to be selected by the user.  
-
-\subsection{the first new registration object}
-
-SetImages 
-
-SetRegistrationMachineryObjects --- what type of object is the
-registration machinery?  really just a holder with reasonable defaults
-for the stuff that needs to be set up.  Relies on get recommended
-parameters and baohua's scale parameter setter to set up the defaults
-for optimizer, metric etc.
-
-SetOptimizer --- that will be in the machine but the optimizer might
-have a regularization function which will have parameters.
-Alternatively, we define regularized metrics that takes an
-unregularized metric as input along with a regularizer and just
-returns the regularized gradient---maybe a better idea!  A regularized
-metric will project the gradient to the space in which it should
-live.  
-
-SetResolutions --- virtual domains along with scales?  kind of unclear 
-
-SetVirtualDomain --- related to above 
-
-RunRegistration --- given above, runs the registration.  Need a
-convergence criterion.  
-
-\section{Frobenius norm registration}
-A three-dimensional problem with a derivative on $\x$, the spatial domain.
-Let us assume that $\I \colon \Omega \in [0,1]^d \rightarrow
-\mathbb{R}^d$ where $d$ defines the dimensionality. 
-Homogeneous coordinates make this easier.
-\begin{eqnarray}
-T(\x) =\y = [A(\theta)] \phi(\x)= [A(\theta)] (\x+U(\x)) \\ \notag 
-\J(T) = \R^T\J(\y)\R  \\ \notag 
-\R =\text{R part of polar decomposition of }   \\ \notag
-   [A(\theta)] (\Id+U_\x(\x))   \\ \notag
- \text{must compose affine with deformation gradient} \\ \notag
-\text{in order that correctly reorients the data.}  \\ \notag
-\| \I - \J (T) \|^2  \\ \notag 
-\frac{\partial}{\partial \x} \| \I - \J (T) \|^2 \\ \notag
-< \I - \J (T) , \frac{\partial}{\partial \x} (  \I - \J (T)  ) >  \\ \notag
-\frac{\partial}{\partial \x} (  \I - \J (T)  ) =  \\ \notag
-\frac{\partial}{\partial \x} \J (T)  =  \\ \notag
-\text{ chain rule gets ugly ...}
-\end{eqnarray}
-}
-\end{comment}
