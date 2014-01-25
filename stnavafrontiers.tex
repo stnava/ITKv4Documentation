@@ -361,112 +361,6 @@ a standard brain labeling task.  Finally, we discuss future developments
 in the framework.
 
 \section{Materials and Methods}
-\subsection{Nomenclature}
-The nomenclature below designates an image registration
-algorithm pictorially.  This nomenclature is intended to be a
-descriptive, but also technically consistent, system for visually
-representing algorithms and applications of registration.  Ideally,
-any standard algorithm can be written in the nomenclature below.
-\newline
-\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
-\newline
-\noindent{\em begin nomenclature definition}
-\vspace{0.1in}
-\begin{Parallel}[c]{0.24\textwidth}{0.74\textwidth}
-\ParallelLText{A physical point:} \ParallelRText{\noindent $x \in \Omega$ where $\Omega$ is the domain,
-  usually of an image.}\vspace{0.075in}
-\ParallelPar
-\ParallelLText{An image:} \ParallelRText{\noindent $ I \colon \Omega^d \to \mathbb{R}^n$ where $n$ is the
-  number of components per pixel and $d$ is dimensionality.  A second
-  image is $J$.}\vspace{0.075in}
-\ParallelPar
-\ParallelLText{Domain map:} \ParallelRText{\noindent $ \phi \colon \Omega_I \to \Omega_J $ where $\to$ may be
-  replaced with any mapping symbol below.} \vspace{0.075in}
-\ParallelPar
-\ParallelLText{Affine mapping:} \ParallelRText{\noindent $\leftrightarrow$ a low-dimensional invertible 
-  transformation: affine, rigid, translation, etc.} \vspace{0.075in}
-\ParallelPar
-\ParallelLText{Affine mapping:} \ParallelRText{\noindent $\rightarrow$ designates the direction an
-  affine mapping is applied.}\vspace{0.075in}
-\ParallelPar
-\ParallelLText{Deformation field:} \ParallelRText{\noindent  $ \rightsquigarrow$ deformation field mapping $J$
-  to $I$.  May not be invertible.}\vspace{0.075in}
-\ParallelPar
-\ParallelLText{Spline-based mapping:} \ParallelRText{\noindent  $\substack{
-   \rightsquigarrow \\
-   b
-  }$ e.g. B-Spline field mapping $J$
-  to $I$.}\vspace{0.075in}
-\ParallelPar
-\ParallelLText{Diffeomorphism:} \ParallelRText{\noindent Represented
-  as $\leftrightsquigarrow$, these are differentiable maps with
-  differentiable inverse.  Ideally, the algorithm should output the
-  inverse and forward mapping.}\vspace{0.075in}
-\ParallelPar
-\ParallelLText{Composite mapping:} \ParallelRText{\noindent $\phi=\phi_1(\phi_2(x))$ is defined by
-  $ \leftrightsquigarrow \rightarrow $ where $\phi_2$ is of type
-  $\leftrightsquigarrow$.}\vspace{0.075in}
-\ParallelPar
-\ParallelLText{Not invertible:} \ParallelRText{\noindent $\nleftrightarrow$ indicates a mapping that is
-  not invertible.}\vspace{0.075in}
-\ParallelPar
-\ParallelLText{Perform Image warping:} \ParallelRText{\noindent As an example, $ \rightarrow J$ represents
-the application of an affine transform $\rightarrow$ to image $J$ such that
-$\rightarrow J = J( A( x ) ) $.}\vspace{0.075in}
-\ParallelPar\vspace{0.075in}
-\ParallelLText{Similarity measure:}\ParallelRText{\noindent $\substack{
-   \approx \\
-   s
-  }$ or $\approx_s$ indicates the metric $s$ that compares a pair of images.}
-% \item [Transport versus diffeomorphism] intrasubject versus intersubject.
-% \item [Resolution effects]  ...
-% \item [accuracy vs precision] obsessed with accuracy because we dont
-% know the precision we need
-% \item [Evaluation data] is there any?
-% \item [Serial vs longitudinal]  short time scale versus long time scale
-% \item [Pathology] appearance changes ...
-% \item [whole body atlas] map any image to whole body
-% \item [radiation oncology] techs understand translation versus rotation versus deformation.
-\end{Parallel}
-\vspace{0.1in}
-\noindent{\em end nomenclature definition}\newline
-\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
-\newline
-
-We would then write a standard Demons registration application that maps 
-one image, $J$, into the space of $I$ (presumably a template) as:
-$$
- I  \rightsquigarrow \rightarrow  J \text{~~~~~which symbolizes~~~~~} I \approx
- J( A( \phi( x ) )),
-$$
-with $A$ an affine mapping and $\phi$ a generic deformation. 
-The notation means that the algorithm first optimizes an affine
-mapping, $ \rightarrow$, 
-between $J$ and $I$.  
-This is followed by a deformation in the second stage,$\rightsquigarrow$, from $\rightarrow J$
-to $I$.  In terms of transformation composition, we would write
-$\rightsquigarrow \rightarrow  J = J_w(x) =
-J( \phi_\text{Affine} ( \phi_\text{Demons} ( x) )) $ where $J_w$ is
-the result of warping $J$ to $I$.  The $\phi$ are the specific
-functions corresponding to the schematic arrows.  Note, also, that the
-tail of the arrow indicates the transform's domain.  The arrowhead
-indicates its range.  Finally, we denote the similarity metric as
-$\approx$ which indicates a sum of squared differences (the default
-similarity metric).  \tk supports metrics such as mutual information,
-$\substack{ \approx \\ \text{mi} }$, or cross-correlation, $\substack{
-\approx \\ \text{cc} }$.  We will use this nomenclature to write
-schematics for registration applications in the following sections.
-\footnote{In the Demons example above, the reader may ask: why does the affine
-mapping, $A$, not appear ``inside'' the deformable mapping, $\phi$?
-Indeed, this ordering of transformations is feasible.  However, this is not
-what we typically use in our own practice of image registration and is
-not what we recommend.  The
-reason is that we usually seek a deformable mapping into a template
-space that is common across many subjects (i.e. the ``tail'' is in the
-same domain across subjects).  This enables methods such as
-Jacobian-based morphometry and other groupwise comparison
-conveniences.  It is not, however, the only way to do things.}
-
 \subsection{Overview of the unified framework}
 The overall purpose of the registration refactoring for \tk was to
 simplify the user experience and to accelerate and improve
@@ -612,12 +506,121 @@ Finally, we summarize \tk changes through quantitative metrics:
   We added two new Gaussian interpolators.
 \item~An example of vector support for image metrics is in \newline \texttt{itkMeanSquaresImageToImageMetricv4VectorRegistrationTest.cxx}.
 \end{itemize}
-Below we will discuss (1) gradient-based optimization within the
+Below we will discuss: (0) an organizing nomenclature matched to the
+\tk framework, (1) gradient-based optimization within the
 framework, (2) techniques to estimate optimization parameters for
 arbitrary metric and transformation combinations, (3) several
 applications of the updated framework within different
 neuroinformatics relevant domains, (4) a generalized diffeomorphic
 matching approach.
+
+
+\subsection{Nomenclature}
+The nomenclature below designates an image registration
+algorithm pictorially.  This nomenclature is intended to be a
+descriptive, but also technically consistent, system for visually
+representing algorithms and applications of registration.  Ideally,
+any standard algorithm can be written in the nomenclature below.
+\newline
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+\newline
+\noindent\textit{begin nomenclature definition}
+\vspace{0.1in}
+\begin{Parallel}[c]{0.24\textwidth}{0.74\textwidth}
+\ParallelLText{A physical point:} \ParallelRText{\noindent $x \in \Omega$ where $\Omega$ is the domain,
+  usually of an image.}\vspace{0.075in}
+\ParallelPar
+\ParallelLText{An image:} \ParallelRText{\noindent $ I \colon \Omega^d \to \mathbb{R}^n$ where $n$ is the
+  number of components per pixel and $d$ is dimensionality.  A second
+  image is $J$.}\vspace{0.075in}
+\ParallelPar
+\ParallelLText{Domain map:} \ParallelRText{\noindent $ \phi \colon \Omega_I \to \Omega_J $ where $\to$ may be
+  replaced with any mapping symbol below.} \vspace{0.075in}
+\ParallelPar
+\ParallelLText{Affine mapping:} \ParallelRText{\noindent $\leftrightarrow$ a low-dimensional invertible 
+  transformation: affine, rigid, translation, etc.} \vspace{0.075in}
+\ParallelPar
+\ParallelLText{Affine mapping:} \ParallelRText{\noindent $\rightarrow$ designates the direction an
+  affine mapping is applied.}\vspace{0.075in}
+\ParallelPar
+\ParallelLText{Deformation field:} \ParallelRText{\noindent  $ \rightsquigarrow$ deformation field mapping $J$
+  to $I$.  May not be invertible.}\vspace{0.075in}
+\ParallelPar
+\ParallelLText{Spline-based mapping:} \ParallelRText{\noindent  $\substack{
+   \rightsquigarrow \\
+   b
+  }$ e.g. B-Spline field mapping $J$
+  to $I$.}\vspace{0.075in}
+\ParallelPar
+\ParallelLText{Diffeomorphism:} \ParallelRText{\noindent Represented
+  as $\leftrightsquigarrow$, these are differentiable maps with
+  differentiable inverse.  Ideally, the algorithm should output the
+  inverse and forward mapping.}\vspace{0.075in}
+\ParallelPar
+\ParallelLText{Composite mapping:} \ParallelRText{\noindent $\phi=\phi_1(\phi_2(x))$ is defined by
+  $ \leftrightsquigarrow \rightarrow $ where $\phi_2$ is of type
+  $\leftrightsquigarrow$.}\vspace{0.075in}
+\ParallelPar
+\ParallelLText{Not invertible:} \ParallelRText{\noindent $\nleftrightarrow$ indicates a mapping that is
+  not invertible.}\vspace{0.075in}
+\ParallelPar
+\ParallelLText{Perform Image warping:} \ParallelRText{\noindent As an example, $ \rightarrow J$ represents
+the application of an affine transform $\rightarrow$ to image $J$ such that
+$\rightarrow J = J( A( x ) ) $.}\vspace{0.075in}
+\ParallelPar\vspace{0.075in}
+\ParallelLText{Similarity measure:}\ParallelRText{\noindent $\substack{
+   \approx \\
+   s
+  }$ or $\approx_s$ indicates the metric $s$ that compares a pair of images.}
+% \item [Transport versus diffeomorphism] intrasubject versus intersubject.
+% \item [Resolution effects]  ...
+% \item [accuracy vs precision] obsessed with accuracy because we dont
+% know the precision we need
+% \item [Evaluation data] is there any?
+% \item [Serial vs longitudinal]  short time scale versus long time scale
+% \item [Pathology] appearance changes ...
+% \item [whole body atlas] map any image to whole body
+% \item [radiation oncology] techs understand translation versus rotation versus deformation.
+\end{Parallel}
+\vspace{0.1in}
+\noindent\textit{end nomenclature definition}\newline
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+\newline
+
+We would then write a standard Demons registration application that maps 
+one image, $J$, into the space of $I$ (presumably a template) as:
+$$
+ I  \rightsquigarrow \rightarrow  J \text{~~~~~which symbolizes~~~~~} I \approx
+ J( A( \phi( x ) )),
+$$
+with $A$ an affine mapping and $\phi$ a generic deformation. 
+The notation means that the algorithm first optimizes an affine
+mapping, $ \rightarrow$, 
+between $J$ and $I$.  
+This is followed by a deformation in the second stage,$\rightsquigarrow$, from $\rightarrow J$
+to $I$.  In terms of transformation composition, we would write
+$\rightsquigarrow \rightarrow  J = J_w(x) =
+J( \phi_\text{Affine} ( \phi_\text{Demons} ( x) )) $ where $J_w$ is
+the result of warping $J$ to $I$.  The $\phi$ are the specific
+functions corresponding to the schematic arrows.  Note, also, that the
+tail of the arrow indicates the transform's domain.  The arrowhead
+indicates its range.  Finally, we denote the similarity metric as
+$\approx$ which indicates a sum of squared differences (the default
+similarity metric).  \tk supports metrics such as mutual information,
+$\substack{ \approx \\ \text{mi} }$, or cross-correlation, $\substack{
+\approx \\ \text{cc} }$.  We will use this nomenclature to write
+schematics for registration applications in the following sections.
+\footnote{In the Demons example above, the reader may ask: why does the affine
+mapping, $A$, not appear ``inside'' the deformable mapping, $\phi$?
+Indeed, this ordering of transformations is feasible.  However, this is not
+what we typically use in our own practice of image registration and is
+not what we recommend.  The
+reason is that we usually seek a deformable mapping into a template
+space that is common across many subjects (i.e. the ``tail'' is in the
+same domain across subjects).  This enables methods such as
+Jacobian-based morphometry and other groupwise comparison
+conveniences.  It is not, however, the only way to do things.}
+
 
 \subsection{Optimization Framework}
 The general \tk optimization criterion is summarized as:
@@ -679,8 +682,7 @@ vector of parameter updates.
 
 In addition to basic gradient descent, we implement nonlinear gradient
 descent optimization strategies which combine the conjugate gradient
-or gradient descent method with line search.  In ITK$^4$, we implement the classic {\em
-  golden section} approach to identifying the optimal gradient
+or gradient descent method with line search.  In ITK$^4$, we implement the classic \textit{golden section} approach to identifying the optimal gradient
 step-size at each iteration.  The generic conjugate gradient approach
 is performed via: 
 \begin{align}
@@ -707,13 +709,10 @@ $\mathcal{T}$.  Multi-threading is achieved in the gradient computation, transfo
 step and (if used) the regularization by dividing the parameter set
 into computational units that correspond to contiguous sub-regions of the image domain.
 
-In terms of code, $\frac{d\phi}{dp}|_x$ corresponds to {\em
-ComputeJacobianWithRespectToParameters( mappedFixedPoint, Jacobian);
-}.  Note that it is evaluated at point $x$ not at point $\phi(x,p)$.  We
-then use {\em
-ComputeMovingImageGradientAtPoint( mappedMovingPoint,
+In terms of code, $\frac{d\phi}{dp}|_x$ corresponds to \textit{ComputeJacobianWithRespectToParameters( mappedFixedPoint, Jacobian);}.  Note that it is evaluated at point $x$ not at point $\phi(x,p)$.  We
+then use \textit{ComputeMovingImageGradientAtPoint( mappedMovingPoint,
 mappedMovingImageGradient );} to compute the moving image gradient
-when there is no pre-warping.  {\em ComputeMovingImageGradientAtPoint} uses central
+when there is no pre-warping.  \textit{ComputeMovingImageGradientAtPoint} uses central
 differences (or a gradient filter) in the moving image space to
 compute the image gradient, $\frac{dJ(\phi(x,p))}{d\phi}$.
 
@@ -724,10 +723,10 @@ compute the image gradient, $\frac{dJ(\phi(x,p))}{d\phi}$.
 \frac{dJ_w}{dx}=\frac{dJ(\phi(x,p))}{d\phi}\frac{d(\phi(x,p))}{dx} \\ \notag
 \frac{dJ(\phi(x,p))}{d\phi}=\frac{dJ_w}{dx}{\frac{d(\phi(x,p))}{dx}}^{-1} 
 \end{eqnarray}
-In code, we use {\em ComputeMovingImageGradientAtIndex( index,
+In code, we use \textit{ComputeMovingImageGradientAtIndex( index,
 mappedMovingImageGradient );} to get $\frac{dJ_w}{dx}$ and transform
 this image gradient via the inverse Jacobian by calling 
-{\em mappedMovingImageGradient=
+\textit{mappedMovingImageGradient=
 TransformCovariantVector(mappedMovingImageGradient, mappedMovingPoint )}.
 
 
@@ -827,7 +826,7 @@ one problem may result in a different amount of change per iteration
 in another problem.  Furthermore, the discrete image gradient may
 become invalid beyond one voxel.  Thus, it is good practice to limit a deformation step to one voxel spacing
 \cite{Jenkinson2001}.  We therefore provide the users the ability to
-specify the learning rate in terms of the {\em maximum physical space change
+specify the learning rate in terms of the \textit{maximum physical space change
   per iteration}.  As with the parameter scale estimation, the domain
 over which this maximum change is estimated impacts the outcome and
 similar practices are recommended for both cases.   This feature is
@@ -867,7 +866,7 @@ general optimization process given in equation~\ref{eq:gen}.}
 As part of our work in ITK refactoring, we built, in parallel to
 library programming, an
 application interface that allows high-level access to the deep layers
-of ITK registration.  These currently exist in the {\em Advanced
+of ITK registration.  These currently exist in the \textit{Advanced
   Normalization Tools} (ANTs) software
 \href{http://stnava.github.io/ANTs}{(link)}.  While ANTs still serves
 as intermediate (vs. direct) access-point to these tools, it provides
@@ -938,13 +937,12 @@ A list of these examples follows:
   \item~We show how to perform motion correction to time series data
     \href{https://github.com/stnava/ANTs/blob/master/Scripts/antsMotionCorrExample}{here}
     although we do not claim this approach is optimal. 
-   \item~ An advanced example with heavy use of statistics via {\em
-       R} and \href{http://stnava.github.io/ANTsR/}{{\em ANTsR}} is in
+   \item~ An advanced example with heavy use of statistics via \textit{R} and \href{http://stnava.github.io/ANTsR/}{\textit{ANTsR}} is in
      a study of \href{http://stnava.github.io/RfMRI/}{public test-retest fmri data}. % done
   \item~The classic car example shown in ANTs talks is \href{http://stnava.github.io/cars/}{here}. % done
   \item~A basic \href{http://stnava.github.io/butterfly/}{multistart example}.  A more advanced
     example for brain mapping with a template mask is available in
-    {\em antsCorticalThickness.sh}.  These optimization methods
+    \textit{antsCorticalThickness.sh}.  These optimization methods
     overcome local minima.
    \item~  This \href{http://stnava.github.io/asymmetry/}{asymmetry
        analysis} example uses the ``virtual domain'' feature to reduce
@@ -1071,7 +1069,22 @@ used to evaluate ANTs or \tk.
 The latest evaluation
 numbers are at:
 ~\textcolor{blue}{\href{https://github.com/ntustison/BSplineMorphisms}{ITKv4 latest
-  evaluation results}}.
+  evaluation results}}.   
+Figure~\ref{fig:eval} shows a single image pair. 
+Figure~\ref{fig:antsbfit} summarizes these new evaluation results.
+
+
+\begin{figure}[t]
+\begin{center}
+\includegraphics[width=4.5in]{figs/star_ants_bfit.pdf}
+\caption{\baselineskip 12pt \small We use star plots of
+  per-brain-region Dice overlap to compare, for 10 subjects, the \tk
+  implementation of SyN with the \tkt-based BRAINSFit algorithm.  The
+  \tk SyN algorithm, with it's classic neighborhood correlation
+  metric, outperforms BRAINSFit in ...}
+\label{fig:antsbfit}
+\end{center}
+\end{figure}
 
 
 \section{Discussion} 
