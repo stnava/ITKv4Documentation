@@ -1072,17 +1072,29 @@ to a \tkt method, BRAINSFit, in a different dataset than previously
 used to evaluate ANTs or \tk.
 
 As ground truth, we use T1 MRI data from 33 two year old subjects as
-described in \cite{Gousias2008}.  Each subject's brain is manually
-parcellated into 83 distinct regions that include ventricles, cortical
-areas, white matter and deep gray matter regions such as the amygdala,
-hippocampus and thalamus.  One benefit of this data is that some of
-these anatomical regions are relatively easy to align (the caudate)
-whereas others are relatively difficult to align due to their small
-size (amygdala) or inconsistent shape across subjects (the inferior
-frontal gyrus).  Thus, we anticipate that performance gains due to new
-technology in \tk will be most prominent in these regions.  
-Figure~\ref{fig:eval} shows a single image pair selected from this
-data and the registration result given by \tk.  Figure~\ref{fig:antsbfit} summarizes these evaluation results.
+described in \cite{Gousias2008} and available at
+\href{http://www.brain-development.org}{http://www.brain-development.org}.
+Each subject's brain is manually parcellated into 83 distinct regions
+that include ventricles, cortical areas, white matter and deep gray
+matter regions such as the amygdala, hippocampus and thalamus.  One
+benefit of this data is that some of these anatomical regions are
+relatively easy to align (the caudate) whereas others are relatively
+difficult to align due to their small size (amygdala) or inconsistent
+shape across subjects (the inferior frontal gyrus).  Thus, we
+anticipate that performance gains due to new technology in \tk will be
+most prominent in the more variable and challenging regions.
+Figure~\ref{fig:eval} summarizes the study nomenclature and shows a single image pair selected from this
+data along with the registration result given by \tk.
+Figure~\ref{fig:antsbfit} summarizes these evaluation results.  
+The scripts for running this study are available at
+\href{https://github.com/stnava/ITKv4Documentation/tree/frontiers/scripts}{https://github.com/stnava/ITKv4Documentation/tree/frontiers/scripts}.
+The git hashtag for the ANTs version used in this evaluation \href{https://github.com/stnava/ANTs}{https://github.com/stnava/ANTs}
+is
+936288fb2b8c4467059667a42178bca986219665.  The associated ITK tag is contained
+within the ANTs repository.  
+The git hashtag for the BRAINSFit version \href{https://github.com/BRAINSia/BRAINSTools}{https://github.com/BRAINSia/BRAINSTools} used in this evaluation is
+ad7e114ab1c92bd800819b80e0548259398931c8.  Both programs were run on a
+MacBook Pro running OS X 10.9 (13A3028) with a 2.6 GHz Intel Core i7 and 16GB of RAM.
 \begin{figure}[t]
 \begin{center}
 \includegraphics[width=4.5in]{figs/star_ants_bfit.pdf}
