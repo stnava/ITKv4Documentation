@@ -344,13 +344,14 @@ broader functionality than in prior releases.
 David Donoho once commented (in paraphrase) that academic publications
 are merely ``advertisements'' for the real work which is constituted
 by the ``complete instruction set'' that produces the results reported
-in the publication.  The remainder of this document will provide an
-``advertisement'' for the ITK framework via the context of a potential
-general nomenclature.  While this work is indeed incomplete, in the
-sense of Donoho, we provide links to source code and data that
-illustrate the major advances available within the ITK framework, as
-of late 2013.  These occur in section \ref{sec:applications}.  Several
-areas relevant to neuroinformatics are highlighted: optimal template
+in the publication.  The first part of the remainder of this document will provide an
+``advertisement'' for the ITK framework and summarize its evolution
+from \tkt to \tk.  We then detail potential applications of this \tk
+framework in the context of a general nomenclature.  While this work is indeed incomplete, in the
+sense of Donoho, we refer to source code and data when relevant.
+Furthermore, section \ref{sec:applications} shows a series of
+reproducible examples of \tk in action.  Several
+areas relevant to neuroinformatics are highlighted in these examples: optimal template
 construction, ``challenging'' registration scenarios involving brain
 mapping in the presence of lesions or resection, registration when
 initialization priors are weak, asymmetry analyses, functional MRI and
@@ -496,8 +497,8 @@ Metric gradient memory is shared between optimizer and metric, and modifications
 
 Finally, we summarize \tk changes through quantitative metrics:
 \begin{itemize}
-\item~Over 22 new multi-threaded image registration metrics are available in v4.
-\item~4 application-level registration methods are available
+\item~Over 12 new multi-threaded image registration metrics are available in v4.
+\item~Four application-level registration methods, with plug-and-play architecture, are available
   for high-level inclusion in projects such as Slicer and SimpleITK.
 \item~All contributions are unit-tested and have greater than 85\% code coverage, in accordance with ITK standards.
 \item~A complete refactoring of the ITK transform hierarchy that makes transforms thread-safe, applicable to high-dimensional optimization and easily used in multi-core computing. 41 classes, in total, were impacted by this refactoring.
@@ -509,11 +510,10 @@ Finally, we summarize \tk changes through quantitative metrics:
 Below we will discuss: (0) an organizing nomenclature matched to the
 \tk framework, (1) gradient-based optimization within the
 framework, (2) techniques to estimate optimization parameters for
-arbitrary metric and transformation combinations, (3) several
+arbitrary metric and transformation combinations, (3) a \tk instance implementing generalized diffeomorphic
+matching, (4) several
 applications of the updated framework within different
-neuroinformatics relevant domains, (4) a generalized diffeomorphic
-matching approach.
-
+neuroinformatics relevant domains.
 
 \subsection{Nomenclature}
 The nomenclature below designates an image registration
@@ -839,28 +839,7 @@ approach (our current optimization of choice for linear registration),
 this strategy drastically reduces the parameter setting burden for
 users. 
 
-\begin{figure}[t]
-\begin{center}
-\includegraphics[width=4.5in]{figs/three.pdf}
-\caption{\baselineskip 12pt \small Three references images, $I$
-(left), $J$ (middle top), and $K$ (right top), are used to illustrate
-the robustness of our parameter scale estimation for setting
-consistent parameters across both metrics and transform types.  $K$ is
-the negation of $J$ and is used to test the correlation and mutual
-information registrations.  We optimized, by hand, the step-length
-parameters for one metric (the sum of squared differences) for both the affine
-and deformable case.  Thus, two parameters had to be optimized.  We
-then applied these same parameters to register $I$ and $K$ via both
-correlation and mutual information.  The resulting registrations
-(bottom row) were all of similar quality.  Further, the same metric is
-used for both affine and diffeomorphic mapping by exploiting the
-general optimization process given in equation~\ref{eq:gen}.}
-\label{fig:result}
-\end{center}
-\end{figure}
-
 \section{Results}
-
 \subsection{Example Applications of the ITK$^4$ Framework}
 \label{sec:applications}
 As part of our work in ITK refactoring, we built, in parallel to
@@ -908,8 +887,10 @@ A list of these examples follows:
 \begin{enumerate}
   \item~The \href{http://stnava.github.io/BasicBrainMapping/}{Basic
       Brain Mapping} example shows how one can map two ``whole head''
-    T1-weighted MRIs where one is a template with some user-based prior
-    knowledge defining the ``interesting'' parts of the image.
+    T1-weighted MRIs where one is a template that contains a researcher's prior
+    knowledge defining the ``interesting'' parts of the image.  Within
+    \tk, this domain knowledge is used to focus the \texttt{Metricsv4}
+    on only those parts of the image while masking the remainder.
     Furthermore, a second part of this example shows how the ITK
     composite transform may be used to initialize new registration
     solutions as well as how masking functionality may be employed to
@@ -920,12 +901,18 @@ A list of these examples follows:
     reproducible example based on face and brain data:
     \href{https://github.com/ntustison/TemplateBuildingExample}{ANTs
       template construction}.  This work has been employed in
-    different species, age-ranges and imaging modalities. 
+    different species, age-ranges and imaging modalities.  The
+    resulting template is an image that captures the expected shape
+    and appearance as defined by the population sample, transformation
+    model and intensity comparison metric.
   \item~A \href{http://stnava.github.io/C/}{large deformation
       example} implementing the classic ``letter C'' example provided,
      originally, by Gary Christensen.  While extremely flexible, these
      algorithms have not found a unique identity in terms of
      translational applications yet remain of theoretical interest.
+     This example shows a user how to define the parameters of a
+     registration based on optimizing a time
+     varying velocity field.
   \item~We present a separate example of how to compute landmark-based
     registration error.  ITK uses LPS coordinates to represent physical space.  If you
     need to convert landmarks to physical space, see the discussion here:
@@ -933,22 +920,33 @@ A list of these examples follows:
       physical
       space}.  We have an example illustrating how to change point
     coordinates and apply ITK transforms to landmarks
-    \href{http://stnava.github.io/chicken/}{here}. % done
+    \href{http://stnava.github.io/chicken/}{here}.  This exercise can
+    be useful for landmark-based registration or in evaluating
+    registration accuracy.
   \item~We show how to perform motion correction to time series data
     \href{https://github.com/stnava/ANTs/blob/master/Scripts/antsMotionCorrExample}{here}
-    although we do not claim this approach is optimal. 
+    although we do not claim this approach is optimal.  The method
+    registers each frame from a 4D time series to a fixed reference
+    image and stores the resampled set in a new 4D image.  All
+    transformation parameters are stored in a corresponding csv file.
    \item~ An advanced example with heavy use of statistics via \textit{R} and \href{http://stnava.github.io/ANTsR/}{\textit{ANTsR}} is in
      a study of \href{http://stnava.github.io/RfMRI/}{public test-retest fmri data}. % done
-  \item~The classic car example shown in ANTs talks is \href{http://stnava.github.io/cars/}{here}. % done
+  \item~The classic car example shown in ANTs talks is
+    \href{http://stnava.github.io/cars/}{here}.  This illustrates the
+    benefit of mutual information in deformably mapping wild-type
+    images and highlights the fact that \tk applications exist outside
+    of medical imaging.
   \item~A basic \href{http://stnava.github.io/butterfly/}{multistart example}.  A more advanced
     example for brain mapping with a template mask is available in
     \textit{antsCorticalThickness.sh}.  These optimization methods
-    overcome local minima.
+    overcome local minima by running registration searches from a
+    variety of starting points and greedily storing the best solution.
    \item~  This \href{http://stnava.github.io/asymmetry/}{asymmetry
        analysis} example uses the ``virtual domain'' feature to reduce
      bias caused by mapping an image asymmetrically to a reference.
      Longitudinal analysis and asymmetry analysis potentially suffer
-     from the same confound \cite{Yushkevich2010a}.
+     from the same confound \cite{Yushkevich2010a}.  A related
+     longitudinal mapping script is \href{https://github.com/stnava/ANTs/blob/master/Scripts/unbiased_longitudinal_map}{here}.
   \item~We also show how manual labelings can be used to restrict
     registration in a challenging registration scenario (this example
     will be improved in the future): \href{http://stnava.github.io/LabelMyHeart/}{
@@ -959,22 +957,29 @@ A list of these examples follows:
    If one compiles the ITK tests, then this example can be run to
    produce figure~\ref{fig:appleorange}.
 \end{enumerate}
-
+These examples cover many applications for which no ``ground truth''
+evaluation data exists.  The next section seeks to add some
+quantitative reference to these examples.  First, we show flexibility
+and consistency of our framework in a simple example comparing
+registration with a variety of metrics and a consistent parameter
+set.  Second, we quantify the benefit of
+\tk registration in comparison to a method implemented based upon \tkt
+registration technology.
 \begin{figure}[t]
 \begin{center}
 \includegraphics[width=6.5in]{figs/appleorange.pdf}
-\caption{\baselineskip 12pt \small RGB image registration.}
+\caption{\baselineskip 12pt \small This RGB image registration example employs
+  \tk code that repurposes a scalar metric
+  (\texttt{itkMeanSquaresImageToImageMetricv4}) for
+  multichannel registration via C$++$ ``magic''.}
 \label{fig:appleorange}
 \end{center}
 \end{figure}
 
-
-
-
 \subsection{Evaluation}
 We first investigate the ability of our automated parameter estimation
 to facilitate parameter tuning across metrics.  Second, we compare
-ITKv4 and ITKv3 registration implementations with respect to a
+\tk and \tkt registration implementations with respect to a
 standard automated brain labeling task.
 
 \subsubsection{Parameter estimation across metrics}
@@ -1034,20 +1039,19 @@ general optimization process given in equation~\ref{eq:gen}.}
 
 \begin{figure}[t]
 \begin{center}
-\includegraphics[width=4.5in]{figs/eval.pdf}
-\caption{We compare an ITKv4 composite schema as $I
+\includegraphics[width=4.5in]{figs/figEval.png}
+\caption{We compare a \tk composite schema as $I
 ~\approx_\text{cc}  \leftrightsquigarrow \approx_\text{mi}  \rightarrow
 J_i $ for mapping a set of $\{ J_i \}$ images
-to a template $I$ to a v3 schema:  $I
+to a template $I$ to a \tkt schema:  $I
 ~\approx_\text{mi} \rightsquigarrow_b    \approx_\text{mi}  \rightarrow
 J_i $.  We use this schematic in a registration-based
-segmentation of multiple brain structures in an elderly population as a benchmark
+segmentation of multiple brain structures in a pediatric population as a benchmark
 for algorithm performance, similar to \cite{Klein2010}.  Example
 large-deformation results from the dataset are at right.  The largest
-improvement in performance is within hippocampus, where a 13\%
+improvement in performance is within FIXME, where a FIXME \%
 improvement in v4 is gained.  Overlap improvement from v3 to v4, quantified via
-paired t-test, is significant.  The example pair of images will be
-included in v4 for regression testing.}
+paired t-test, is significant at level FIXME.}
 \label{fig:eval}
 \end{center}
 \end{figure}
@@ -1066,14 +1070,18 @@ we provide an additional evaluation here which focuses on comparison
 to a \tkt method, BRAINSFit, in a different dataset than previously
 used to evaluate ANTs or \tk.
 
-The latest evaluation
-numbers are at:
-~\textcolor{blue}{\href{https://github.com/ntustison/BSplineMorphisms}{ITKv4 latest
-  evaluation results}}.   
-Figure~\ref{fig:eval} shows a single image pair. 
-Figure~\ref{fig:antsbfit} summarizes these new evaluation results.
-
-
+As ground truth, we use T1 MRI data from 33 two year old subjects as
+described in \cite{Gousias2008}.  Each subject's brain is manually
+parcellated into 83 distinct regions that include ventricles, cortical
+areas, white matter and deep gray matter regions such as the amygdala,
+hippocampus and thalamus.  One benefit of this data is that some of
+these anatomical regions are relatively easy to align (the caudate)
+whereas others are relatively difficult to align due to their small
+size (amygdala) or inconsistent shape across subjects (the inferior
+frontal gyrus).  Thus, we anticipate that performance gains due to new
+technology in \tk will be most prominent in these regions.  
+Figure~\ref{fig:eval} shows a single image pair selected from this
+data and the registration result given by \tk.  Figure~\ref{fig:antsbfit} summarizes these evaluation results.
 \begin{figure}[t]
 \begin{center}
 \includegraphics[width=4.5in]{figs/star_ants_bfit.pdf}
