@@ -86,6 +86,7 @@
    \text{cc}
   }$}
 \newcommand{\tk}{~ITK$^{\text{4}}$~}
+\newcommand{\tkt}{~ITK$^{\text{3}}$~}
 \usepackage{amsmath,amssymb}
 \usepackage{times}
 \usepackage{setspace,verbatim}
@@ -192,8 +193,8 @@
 \def\keyFont{\fontsize{8}{11}\helveticabold }
 %\def\firstAuthorLast{Tustison {et~al.}} %use et al only if is more than 1 author
 \def\firstAuthorLast{Avants and Gee} %use et al only if is more than 1 author
-\def\Authors{Brian B. Avants, Nicholas J. Tustison\,$^{1,*}$ and James C. Gee\,$^{2}$
- }
+\def\Authors{Brian B. Avants, Nicholas J. Tustison\,$^{1,*}$, Michael
+  Stauffer, Gang Song, Baohua Wu and James C. Gee}
 % Affiliations should be keyed to the author's name with superscript numbers and be listed as follows: Laboratory, Institute, Department, Organization, City, State abbreviation (USA, Canada, Australia), and Country (without detailed address information such as city zip codes or street names).
 % If one of the authors has a change of address, list the new address below the correspondence details using a superscript symbol and use the same symbol to indicate the author in the author list.
 \def\Address{$^{1}$University of Virginia, Department of Radiology and Medical Imaging, Charlottesville, VA, USA \\
@@ -236,17 +237,28 @@ $^1$Penn Image Computing and Science Lab \\ Dept. of Radiology \\University of
 \end{comment}
 \begin{abstract}
 Publicly available scientific resources help establish evaluation
-standards, provide a platform for teaching and may improve reproducibility.
-Version 4 of the Insight ToolKit (\tk) seeks to establish new
-standards in publicly available image registration methodology.  We propose a nomenclature that may be used to
-discuss registration frameworks via schematic representations.  In
-total, the \tk contribution is intended as a structure to support
-reproducible research practices, will provide a more extensive
+standards, provide a platform for teaching and improve
+reproducibility.  Version 4 of the Insight ToolKit (\tk) seeks to
+establish new standards in publicly available image registration
+methodology.  \tk makes several advances in comparison to previous
+versions of ITK.  \tk supports both multivariate images and objective
+functions; it also unifies high-dimensional (deformation field) and
+low-dimensional (affine) transformations with metrics that are
+reusable across transform types and with composite transforms that
+allow arbitrary series of geometric mappings to be chained together
+seamlessly.  Metrics and optimizers take advantage of multi-core
+resources, when available.  Furthermore, \tk reduces the
+parameter optimization burden via principled heuristics 
+that automatically set scaling across disparate parameter types
+(rotations versus translations).  A related approach also constrains
+steps sizes for gradient-based optimizers.  The result is that tuning for different metrics and/or image
+pairs is rarely necessary allowing the researcher to more easily focus
+on design/comparison of registration strategies.  In total, the \tk contribution is intended as a structure to
+support reproducible research practices, will provide a more extensive
 foundation against which to evaluate new work in image registration
 and also enable application level programmers a broad suite of tools
-on which to build. \footnote{This
-  work is supported by National Library of Medicine sponsored ARRA
-  stimulus funding.}  
+on which to build. \footnote{This work is supported by National
+Library of Medicine sponsored ARRA stimulus funding.}
 \end{abstract}
 
 \section{Introduction}
@@ -282,7 +294,7 @@ at MICCAI in Nagoya, Japan).
 
 One source of benchmark methodology is the Insight ToolKit (ITK)
 \cite{Yoo2002,Ackerman2003}, which marked a significant contribution to
-medical image processing when it first emerged over 10 years ago.
+medical image processing when it first emerged at the turn of the millenium.
 Since that time, ITK has become a standard-bearer for image
 processing algorithms and, in particular, for image registration
 methods.  In a review of ITK user interests, image registration was cited as the most important
@@ -295,7 +307,7 @@ Elastix provides very fast and accurate B-Spline registration
 \cite{Klein2010,Murphy2011}.  The diffeomorphic demons is a fast/efficient
 approximation to a diffeomorphic mapping \cite{Vercauteren2009}.  
 ANTs provides both flexibility and high average performance
-\cite{Avants2011}.  The BrainsFit algorithm is integrated into slicer
+\cite{Avants2011}.  The BRAINSFit algorithm is integrated into Slicer
 for user-guided registration \cite{Kikinis2011}.
 Each of these toolkits has both strengths and weaknesses
 \cite{Klein2010,Murphy2011} and was enabled by an ITK core.    
@@ -335,16 +347,17 @@ by the ``complete instruction set'' that produces the results reported
 in the publication.  The remainder of this document will provide an
 ``advertisement'' for the ITK framework via the context of a potential
 general nomenclature.  While this work is indeed incomplete, in the
-sense of Donoho, we do provide links to source code and data that
+sense of Donoho, we provide links to source code and data that
 illustrate the major advances available within the ITK framework, as
-of 2013.  These occur in section \ref{sec:applications}.  Several
+of late 2013.  These occur in section \ref{sec:applications}.  Several
 areas relevant to neuroinformatics are highlighted: optimal template
 construction, ``challenging'' registration scenarios involving brain
 mapping in the presence of lesions or resection, registration when
 initialization priors are weak, asymmetry analyses, functional MRI and
 non-traditional registration strategies are all highlighted.  We also
-establish performance benchmarks for the current \tk registration via
-reference to a parallel work.  Finally, we discuss future developments
+establish performance benchmarks for the current \tk registration, in
+comparison to a method developed for \tkt, via
+a standard brain labeling task.  Finally, we discuss future developments
 in the framework.
 
 \section{Materials and Methods}
@@ -443,13 +456,22 @@ similarity metric).  \tk supports metrics such as mutual information,
 $\substack{ \approx \\ \text{mi} }$, or cross-correlation, $\substack{
 \approx \\ \text{cc} }$.  We will use this nomenclature to write
 schematics for registration applications in the following sections.
+\footnote{In the Demons example above, the reader may ask: why does the affine
+mapping, $A$, not appear ``inside'' the deformable mapping, $\phi$?
+We note that this approach is a feasible one.  However, this is not
+what we typically use in our own practice of image registration.  The
+reason is that we usually seek a deformable mapping into a template
+space that is common across many subjects (i.e. the ``tail'' is in the
+same domain across subjects).  This enables methods such as
+Jacobian-based morphometry and other groupwise comparison
+conveniences.  It is not, however, the only way to do things.}
 
 \subsection{Overview of the unified framework}
 The key contributions in 2013 to \tk registration are:
 \begin{figure}[t]
 \begin{center}
 \begin{tabular}{c}
-\includegraphics[width=5in]{figs/software_design.pdf}
+\includegraphics[width=5in]{figs/RegistrationNomenclature.pdf}
 \end{tabular}
 \caption{\baselineskip 12pt \small Define $x$ in $\Omega_I$ and $z$ in
   $\Omega_J$ as the same material point but existing in different
@@ -462,7 +484,9 @@ The key contributions in 2013 to \tk registration are:
   $I(x) ~\approx_\text{mi}  J(A(\phi(x))) =  J_\text{Affine}(y) = J(z)
   $. The image $J_\text{Affine}(y)$
   represents $J$ after application of the affine transformation $A$
-  i.e. $J(A(x))$.  Code and data for this example is \href{http://stnava.github.io/cars/}{here}.}
+  i.e. $J(A(x))$.  Code and data for this example is
+  \href{http://stnava.github.io/cars/}{here}.  This figure should be
+  read in clockwise fashion.}
 %  We avoid compounding interpolation  error by concatenating transformations.  Thus, we never need to use more than  a single interpolation into the data regardless of the nature of the  sub-transforms within the composite mapping.  Because transformations may  either perform mapping or resampling, this framework also  provides the ability to handle changes in resolution.}
 \label{fig:composite}
 \end{center}
@@ -496,6 +520,19 @@ arbitrary metric and transformation combinations, (3) several
 applications of the updated framework within different
 neuroinformatics relevant domains, (4) a generalized diffeomorphic
 matching approach.
+
+\subsubsection{Core Software Components}
+\begin{figure}[t]
+\begin{center}
+\begin{tabular}{c}
+\includegraphics[width=5in]{figs/software_design.pdf}
+\end{tabular}
+\caption{\baselineskip 12pt \small Sketch}
+\label{fig:softw}
+\end{center}
+\end{figure}
+
+\textcolor{red}{The paper assumes a high-level of familiarity with the ITKv3 and ITKv4 framework. It would be helpful for readers who have little or limited familiarity with the software framework, if the paper contains a brief overview of the registration framework (the classes and the primary methods). For example, how methods such as ComputeJacobian... would fit in the overall registration framework would be unclear to a basic ITK user.}
 
 \subsection{Optimization Framework}
 The general \tk optimization criterion is summarized as:
@@ -607,6 +644,60 @@ mappedMovingImageGradient );} to get $\frac{dJ_w}{dx}$ and transform
 this image gradient via the inverse Jacobian by calling 
 {\em mappedMovingImageGradient=
 TransformCovariantVector(mappedMovingImageGradient, mappedMovingPoint ); }.
+
+
+\subsection{Diffeomorphic mapping with arbitrary metrics}
+\begin{figure}[t]
+\begin{center}
+\begin{tabular}{c}
+\includegraphics[height=1.6in]{figs/c_chalf.pdf}
+\includegraphics[height=1.6in]{figs/c_half_c_grids.pdf}
+\end{tabular}
+\caption{\baselineskip 12pt \small An ITK diffeomorphic mapping of the
+  type $I \leftrightsquigarrow J $.  The 
+``C'' and 1/2 ``C'' example illustrate the large deformations that may
+be achieved with time varying velocity fields.  In this case, the moving (deforming) image is
+the 1/2 ``C''.  The right panels illustrate the deformed grid for the
+transformation of the ``C'' to 1/2 ``C'' (middle right) and its
+inverse mapping (far right) which takes the 1/2 ``C'' to the reference
+space.  The unit time interval is discretized into 15 segments in
+order to compute this mapping.  15*5 integration steps were used in
+the Runge-Kutta {\em ode} integration over the velocity field.  A two
+core MacBook Air computed this registration in 110 seconds.  The images
+each were of size $150 \times 150$.  See
+\href{http://stnava.github.io/C/}{C} for a reproducible example of
+this registration and the data.}
+\label{fig:chalf}
+\end{center}
+\end{figure}
+
+The framework proposed above, in general form, encompasses both
+classic affine mapping as well as more recent large deformation
+strategies.  Beg proposed the Large Deformation Diffeomorphic Metric Mapping
+(LDDMM) algorithm \cite{Miller2005} which minimizes the sum of squared differences
+criterion between two images.  LDDMM parameterizes a
+diffeomorphism through a time varying velocity field that is
+integrated through an {\em ode}.  In \tk, we implement an alternative
+to LDDMM that also uses a time varying field and an {\em ode} but minimizes
+the following objective function:
+\begin{align}
+\myE(\v) = M(I,J,\myphi_{1,0})
++  w \int_{0}^{1} \| \opL v_t\|^2 \dd t \;.
+\label{eq:lddmm}
+\end{align}
+This is an instance of equation~\ref{eq:gen} where $w$ is a scalar
+weight and $\myphi_{1,0}$ is a standard integration of the
+time-varying velocity field $v_t$ which is regularized by linear
+operator $\opL$.  \tk uses Gaussian smoothing which is the Green's
+kernel for generalized Tikhonov regularization \cite{Nielsen1997}.
+This objective is readily optimized using an approach that is similar
+to that proposed by Beg.  Generalization of the LDDMM gradient 
+for other metrics basically follows \cite{hermosillo} with a few
+adjustments to accomodate diffeomorphic mapping.
+Figure~\ref{fig:chalf} shows an ITK result on a standard example for large
+deformation registration.  We will evaluate this diffeomorphic
+mapping, along with parameter estimation, in a later section.
+
 
 
 \subsection{Parameter scale estimation}
@@ -914,56 +1005,6 @@ A list of these examples follows:
 \end{figure}
 
 
-\subsection{Diffeomorphic mapping with arbitrary metrics}
-\begin{figure}[t]
-\begin{center}
-\begin{tabular}{c}
-\includegraphics[height=1.6in]{figs/c_chalf.pdf}
-\includegraphics[height=1.6in]{figs/c_half_c_grids.pdf}
-\end{tabular}
-\caption{\baselineskip 12pt \small An ITK diffeomorphic mapping of the
-  type $I \leftrightsquigarrow J $.  The 
-``C'' and 1/2 ``C'' example illustrate the large deformations that may
-be achieved with time varying velocity fields.  In this case, the moving (deforming) image is
-the 1/2 ``C''.  The right panels illustrate the deformed grid for the
-transformation of the ``C'' to 1/2 ``C'' (middle right) and its
-inverse mapping (far right) which takes the 1/2 ``C'' to the reference
-space.  The unit time interval is discretized into 15 segments in
-order to compute this mapping.  15*5 integration steps were used in
-the Runge-Kutta {\em ode} integration over the velocity field.  A two
-core MacBook Air computed this registration in 110 seconds.  The images
-each were of size $150 \times 150$.  See
-\href{http://stnava.github.io/C/}{C} for a reproducible example of
-this registration and the data.}
-\label{fig:chalf}
-\end{center}
-\end{figure}
-
-Beg proposed the Large Deformation Diffeomorphic Metric Mapping
-(LDDMM) algorithm \cite{Miller2005} which minimizes the sum of squared differences
-criterion between two images.  LDDMM parameterizes a
-diffeomorphism through a time varying velocity field that is
-integrated through an {\em ode}.  In \tk, we implement an alternative
-to LDDMM that also uses a time varying field and an {\em ode} but minimizes
-the following objective function:
-\begin{align}
-\myE(\v) = M(I,J,\myphi_{1,0})
-+  w \int_{0}^{1} \| \opL v_t\|^2 \dd t \;.
-\label{eq:lddmm}
-\end{align}
-This is an instance of equation~\ref{eq:gen} where $w$ is a scalar
-weight and $\myphi_{1,0}$ is a standard integration of the
-time-varying velocity field $v_t$ which is regularized by linear
-operator $\opL$.  \tk uses Gaussian smoothing which is the Green's
-kernel for generalized Tikhonov regularization \cite{Nielsen1997}.
-This objective is readily optimized using an approach that is similar
-to that proposed by Beg.  Generalization of the LDDMM gradient 
-for other metrics basically follows \cite{hermosillo} with a few
-adjustments to accomodate diffeomorphic mapping.
-Figure~\ref{fig:chalf} shows an ITK result on a standard example for large
-deformation registration.  We will evaluate this diffeomorphic
-mapping, along with parameter estimation, in the following section.
-
 
 
 \subsection{Evaluation}
@@ -1048,12 +1089,23 @@ included in v4 for regression testing.}
 \end{figure}
 
 \subsubsection{Automated Brain Labeling Task}
+The \tk core functionality formed the heart of the reference results
+provided for the SATA2013 challenge at MICCAI 2013.  In this sense,
+these methods have been heavily evaluated on both basic brain mapping
+challenges (SATA2013's diencephalon challenge in which \tk-based
+methods finished first), multivariate
+registration challenges (the canine MRI / dog leg challenge of
+SATA2013 in which \tk-based methods were overwhelmingly the top
+finisher) and in the cardiac challenge (in which \tk-based methods
+were the only fully automated approach).  However, for completeness,
+we provide an additional evaluation here which focuses on comparison
+to a \tkt method, BRAINSFit, in a different dataset than previously
+used to evaluate ANTs or \tk.
 
 The latest evaluation
 numbers are at:
 ~\textcolor{blue}{\href{https://github.com/ntustison/BSplineMorphisms}{ITKv4 latest
   evaluation results}}.
-
 
 
 \section{Discussion} 
@@ -1086,6 +1138,9 @@ framework.
 
 
 \subsection{Future work}
+
+\textcolor{red}{would be interesting to add future outlook on image registration in ITK. For example, how would the new framework adapt to GPU computing approaches? How would it handle groupwise registration problems? Also, how can one use ITK to analyze the image mappings? Can one do statistical analysis of shape/deformation using the ANTsR package mentioned in the text? An overview of current software and methodological challenges in ITK would be helpful as well. Some of the items listed in the Appendix can be expanded further into a future work section. }
+
 Future work will extend the approaches here with additional support
 for diffusion tensor registration and additional evaluation.
 
