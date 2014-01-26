@@ -1151,7 +1151,7 @@ If this fine level is avoided, then the disparity in timing reduces
 to less than a factor of two, without much loss in accuracy.
 Note also that ANTs and BRAINSFit each use a different multithreading
 strategies, similarity metric implementations, rigid/affine
-registration mechansisms and optimizers making this overall comparison
+registration mechanisms and optimizers making this overall comparison
 less than ideal.
 
 % latex table generated in R 3.0.2 by xtable 1.7-1 package
@@ -1218,24 +1218,41 @@ core ITK developer community.  Community involvement is needed in order to incre
 number of possible registration applications and metric / transform /
 optimizer / data combinations that have been evaluated.  At the same
 time, documentation, usability and examples must be provided by the
-development team in order to improve user involvement.  Future work
-will enhance the depth and breadth of this documentation as well as
-seek to optimize the current implementations for speed and memory.
-With this effort, the user community will be capable of efficiently
-implementing novel applications and even algorithms based on the \tk
-framework.
-
-
+development team in order to improve user involvement.  
 
 
 \subsection{Future work}
+Future work will enhance the depth and breadth of documentation as well as
+seek to further optimize the current implementations for speed and memory.
+% \textcolor{red}{would be interesting to add future outlook on image registration in ITK. For example, how would the new framework adapt to GPU computing approaches? How would it handle groupwise registration problems? Also, how can one use ITK to analyze the image mappings? Can one do statistical analysis of shape/deformation using the ANTsR package mentioned in the text? An overview of current software and methodological challenges in ITK would be helpful as well. Some of the items listed in the Appendix can be expanded further into a future work section. }
+In time, it may be possible to extend the design philosophy used here
+to GPU implementations.  However, our ability to  interface low and
+high-dimensional transformations depends heavily on generic
+programming.  This style is less well-developed (and less well understood) in
+GPU applications which depend, to some extent, on specialization. 
+The current framework is amenable to groupwise registration strategies
+when used in combination with a computing cluster.  However, single
+core groupwise strategies are not currently implemented although one
+may consider basing an implementation on exisiting multi-metric /
+multivariate registration tools within the current code base.  While
+\tk does contain a statistics infrastructure, we currently prefer
+using \textit{R} and \textit{ANTsR} for analyzing our data.  
 
-\textcolor{red}{would be interesting to add future outlook on image registration in ITK. For example, how would the new framework adapt to GPU computing approaches? How would it handle groupwise registration problems? Also, how can one use ITK to analyze the image mappings? Can one do statistical analysis of shape/deformation using the ANTsR package mentioned in the text? An overview of current software and methodological challenges in ITK would be helpful as well. Some of the items listed in the Appendix can be expanded further into a future work section. }
-
-Future work will extend the approaches here with additional support
-for diffusion tensor registration and additional evaluation.
-
-
+A primary challenge to the future of \tk includes, beyond
+documentation, reduced $C++$ fluency.  As \tk leverages several
+advanced features of $C++$, even experienced developers may find it
+difficult to contribute meaningfully to the ITK software base.
+Therefore, the \tk community must also seek to educate potential
+future contributors not only on ITK but also, at times, on the
+fundamentals or advanced extensions of $C++$.  A second major hurdle
+is that \tk includes a host of generic registration ingredients.
+However, many of the most compelling new application domains require
+specialization.  Specialization may be needed for a specific imaging
+modality, via hardware interface or in the use of
+domain-specific prior knowledge.  Therefore, we envision the next
+phase of \tk development may focus on using the toolkit to support its
+specialization in solving high-impact and translational applications.
+Hopefully, this transition will occur in the near future.
 
 \bibliographystyle{frontiersinSCNS}
 \bibliography{itk,../CV/avantsCV}
