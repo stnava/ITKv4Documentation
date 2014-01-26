@@ -1135,9 +1135,10 @@ dense and high-resolution forward and inverse transform and does
 explicit transformation regularization to guarantee a diffeomorphism,
 the algorithm takes, on average, only about two times as long as the
 \tkt BRAINSFit algorithm ($\approx 15$ minutes).  Note also that ANTs
-and BRAINSFit each use a different similarity metric, strategy for
-rigid/affine registration and optimizer making this overall comparison
-less than ideal.
+and BRAINSFit each use a different multithreading strategies,
+similarity metric implementations, 
+rigid/affine registration mechansisms and optimizers making this overall comparison
+less than ideal.  
 
 \section{Discussion} 
 ITK is a community built and maintained toolkit and is a public
