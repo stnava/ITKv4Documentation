@@ -1,580 +1,1177 @@
-% This file was created with JabRef 2.10b2.
+% This file was created with JabRef 2.9.2.
 % Encoding: ISO8859_1
 
-
-@Article{Ackerman2003,
-  Title                    = {The Visible Human data sets ({V}{H}{D}) and Insight Toolkit ({I}{T}{k}): experiments in open source software.},
-  Author                   = {Ackerman, Michael J. and Yoo, Terry S.},
-  Journal                  = {AMIA Annu Symp Proc},
-  Year                     = {2003},
-  Pages                    = {773},
-
-  Abstract                 = {From its inception in 1989, the Visible Human Project was designed as an experiment in open source software. In 1994 and 1995 the male and female Visible Human data sets were released by the National Library of Medicine (NLM) as open source data sets. In 2002 the NLM released the first version of the Insight Toolkit (ITk) as open source software.},
-  Institution              = {National Library of Medicine, Bethesda, MD, USA.},
-  Keywords                 = {Female; Humans; Male; Software; Visible Human Projects},
-  Medline-pst              = {ppublish},
-  Owner                    = {stnava},
-  Pii                      = {D030003842},
-  Pmid                     = {14728278},
-  Timestamp                = {2012.01.30}
+@ARTICLE{Ackerman2003,
+  author = {Ackerman, Michael J. and Yoo, Terry S.},
+  title = {The Visible Human data sets ({V}{H}{D}) and Insight Toolkit ({I}{T}{k}):
+	experiments in open source software.},
+  journal = {AMIA Annu Symp Proc},
+  year = {2003},
+  pages = {773},
+  abstract = {From its inception in 1989, the Visible Human Project was designed
+	as an experiment in open source software. In 1994 and 1995 the male
+	and female Visible Human data sets were released by the National
+	Library of Medicine (NLM) as open source data sets. In 2002 the NLM
+	released the first version of the Insight Toolkit (ITk) as open source
+	software.},
+  institution = {National Library of Medicine, Bethesda, MD, USA.},
+  keywords = {Female; Humans; Male; Software; Visible Human Projects},
+  medline-pst = {ppublish},
+  owner = {stnava},
+  pii = {D030003842},
+  pmid = {14728278},
+  timestamp = {2012.01.30}
 }
 
-@Article{Avants2011,
-  Title                    = {A reproducible evaluation of {A}{N}{T}s similarity metric performance in brain image registration.},
-  Author                   = {Avants, Brian B. and Tustison, Nicholas J. and Song, Gang and Cook, Philip A. and Klein, Arno and Gee, James C.},
-  Journal                  = {Neuroimage},
-  Year                     = {2011},
-
-  Month                    = {Feb},
-  Number                   = {3},
-  Pages                    = {2033--2044},
-  Volume                   = {54},
-
-  Abstract                 = {The United States National Institutes of Health (NIH) commit significant support to open-source data and software resources in order to foment reproducibility in the biomedical imaging sciences. Here, we report and evaluate a recent product of this commitment: Advanced Neuroimaging Tools (ANTs), which is approaching its 2.0 release. The ANTs open source software library consists of a suite of state-of-the-art image registration, segmentation and template building tools for quantitative morphometric analysis. In this work, we use ANTs to quantify, for the first time, the impact of similarity metrics on the affine and deformable components of a template-based normalization study. We detail the ANTs implementation of three similarity metrics: squared intensity difference, a new and faster cross-correlation, and voxel-wise mutual information. We then use two-fold cross-validation to compare their performance on openly available, manually labeled, T1-weighted MRI brain image data of 40 subjects (UCLA's LPBA40 dataset). We report evaluation results on cortical and whole brain labels for both the affine and deformable components of the registration. Results indicate that the best ANTs methods are competitive with existing brain extraction results (Jaccard=0.958) and cortical labeling approaches. Mutual information affine mapping combined with cross-correlation diffeomorphic mapping gave the best cortical labeling results (Jaccard=0.669±0.022). Furthermore, our two-fold cross-validation allows us to quantify the similarity of templates derived from different subgroups. Our open code, data and evaluation scripts set performance benchmark parameters for this state-of-the-art toolkit. This is the first study to use a consistent transformation framework to provide a reproducible evaluation of the isolated effect of the similarity metric on optimal template construction and brain labeling.},
-  Institution              = {Penn Image Computing and Science Laboratory, University of Pennsylvania, Philadelphia, PA 19104, USA. avants@grasp.cis.upenn.edu},
-  Keywords                 = {Algorithms; Brain, anatomy /\&/ histology; Databases, Factual; Diagnostic Imaging, methods; Head, anatomy /\&/ histology; Humans; Image Processing, Computer-Assisted, methods; Linear Models; Models, Anatomic; Models, Neurological; Population; Reproducibility of Results; Software},
-  Medline-pst              = {ppublish},
-  Owner                    = {stnava},
-  Pii                      = {S1053-8119(10)01206-1},
-  Pmid                     = {20851191},
-  Timestamp                = {2012.01.30}
+@ARTICLE{Avants2011,
+  author = {Avants, Brian B. and Tustison, Nicholas J. and Song, Gang and Cook,
+	Philip A. and Klein, Arno and Gee, James C.},
+  title = {A reproducible evaluation of {A}{N}{T}s similarity metric performance
+	in brain image registration.},
+  journal = {Neuroimage},
+  year = {2011},
+  volume = {54},
+  pages = {2033--2044},
+  number = {3},
+  month = {Feb},
+  abstract = {The United States National Institutes of Health (NIH) commit significant
+	support to open-source data and software resources in order to foment
+	reproducibility in the biomedical imaging sciences. Here, we report
+	and evaluate a recent product of this commitment: Advanced Neuroimaging
+	Tools (ANTs), which is approaching its 2.0 release. The ANTs open
+	source software library consists of a suite of state-of-the-art image
+	registration, segmentation and template building tools for quantitative
+	morphometric analysis. In this work, we use ANTs to quantify, for
+	the first time, the impact of similarity metrics on the affine and
+	deformable components of a template-based normalization study. We
+	detail the ANTs implementation of three similarity metrics: squared
+	intensity difference, a new and faster cross-correlation, and voxel-wise
+	mutual information. We then use two-fold cross-validation to compare
+	their performance on openly available, manually labeled, T1-weighted
+	MRI brain image data of 40 subjects (UCLA's LPBA40 dataset). We report
+	evaluation results on cortical and whole brain labels for both the
+	affine and deformable components of the registration. Results indicate
+	that the best ANTs methods are competitive with existing brain extraction
+	results (Jaccard=0.958) and cortical labeling approaches. Mutual
+	information affine mapping combined with cross-correlation diffeomorphic
+	mapping gave the best cortical labeling results (Jaccard=0.669±0.022).
+	Furthermore, our two-fold cross-validation allows us to quantify
+	the similarity of templates derived from different subgroups. Our
+	open code, data and evaluation scripts set performance benchmark
+	parameters for this state-of-the-art toolkit. This is the first study
+	to use a consistent transformation framework to provide a reproducible
+	evaluation of the isolated effect of the similarity metric on optimal
+	template construction and brain labeling.},
+  institution = {Penn Image Computing and Science Laboratory, University of Pennsylvania,
+	Philadelphia, PA 19104, USA. avants@grasp.cis.upenn.edu},
+  keywords = {Algorithms; Brain, anatomy /\&/ histology; Databases, Factual; Diagnostic
+	Imaging, methods; Head, anatomy /\&/ histology; Humans; Image Processing,
+	Computer-Assisted, methods; Linear Models; Models, Anatomic; Models,
+	Neurological; Population; Reproducibility of Results; Software},
+  medline-pst = {ppublish},
+  owner = {stnava},
+  pii = {S1053-8119(10)01206-1},
+  pmid = {20851191},
+  timestamp = {2012.01.30}
 }
 
-@Article{Baloch2009,
-  Title                    = {Morphological appearance manifolds in computational anatomy: groupwise registration and morphological analysis.},
-  Author                   = {Baloch, Sajjad and Davatzikos, Christos},
-  Journal                  = {Neuroimage},
-  Year                     = {2009},
-
-  Month                    = {Mar},
-  Number                   = {1 Suppl},
-  Pages                    = {S73--S85},
-  Volume                   = {45},
-  Abstract                 = {Existing approaches to computational anatomy assume that a perfectly conforming diffeomorphism applied to an anatomy of interest captures its morphological characteristics relative to a template. However, the amount of biological variability in a groupwise analysis renders this task practically impossible, due to the nonexistence of a single template that matches all anatomies in an ensemble, even if such a template is constructed by group averaging procedures. Consequently, anatomical characteristics not captured by the transformation, and which are left out in the residual image, are lost permanently from subsequent analysis, if only properties of the transformation are examined. This paper extends our recent work [Makrogiannis, S., Verma, R., Davatzikos, C., 2007. Anatomical equivalence class: a computational anatomy framework using a lossless shape descriptor. IEEE Trans. Biomed. Imag. 26(4), 619-631] on characterizing subtle morphological variations via a lossless morphological descriptor that takes the residual into account along with the transformation. Since there are infinitely many [transformation, residual] pairs that reconstruct a given anatomy, we treat them as members of an Anatomical Equivalence Class (AEC), thereby forming a manifold embedded in the space spanned by [transformation, residual]. This paper develops a unique and optimal representation of each anatomy that is estimated from the corresponding AECs by solving a global optimization problem. This effectively determines the optimal template and transformation parameters for each individual anatomy, and eliminates respective confounding variation in the data. It, therefore, constitutes the second novelty, in that it represents a group-wise optimal registration strategy that individually adjusts the template and the smoothness of the transformation according to each anatomy. Experimental results support the superiority of our morphological analysis framework over conventional analysis, and demonstrate better diagnostic accuracy.},
-  Institution              = {University of Pennsylvania, Philadelphia, PA, USA. sajjad.baloch@gmail.com},
-  Keywords                 = {Anatomy, methods; Brain, anatomy /\&/ histology; Computational Biology, methods; Humans; Image Processing, Computer-Assisted, methods},
-  Medline-pst              = {ppublish},
-  Owner                    = {stnava},
-  Pii                      = {S1053-8119(08)01169-5},
-  Pmid                     = {19061962},
-  Timestamp                = {2012.01.30}
+@ARTICLE{Baloch2009,
+  author = {Baloch, Sajjad and Davatzikos, Christos},
+  title = {Morphological appearance manifolds in computational anatomy: groupwise
+	registration and morphological analysis.},
+  journal = {Neuroimage},
+  year = {2009},
+  volume = {45},
+  pages = {S73--S85},
+  number = {1 Suppl},
+  month = {Mar},
+  abstract = {Existing approaches to computational anatomy assume that a perfectly
+	conforming diffeomorphism applied to an anatomy of interest captures
+	its morphological characteristics relative to a template. However,
+	the amount of biological variability in a groupwise analysis renders
+	this task practically impossible, due to the nonexistence of a single
+	template that matches all anatomies in an ensemble, even if such
+	a template is constructed by group averaging procedures. Consequently,
+	anatomical characteristics not captured by the transformation, and
+	which are left out in the residual image, are lost permanently from
+	subsequent analysis, if only properties of the transformation are
+	examined. This paper extends our recent work [Makrogiannis, S., Verma,
+	R., Davatzikos, C., 2007. Anatomical equivalence class: a computational
+	anatomy framework using a lossless shape descriptor. IEEE Trans.
+	Biomed. Imag. 26(4), 619-631] on characterizing subtle morphological
+	variations via a lossless morphological descriptor that takes the
+	residual into account along with the transformation. Since there
+	are infinitely many [transformation, residual] pairs that reconstruct
+	a given anatomy, we treat them as members of an Anatomical Equivalence
+	Class (AEC), thereby forming a manifold embedded in the space spanned
+	by [transformation, residual]. This paper develops a unique and optimal
+	representation of each anatomy that is estimated from the corresponding
+	AECs by solving a global optimization problem. This effectively determines
+	the optimal template and transformation parameters for each individual
+	anatomy, and eliminates respective confounding variation in the data.
+	It, therefore, constitutes the second novelty, in that it represents
+	a group-wise optimal registration strategy that individually adjusts
+	the template and the smoothness of the transformation according to
+	each anatomy. Experimental results support the superiority of our
+	morphological analysis framework over conventional analysis, and
+	demonstrate better diagnostic accuracy.},
+  institution = {University of Pennsylvania, Philadelphia, PA, USA. sajjad.baloch@gmail.com},
+  keywords = {Anatomy, methods; Brain, anatomy /\&/ histology; Computational Biology,
+	methods; Humans; Image Processing, Computer-Assisted, methods},
+  medline-pst = {ppublish},
+  owner = {stnava},
+  pii = {S1053-8119(08)01169-5},
+  pmid = {19061962},
+  timestamp = {2012.01.30}
 }
 
-@Article{Bearden2007,
-  Title                    = {Mapping cortical thickness in children with 22q11.2 deletions.},
-  Author                   = {Bearden, Carrie E. and {van Erp}, Theo G M. and Dutton, Rebecca A. and Tran, Helen and Zimmermann, Lara and Sun, Daqiang and Geaga, Jennifer A. and Simon, Tony J. and Glahn, David C. and Cannon, Tyrone D. and Emanuel, Beverly S. and Toga, Arthur W. and Thompson, Paul M.},
-  Journal                  = {Cereb Cortex},
-  Year                     = {2007},
-
-  Month                    = {Aug},
-  Number                   = {8},
-  Pages                    = {1889--1898},
-  Volume                   = {17},
-
-  Abstract                 = {The 22q11.2 deletion syndrome (velocardiofacial/DiGeorge syndrome, 22q11.2DS) involves cardiac and craniofacial anomalies, marked deficits in visuospatial cognition, and elevated rates of psychosis. Although the mechanism is unknown, characteristic brain alterations may predispose to development of psychosis and cognitive deficits in 22q11DS. We applied cortical pattern matching and new methods for measuring cortical thickness in millimeters to structural magnetic resonance images of 21 children with confirmed 22q11.2 deletions and 13 demographically matched healthy comparison subjects. Thickness was mapped at 65 536 homologous points, based on 3-dimensional distance from the cortical gray-white matter interface to the external gray-cerebrospinal fluid boundary. A pattern of regionally specific cortical thinning was observed in superior parietal cortices and right parietooccipital cortex, regions critical for visuospatial processing, and bilaterally in the most inferior portion of the inferior frontal gyrus (pars orbitalis), a key area for language development. Several of the 30 genes encoded in the deleted segment are highly expressed in the developing brain and known to affect early neuronal migration. These brain maps reveal how haploinsufficiency for such genes can affect cortical development and suggest a possible underlying pathophysiology of the neurobehavioral phenotype.},
-  Doi                      = {10.1093/cercor/bhl097},
-  Institution              = {Department of Psychiatry and Biobehavioral Sciences, Semel Institute for Neuroscience and Human Behavior, University of California, Los Angeles, CA 90095, USA.},
-  Keywords                 = {Aging, physiology; Brain Mapping; Cerebral Cortex, anatomy /\&/ histology; Child; Chromosome Deletion; Chromosomes, Human, Pair 22, physiology; Developmental Disabilities, genetics; Female; Functional Laterality, physiology; Humans; Image Processing, Computer-Assisted; Intelligence Tests; Magnetic Resonance Imaging; Male; Mental Disorders, genetics/psychology},
-  Medline-pst              = {ppublish},
-  Owner                    = {stnava},
-  Pii                      = {bhl097},
-  Pmid                     = {17056649},
-  Timestamp                = {2011.09.04http://dx.doi.org/10.1093/cercor/bhl097}
+@ARTICLE{Bearden2007,
+  author = {Bearden, Carrie E. and {van Erp}, Theo G M. and Dutton, Rebecca A.
+	and Tran, Helen and Zimmermann, Lara and Sun, Daqiang and Geaga,
+	Jennifer A. and Simon, Tony J. and Glahn, David C. and Cannon, Tyrone
+	D. and Emanuel, Beverly S. and Toga, Arthur W. and Thompson, Paul
+	M.},
+  title = {Mapping cortical thickness in children with 22q11.2 deletions.},
+  journal = {Cereb Cortex},
+  year = {2007},
+  volume = {17},
+  pages = {1889--1898},
+  number = {8},
+  month = {Aug},
+  abstract = {The 22q11.2 deletion syndrome (velocardiofacial/DiGeorge syndrome,
+	22q11.2DS) involves cardiac and craniofacial anomalies, marked deficits
+	in visuospatial cognition, and elevated rates of psychosis. Although
+	the mechanism is unknown, characteristic brain alterations may predispose
+	to development of psychosis and cognitive deficits in 22q11DS. We
+	applied cortical pattern matching and new methods for measuring cortical
+	thickness in millimeters to structural magnetic resonance images
+	of 21 children with confirmed 22q11.2 deletions and 13 demographically
+	matched healthy comparison subjects. Thickness was mapped at 65 536
+	homologous points, based on 3-dimensional distance from the cortical
+	gray-white matter interface to the external gray-cerebrospinal fluid
+	boundary. A pattern of regionally specific cortical thinning was
+	observed in superior parietal cortices and right parietooccipital
+	cortex, regions critical for visuospatial processing, and bilaterally
+	in the most inferior portion of the inferior frontal gyrus (pars
+	orbitalis), a key area for language development. Several of the 30
+	genes encoded in the deleted segment are highly expressed in the
+	developing brain and known to affect early neuronal migration. These
+	brain maps reveal how haploinsufficiency for such genes can affect
+	cortical development and suggest a possible underlying pathophysiology
+	of the neurobehavioral phenotype.},
+  doi = {10.1093/cercor/bhl097},
+  institution = {Department of Psychiatry and Biobehavioral Sciences, Semel Institute
+	for Neuroscience and Human Behavior, University of California, Los
+	Angeles, CA 90095, USA.},
+  keywords = {Aging, physiology; Brain Mapping; Cerebral Cortex, anatomy /\&/ histology;
+	Child; Chromosome Deletion; Chromosomes, Human, Pair 22, physiology;
+	Developmental Disabilities, genetics; Female; Functional Laterality,
+	physiology; Humans; Image Processing, Computer-Assisted; Intelligence
+	Tests; Magnetic Resonance Imaging; Male; Mental Disorders, genetics/psychology},
+  medline-pst = {ppublish},
+  owner = {stnava},
+  pii = {bhl097},
+  pmid = {17056649},
+  timestamp = {2011.09.04http://dx.doi.org/10.1093/cercor/bhl097}
 }
 
-@Article{Beg2006,
-  Title                    = {Computing an Average Anatomical Atlas Using {LDDMM} and Geodesic Shooting.},
-  Author                   = {M. F. Beg and A. Khan},
-  Journal                  = {ISBI},
-  Year                     = {2006},
-  Pages                    = {1116-1119},
-
-  Owner                    = {stnava},
-  Timestamp                = {2012.01.30}
+@ARTICLE{Beg2006,
+  author = {M. F. Beg and A. Khan},
+  title = {Computing an Average Anatomical Atlas Using {LDDMM} and Geodesic
+	Shooting.},
+  journal = {ISBI},
+  year = {2006},
+  pages = {1116-1119},
+  owner = {stnava},
+  timestamp = {2012.01.30}
 }
 
-@Article{Chen2008,
-  Title                    = {A simple fixed-point approach to invert a deformation field.},
-  Author                   = {Chen, Mingli and Lu, Weiguo and Chen, Quan and Ruchala, Kenneth J. and Olivera, Gustavo H.},
-  Journal                  = {Med Phys},
-  Year                     = {2008},
-
-  Month                    = {Jan},
-  Number                   = {1},
-  Pages                    = {81--88},
-  Volume                   = {35},
-
-  Abstract                 = {Inversion of deformation fields is applied frequently to map images, dose, and contours between the reference frame and the study frame. A prevailing approach that takes the negative of the forward deformation as the inverse deformation is oversimplified and can cause large errors for large deformations or deformations that are composites of several deformations. Other approaches, including Newton's method and scatter data interpolation, either require the first derivative or are very inefficient. Here we propose an iterative approach that is easy to implement, converges quickly to the inverse when it does, and works for a majority of cases in practice. Our approach is rooted in fixed-point theory. We build a sequence to approximate the inverse deformation through iterative evaluation of the forward deformation. A sufficient but not necessary convergence condition (Lipschitz condition) and its proof are also given. Though this condition guarantees the convergence, it may not be met for an arbitrary deformation field. One should always check whether the inverse exists for the given forward deformation field by calculating its Jacobian. If nonpositive values of the Jacobian occur only for few voxels, this method will usually converge to a pseudoinverse. In case the iteration fails to converge, one should switch to other means of finding the inverse. We tested the proposed method on simulated 2D data and real 3D computed tomography data of a lung patient and compared our method with two implementations in the Insight Segmentation and Registration Toolkit (ITK). Typically less than ten iterations are needed for our method to get an inverse deformation field with clinically relevant accuracy. Based on the test results, our method is about ten times faster and yet ten times more accurate than ITK's iterative method for the same number of iterations. Simulations and real data tests demonstrated the efficacy and the accuracy of the proposed algorithm.},
-  Institution              = {TomoTherapy, Inc., 1240 Deming Way, Madison, Wisconsin 53717, USA.},
-  Keywords                 = {Algorithms; Humans; Imaging, Three-Dimensional, methods; Lung, radiography; Tomography, X-Ray Computed},
-  Medline-pst              = {ppublish},
-  Owner                    = {stnava},
-  Pmid                     = {18293565},
-  Timestamp                = {2012.01.30}
+@INBOOK{buckheit1995,
+  chapter = {WaveLab and Reproducible Research},
+  pages = {55--81},
+  title = {Wavelets and Statistics},
+  publisher = {Springer},
+  year = {1995},
+  editor = {A. Antoniadis},
+  author = {Jonathan B. Buckheit and David L. Donoho},
+  __markedentry = {[ntustison:6]},
+  abstract = {WaveLab is a library of Matlab routines for wavelet analysis, wavelet-packet
+	analysis, cosine-packet analysis and matching pursuit. The library
+	is available free of charge over the Internet. Versions are provided
+	for Macintosh, UNIX and Windows machines. WaveLab makes},
+  owner = {ntustison},
+  timestamp = {2014.01.26}
 }
 
-@Article{Cheung2009,
-  Title                    = {Interactive deformation registration of endorectal prostate MRI using ITK thin plate splines.},
-  Author                   = {Cheung, M Rex and Krishnan, Karthik},
-  Journal                  = {Acad Radiol},
-  Year                     = {2009},
-
-  Month                    = {Mar},
-  Number                   = {3},
-  Pages                    = {351--357},
-  Volume                   = {16},
-
-  Abstract                 = {Magnetic resonance imaging with an endorectal coil allows high-resolution imaging of prostate cancer and the surrounding normal organs. These anatomic details can be used to direct radiotherapy. However, organ deformation introduced by the endorectal coil makes it difficult to register magnetic resonance images for treatment planning. In this study, plug-ins for the volume visualization software VolView were implemented on the basis of algorithms from the National Library of Medicine's Insight Segmentation and Registration Toolkit (ITK).Magnetic resonance images of a phantom simulating human pelvic structures were obtained with and without the endorectal coil balloon inflated. The prostate not deformed by the endorectal balloon was registered to the deformed prostate using an ITK thin plate spline (TPS). This plug-in allows the use of crop planes to limit the deformable registration in the region of interest around the prostate. These crop planes restricted the support of the TPS to the area around the prostate, where most of the deformation occurred. The region outside the crop planes was anchored by grid points.The TPS was more accurate in registering the local deformation of the prostate compared with a TPS variant, the elastic body spline. The TPS was also applied to register an in vivo T(2)-weighted endorectal magnetic resonance image. The intraprostatic tumor was accurately registered. This could potentially guide the boosting of intraprostatic targets. The source and target landmarks were placed graphically. This TPS plug-in allows the registration to be undone. The landmarks could be added, removed, and adjusted in real time and in three dimensions between repeated registrations.This interactive TPS plug-in allows a user to obtain a high level of accuracy satisfactory to a specific application efficiently. Because it is open-source software, the imaging community will be able to validate and improve the algorithm.},
-  Doi                      = {10.1016/j.acra.2008.09.011},
-  Institution              = {Department of Radiation Oncology, University of Texas M.D. Anderson Cancer Center, 1515 Holcombe Boulevard, Box 97, Houston, TX 77030-4009, USA. mrcheung@mdanderson.org},
-  Keywords                 = {Equipment Design; Equipment Failure Analysis; Humans; Image Enhancement, instrumentation; Magnetic Resonance Imaging, instrumentation/methods; Male; Phantoms, Imaging; Prostatic Neoplasms, diagnosis; Rectum, pathology; Reproducibility of Results; Sensitivity and Specificity; Subtraction Technique, instrumentation},
-  Medline-pst              = {ppublish},
-  Owner                    = {stnava},
-  Pii                      = {S1076-6332(08)00569-2},
-  Pmid                     = {19201364},
-  Timestamp                = {2012.01.30http://dx.doi.org/10.1016/j.acra.2008.09.011}
+@ARTICLE{Chen2008,
+  author = {Chen, Mingli and Lu, Weiguo and Chen, Quan and Ruchala, Kenneth J.
+	and Olivera, Gustavo H.},
+  title = {A simple fixed-point approach to invert a deformation field.},
+  journal = {Med Phys},
+  year = {2008},
+  volume = {35},
+  pages = {81--88},
+  number = {1},
+  month = {Jan},
+  abstract = {Inversion of deformation fields is applied frequently to map images,
+	dose, and contours between the reference frame and the study frame.
+	A prevailing approach that takes the negative of the forward deformation
+	as the inverse deformation is oversimplified and can cause large
+	errors for large deformations or deformations that are composites
+	of several deformations. Other approaches, including Newton's method
+	and scatter data interpolation, either require the first derivative
+	or are very inefficient. Here we propose an iterative approach that
+	is easy to implement, converges quickly to the inverse when it does,
+	and works for a majority of cases in practice. Our approach is rooted
+	in fixed-point theory. We build a sequence to approximate the inverse
+	deformation through iterative evaluation of the forward deformation.
+	A sufficient but not necessary convergence condition (Lipschitz condition)
+	and its proof are also given. Though this condition guarantees the
+	convergence, it may not be met for an arbitrary deformation field.
+	One should always check whether the inverse exists for the given
+	forward deformation field by calculating its Jacobian. If nonpositive
+	values of the Jacobian occur only for few voxels, this method will
+	usually converge to a pseudoinverse. In case the iteration fails
+	to converge, one should switch to other means of finding the inverse.
+	We tested the proposed method on simulated 2D data and real 3D computed
+	tomography data of a lung patient and compared our method with two
+	implementations in the Insight Segmentation and Registration Toolkit
+	(ITK). Typically less than ten iterations are needed for our method
+	to get an inverse deformation field with clinically relevant accuracy.
+	Based on the test results, our method is about ten times faster and
+	yet ten times more accurate than ITK's iterative method for the same
+	number of iterations. Simulations and real data tests demonstrated
+	the efficacy and the accuracy of the proposed algorithm.},
+  institution = {TomoTherapy, Inc., 1240 Deming Way, Madison, Wisconsin 53717, USA.},
+  keywords = {Algorithms; Humans; Imaging, Three-Dimensional, methods; Lung, radiography;
+	Tomography, X-Ray Computed},
+  medline-pst = {ppublish},
+  owner = {stnava},
+  pmid = {18293565},
+  timestamp = {2012.01.30}
 }
 
-@Article{Christensen1996,
-  Title                    = {Deformable templates using large deformation kinematics.},
-  Author                   = {Christensen, G. E. and Rabbitt, R. D. and Miller, M. I.},
-  Journal                  = {IEEE Trans Image Process},
-  Year                     = {1996},
-  Number                   = {10},
-  Pages                    = {1435--1447},
-  Volume                   = {5},
-
-  Abstract                 = {A general automatic approach is presented for accommodating local shape variation when mapping a two-dimensional (2-D) or three-dimensional (3-D) template image into alignment with a topologically similar target image. Local shape variability is accommodated by applying a vector-field transformation to the underlying material coordinate system of the template while constraining the transformation to be smooth (globally positive definite Jacobian). Smoothness is guaranteed without specifically penalizing large-magnitude deformations of small subvolumes by constraining the transformation on the basis of a Stokesian limit of the fluid-dynamical Navier-Stokes equations. This differs fundamentally from quadratic penalty methods, such as those based on linearized elasticity or thin-plate splines, in that stress restraining the motion relaxes over time allowing large-magnitude deformations. Kinematic nonlinearities are inherently necessary to maintain continuity of structures during large-magnitude deformations, and are included in all results. After initial global registration, final mappings are obtained by numerically solving a set of nonlinear partial differential equations associated with the constrained optimization problem. Automatic regridding is performed by propagating templates as the nonlinear transformations evaluated on a finite lattice become singular. Application of the method to intersubject registration of neuroanatomical structures illustrates the ability to account for local anatomical variability.},
-  Doi                      = {10.1109/83.536892},
-  Institution              = {Mallinckrodt Inst. of Radiol., Washington Univ. Sch. of Med., St. Louis, MO.},
-  Medline-pst              = {ppublish},
-  Owner                    = {stnava},
-  Pmid                     = {18290061},
-  Timestamp                = {2012.01.30http://dx.doi.org/10.1109/83.536892}
+@ARTICLE{Cheung2009,
+  author = {Cheung, M Rex and Krishnan, Karthik},
+  title = {Interactive deformation registration of endorectal prostate MRI using
+	ITK thin plate splines.},
+  journal = {Acad Radiol},
+  year = {2009},
+  volume = {16},
+  pages = {351--357},
+  number = {3},
+  month = {Mar},
+  abstract = {Magnetic resonance imaging with an endorectal coil allows high-resolution
+	imaging of prostate cancer and the surrounding normal organs. These
+	anatomic details can be used to direct radiotherapy. However, organ
+	deformation introduced by the endorectal coil makes it difficult
+	to register magnetic resonance images for treatment planning. In
+	this study, plug-ins for the volume visualization software VolView
+	were implemented on the basis of algorithms from the National Library
+	of Medicine's Insight Segmentation and Registration Toolkit (ITK).Magnetic
+	resonance images of a phantom simulating human pelvic structures
+	were obtained with and without the endorectal coil balloon inflated.
+	The prostate not deformed by the endorectal balloon was registered
+	to the deformed prostate using an ITK thin plate spline (TPS). This
+	plug-in allows the use of crop planes to limit the deformable registration
+	in the region of interest around the prostate. These crop planes
+	restricted the support of the TPS to the area around the prostate,
+	where most of the deformation occurred. The region outside the crop
+	planes was anchored by grid points.The TPS was more accurate in registering
+	the local deformation of the prostate compared with a TPS variant,
+	the elastic body spline. The TPS was also applied to register an
+	in vivo T(2)-weighted endorectal magnetic resonance image. The intraprostatic
+	tumor was accurately registered. This could potentially guide the
+	boosting of intraprostatic targets. The source and target landmarks
+	were placed graphically. This TPS plug-in allows the registration
+	to be undone. The landmarks could be added, removed, and adjusted
+	in real time and in three dimensions between repeated registrations.This
+	interactive TPS plug-in allows a user to obtain a high level of accuracy
+	satisfactory to a specific application efficiently. Because it is
+	open-source software, the imaging community will be able to validate
+	and improve the algorithm.},
+  doi = {10.1016/j.acra.2008.09.011},
+  institution = {Department of Radiation Oncology, University of Texas M.D. Anderson
+	Cancer Center, 1515 Holcombe Boulevard, Box 97, Houston, TX 77030-4009,
+	USA. mrcheung@mdanderson.org},
+  keywords = {Equipment Design; Equipment Failure Analysis; Humans; Image Enhancement,
+	instrumentation; Magnetic Resonance Imaging, instrumentation/methods;
+	Male; Phantoms, Imaging; Prostatic Neoplasms, diagnosis; Rectum,
+	pathology; Reproducibility of Results; Sensitivity and Specificity;
+	Subtraction Technique, instrumentation},
+  medline-pst = {ppublish},
+  owner = {stnava},
+  pii = {S1076-6332(08)00569-2},
+  pmid = {19201364},
+  timestamp = {2012.01.30http://dx.doi.org/10.1016/j.acra.2008.09.011}
 }
 
-@Article{Fedorov2011,
-  Title                    = {Atlas-guided segmentation of vervet monkey brain {M}{R}{I}.},
-  Author                   = {Fedorov, Andriy and Li, Xiaoxing and Pohl, Kilian M. and Bouix, Sylvain and Styner, Martin and Addicott, Merideth and Wyatt, Chris and Daunais, James B. and Wells, William M. and Kikinis, Ron},
-  Journal                  = {Open Neuroimag J},
-  Year                     = {2011},
-  Pages                    = {186--197},
-  Volume                   = {5},
-
-  Abstract                 = {The vervet monkey is an important nonhuman primate model that allows the study of isolated environmental factors in a controlled environment. Analysis of monkey MRI often suffers from lower quality images compared with human MRI because clinical equipment is typically used to image the smaller monkey brain and higher spatial resolution is required. This, together with the anatomical differences of the monkey brains, complicates the use of neuroimage analysis pipelines tuned for human MRI analysis. In this paper we developed an open source image analysis framework based on the tools available within the 3D Slicer software to support a biological study that investigates the effect of chronic ethanol exposure on brain morphometry in a longitudinally followed population of male vervets. We first developed a computerized atlas of vervet monkey brain MRI, which was used to encode the typical appearance of the individual brain structures in MRI and their spatial distribution. The atlas was then used as a spatial prior during automatic segmentation to process two longitudinal scans per subject. Our evaluation confirms the consistency and reliability of the automatic segmentation. The comparison of atlas construction strategies reveals that the use of a population-specific atlas leads to improved accuracy of the segmentation for subcortical brain structures. The contribution of this work is twofold. First, we describe an image processing workflow specifically tuned towards the analysis of vervet MRI that consists solely of the open source software tools. Second, we develop a digital atlas of vervet monkey brain MRIs to enable similar studies that rely on the vervet model.},
-  Doi                      = {10.2174/1874440001105010186},
-  Institution              = {Surgical Planning Laboratory, Brigham and Women's Hospital, Harvard Medical School, Boston, MA 02115.},
-  Medline-pst              = {ppublish},
-  Owner                    = {stnava},
-  Pii                      = {TONIJ-5-186},
-  Pmid                     = {22253661},
-  Timestamp                = {2012.01.30http://dx.doi.org/10.2174/1874440001105010186}
+@ARTICLE{Christensen1996,
+  author = {Christensen, G. E. and Rabbitt, R. D. and Miller, M. I.},
+  title = {Deformable templates using large deformation kinematics.},
+  journal = {IEEE Trans Image Process},
+  year = {1996},
+  volume = {5},
+  pages = {1435--1447},
+  number = {10},
+  abstract = {A general automatic approach is presented for accommodating local
+	shape variation when mapping a two-dimensional (2-D) or three-dimensional
+	(3-D) template image into alignment with a topologically similar
+	target image. Local shape variability is accommodated by applying
+	a vector-field transformation to the underlying material coordinate
+	system of the template while constraining the transformation to be
+	smooth (globally positive definite Jacobian). Smoothness is guaranteed
+	without specifically penalizing large-magnitude deformations of small
+	subvolumes by constraining the transformation on the basis of a Stokesian
+	limit of the fluid-dynamical Navier-Stokes equations. This differs
+	fundamentally from quadratic penalty methods, such as those based
+	on linearized elasticity or thin-plate splines, in that stress restraining
+	the motion relaxes over time allowing large-magnitude deformations.
+	Kinematic nonlinearities are inherently necessary to maintain continuity
+	of structures during large-magnitude deformations, and are included
+	in all results. After initial global registration, final mappings
+	are obtained by numerically solving a set of nonlinear partial differential
+	equations associated with the constrained optimization problem. Automatic
+	regridding is performed by propagating templates as the nonlinear
+	transformations evaluated on a finite lattice become singular. Application
+	of the method to intersubject registration of neuroanatomical structures
+	illustrates the ability to account for local anatomical variability.},
+  doi = {10.1109/83.536892},
+  institution = {Mallinckrodt Inst. of Radiol., Washington Univ. Sch. of Med., St.
+	Louis, MO.},
+  medline-pst = {ppublish},
+  owner = {stnava},
+  pmid = {18290061},
+  timestamp = {2012.01.30http://dx.doi.org/10.1109/83.536892}
 }
 
-@Article{Floca2007,
-  Title                    = {A flexible registration and evaluation engine (f.r.e.e.).},
-  Author                   = {Floca, Ralf and Dickhaus, Hartmut},
-  Journal                  = {Comput Methods Programs Biomed},
-  Year                     = {2007},
-
-  Month                    = {Aug},
-  Number                   = {2},
-  Pages                    = {81--92},
-  Volume                   = {87},
-
-  Abstract                 = {We present an image registration framework which offers effective assistance for solving current registration problems. This work was motivated by the huge amount of registration problems in clinical applications and the problem of finding adequate solutions and properly comparing them. We have therefore designed a framework that supports the establishment, evaluation and comparison of registration approaches. Flexible registration and evaluation engine (f.r.e.e.) achieves a broad basis of algorithms by utilizing the insight segmentation and registration toolkit (ITK). This basis can be extended by virtually any new approach or algorithm, which then becomes seamlessly integrated into the method set of the f.r.e.e. framework. The framework offers suitable tools for an easy integration, optimization and proper evaluation of registration approaches, as well as an efficient utilization of the results in clinical routine. The framework is currently being evaluated at the Heidelberg University Hospital, Germany. The first results were gathered with an application implemented for the Neurosurgical Department of the hospital. In these tests the framework concept, along with its specific tools, was very promising for establishing clinical applications (e.g. preoperative neurosurgical planning; registration of cardiac images) and therefore motivated further development. The ability to automatically optimize the parameterization of registration methods regarding a given test set also proved useful, allowing more concentration on scientific problems themselves and not on the laborious task of parameter tweaking. Due to implemented abstraction layers, f.r.e.e. also allows a high degree of transparency and thus good comparability of registration approaches and results.},
-  Doi                      = {10.1016/j.cmpb.2007.04.009},
-  Institution              = {Department of Medical Informatics, Institute for Medical Biometry and Informatics, University of Heidelberg, Im Neuenheimer Feld 400, D-69120 Heidelberg, Germany. ralf.floca@med.uni-heidelberg.de},
-  Keywords                 = {Algorithms; Artificial Intelligence; Image Enhancement, methods; Image Interpretation, Computer-Assisted, methods; Imaging, Three-Dimensional, methods; Information Storage and Retrieval, methods; Pattern Recognition, Automated, methods; Reproducibility of Results; Sensitivity and Specificity; Software; Subtraction Technique},
-  Medline-pst              = {ppublish},
-  Owner                    = {stnava},
-  Pii                      = {S0169-2607(07)00105-8},
-  Pmid                     = {17574703},
-  Timestamp                = {2012.01.30http://dx.doi.org/10.1016/j.cmpb.2007.04.009}
+@ARTICLE{Fedorov2011,
+  author = {Fedorov, Andriy and Li, Xiaoxing and Pohl, Kilian M. and Bouix, Sylvain
+	and Styner, Martin and Addicott, Merideth and Wyatt, Chris and Daunais,
+	James B. and Wells, William M. and Kikinis, Ron},
+  title = {Atlas-guided segmentation of vervet monkey brain {M}{R}{I}.},
+  journal = {Open Neuroimag J},
+  year = {2011},
+  volume = {5},
+  pages = {186--197},
+  abstract = {The vervet monkey is an important nonhuman primate model that allows
+	the study of isolated environmental factors in a controlled environment.
+	Analysis of monkey MRI often suffers from lower quality images compared
+	with human MRI because clinical equipment is typically used to image
+	the smaller monkey brain and higher spatial resolution is required.
+	This, together with the anatomical differences of the monkey brains,
+	complicates the use of neuroimage analysis pipelines tuned for human
+	MRI analysis. In this paper we developed an open source image analysis
+	framework based on the tools available within the 3D Slicer software
+	to support a biological study that investigates the effect of chronic
+	ethanol exposure on brain morphometry in a longitudinally followed
+	population of male vervets. We first developed a computerized atlas
+	of vervet monkey brain MRI, which was used to encode the typical
+	appearance of the individual brain structures in MRI and their spatial
+	distribution. The atlas was then used as a spatial prior during automatic
+	segmentation to process two longitudinal scans per subject. Our evaluation
+	confirms the consistency and reliability of the automatic segmentation.
+	The comparison of atlas construction strategies reveals that the
+	use of a population-specific atlas leads to improved accuracy of
+	the segmentation for subcortical brain structures. The contribution
+	of this work is twofold. First, we describe an image processing workflow
+	specifically tuned towards the analysis of vervet MRI that consists
+	solely of the open source software tools. Second, we develop a digital
+	atlas of vervet monkey brain MRIs to enable similar studies that
+	rely on the vervet model.},
+  doi = {10.2174/1874440001105010186},
+  institution = {Surgical Planning Laboratory, Brigham and Women's Hospital, Harvard
+	Medical School, Boston, MA 02115.},
+  medline-pst = {ppublish},
+  owner = {stnava},
+  pii = {TONIJ-5-186},
+  pmid = {22253661},
+  timestamp = {2012.01.30http://dx.doi.org/10.2174/1874440001105010186}
 }
 
-@Article{Gousias2008,
-  Title                    = {Automatic segmentation of brain MRIs of 2-year-olds into 83 regions of interest.},
-  Author                   = {Gousias, Ioannis S. and Rueckert, Daniel and Heckemann, Rolf A. and Dyet, Leigh E. and Boardman, James P. and Edwards, A David and Hammers, Alexander},
-  Journal                  = {Neuroimage},
-  Year                     = {2008},
-
-  Month                    = {Apr},
-  Number                   = {2},
-  Pages                    = {672--684},
-  Volume                   = {40},
-
-  __markedentry            = {[stnava:6]},
-  Abstract                 = {Three-dimensional atlases and databases of the brain at different ages facilitate the description of neuroanatomy and the monitoring of cerebral growth and development. Brain segmentation is challenging in young children due to structural differences compared to adults. We have developed a method, based on established algorithms, for automatic segmentation of young children's brains into 83 regions of interest (ROIs), and applied this to an exemplar group of 33 2-year-old subjects who had been born prematurely. The algorithm uses prior information from 30 normal adult brain magnetic resonance (MR) images, which had been manually segmented to create 30 atlases, each labeling 83 anatomical structures. Each of these adult atlases was registered to each 2-year-old target MR image using non-rigid registration based on free-form deformations. Label propagation from each adult atlas yielded a segmentation of each 2-year-old brain into 83 ROIs. The final segmentation was obtained by combination of the 30 propagated adult atlases using decision fusion, improving accuracy over individual propagations. We validated this algorithm by comparing the automatic approach with three representative manually segmented volumetric regions (the subcortical caudate nucleus, the neocortical pre-central gyrus and the archicortical hippocampus) using similarity indices (SI), a measure of spatial overlap (intersection over average). SI results for automatic versus manual segmentations for these three structures were 0.90+/-0.01, 0.90+/-0.01 and 0.88+/-0.03 respectively. This registration approach allows the rapid construction of automatically labelled age-specific brain atlases for children at the age of 2 years.},
-  Doi                      = {10.1016/j.neuroimage.2007.11.034},
-  Institution              = {Imaging Sciences Department, MRC Clinical Sciences Centre and Department of Pediatrics, Imperial College London, Hammersmith Hospital, Du Cane Road, London W12 0NN, UK.},
-  Keywords                 = {Atlases as Topic; Brain Mapping, methods; Brain, anatomy /&/ histology; Child, Preschool; Female; Humans; Image Processing, Computer-Assisted; Infant; Magnetic Resonance Imaging; Male},
-  Medline-pst              = {ppublish},
-  Owner                    = {stnava},
-  Pii                      = {S1053-8119(07)01063-4},
-  Pmid                     = {18234511},
-  Timestamp                = {2014.01.25},
-  Url                      = {http://dx.doi.org/10.1016/j.neuroimage.2007.11.034}
+@ARTICLE{Floca2007,
+  author = {Floca, Ralf and Dickhaus, Hartmut},
+  title = {A flexible registration and evaluation engine (f.r.e.e.).},
+  journal = {Comput Methods Programs Biomed},
+  year = {2007},
+  volume = {87},
+  pages = {81--92},
+  number = {2},
+  month = {Aug},
+  abstract = {We present an image registration framework which offers effective
+	assistance for solving current registration problems. This work was
+	motivated by the huge amount of registration problems in clinical
+	applications and the problem of finding adequate solutions and properly
+	comparing them. We have therefore designed a framework that supports
+	the establishment, evaluation and comparison of registration approaches.
+	Flexible registration and evaluation engine (f.r.e.e.) achieves a
+	broad basis of algorithms by utilizing the insight segmentation and
+	registration toolkit (ITK). This basis can be extended by virtually
+	any new approach or algorithm, which then becomes seamlessly integrated
+	into the method set of the f.r.e.e. framework. The framework offers
+	suitable tools for an easy integration, optimization and proper evaluation
+	of registration approaches, as well as an efficient utilization of
+	the results in clinical routine. The framework is currently being
+	evaluated at the Heidelberg University Hospital, Germany. The first
+	results were gathered with an application implemented for the Neurosurgical
+	Department of the hospital. In these tests the framework concept,
+	along with its specific tools, was very promising for establishing
+	clinical applications (e.g. preoperative neurosurgical planning;
+	registration of cardiac images) and therefore motivated further development.
+	The ability to automatically optimize the parameterization of registration
+	methods regarding a given test set also proved useful, allowing more
+	concentration on scientific problems themselves and not on the laborious
+	task of parameter tweaking. Due to implemented abstraction layers,
+	f.r.e.e. also allows a high degree of transparency and thus good
+	comparability of registration approaches and results.},
+  doi = {10.1016/j.cmpb.2007.04.009},
+  institution = {Department of Medical Informatics, Institute for Medical Biometry
+	and Informatics, University of Heidelberg, Im Neuenheimer Feld 400,
+	D-69120 Heidelberg, Germany. ralf.floca@med.uni-heidelberg.de},
+  keywords = {Algorithms; Artificial Intelligence; Image Enhancement, methods; Image
+	Interpretation, Computer-Assisted, methods; Imaging, Three-Dimensional,
+	methods; Information Storage and Retrieval, methods; Pattern Recognition,
+	Automated, methods; Reproducibility of Results; Sensitivity and Specificity;
+	Software; Subtraction Technique},
+  medline-pst = {ppublish},
+  owner = {stnava},
+  pii = {S0169-2607(07)00105-8},
+  pmid = {17574703},
+  timestamp = {2012.01.30http://dx.doi.org/10.1016/j.cmpb.2007.04.009}
 }
 
-@Article{hermosillo,
-  Title                    = {A variational approach to multi-modal image matching},
-  Author                   = {G. Hermosillo and C. Chefd'Hotel and O. Faugeras},
-  Journal                  = {Intl. J. Comp. Vis.},
-  Year                     = {2002},
-  Number                   = {3},
-  Pages                    = {329-343},
-  Volume                   = {50},
-
-  Owner                    = {stnava},
-  Timestamp                = {2007.07.18}
+@ARTICLE{Gousias2008,
+  author = {Gousias, Ioannis S. and Rueckert, Daniel and Heckemann, Rolf A. and
+	Dyet, Leigh E. and Boardman, James P. and Edwards, A David and Hammers,
+	Alexander},
+  title = {Automatic segmentation of brain MRIs of 2-year-olds into 83 regions
+	of interest.},
+  journal = {Neuroimage},
+  year = {2008},
+  volume = {40},
+  pages = {672--684},
+  number = {2},
+  month = {Apr},
+  abstract = {Three-dimensional atlases and databases of the brain at different
+	ages facilitate the description of neuroanatomy and the monitoring
+	of cerebral growth and development. Brain segmentation is challenging
+	in young children due to structural differences compared to adults.
+	We have developed a method, based on established algorithms, for
+	automatic segmentation of young children's brains into 83 regions
+	of interest (ROIs), and applied this to an exemplar group of 33 2-year-old
+	subjects who had been born prematurely. The algorithm uses prior
+	information from 30 normal adult brain magnetic resonance (MR) images,
+	which had been manually segmented to create 30 atlases, each labeling
+	83 anatomical structures. Each of these adult atlases was registered
+	to each 2-year-old target MR image using non-rigid registration based
+	on free-form deformations. Label propagation from each adult atlas
+	yielded a segmentation of each 2-year-old brain into 83 ROIs. The
+	final segmentation was obtained by combination of the 30 propagated
+	adult atlases using decision fusion, improving accuracy over individual
+	propagations. We validated this algorithm by comparing the automatic
+	approach with three representative manually segmented volumetric
+	regions (the subcortical caudate nucleus, the neocortical pre-central
+	gyrus and the archicortical hippocampus) using similarity indices
+	(SI), a measure of spatial overlap (intersection over average). SI
+	results for automatic versus manual segmentations for these three
+	structures were 0.90+/-0.01, 0.90+/-0.01 and 0.88+/-0.03 respectively.
+	This registration approach allows the rapid construction of automatically
+	labelled age-specific brain atlases for children at the age of 2
+	years.},
+  doi = {10.1016/j.neuroimage.2007.11.034},
+  institution = {Imaging Sciences Department, MRC Clinical Sciences Centre and Department
+	of Pediatrics, Imperial College London, Hammersmith Hospital, Du
+	Cane Road, London W12 0NN, UK.},
+  keywords = {Atlases as Topic; Brain Mapping, methods; Brain, anatomy /&/ histology;
+	Child, Preschool; Female; Humans; Image Processing, Computer-Assisted;
+	Infant; Magnetic Resonance Imaging; Male},
+  medline-pst = {ppublish},
+  owner = {stnava},
+  pii = {S1053-8119(07)01063-4},
+  pmid = {18234511},
+  timestamp = {2014.01.25},
+  url = {http://dx.doi.org/10.1016/j.neuroimage.2007.11.034}
 }
 
-@Article{Jack2010a,
-  Title                    = {Hypothetical model of dynamic biomarkers of the {A}lzheimer's pathological cascade.},
-  Author                   = {Jack, Jr, Clifford R and Knopman, David S. and Jagust, William J. and Shaw, Leslie M. and Aisen, Paul S. and Weiner, Michael W. and Petersen, Ronald C. and Trojanowski, John Q.},
-  Journal                  = {Lancet Neurol},
-  Year                     = {2010},
-
-  Month                    = {Jan},
-  Number                   = {1},
-  Pages                    = {119--128},
-  Volume                   = {9},
-
-  Doi                      = {10.1016/S1474-4422(09)70299-6},
-  Keywords                 = {Aging, genetics/pathology/physiology; {A}lzheimer Disease, genetics/pathology/physiopathology; Amyloid beta-Peptides, cerebrospinal fluid/metabolism; Apolipoprotein E4, genetics; Biological Markers, cerebrospinal fluid/metabolism; Brain, pathology/physiopathology/radionuclide imaging; Cognition Disorders, genetics/pathology/physiopathology; Disease Progression; Humans; Magnetic Resonance Imaging; Models, Neurological; Plaque, Amyloid, genetics/metabolism/pathology; Positron-Emission Tomography; Signal Transduction; Time Factors; tau Proteins, cerebrospinal fluid/metabolism},
-  Medline-pst              = {ppublish},
-  Owner                    = {stnava},
-  Pii                      = {S1474-4422(09)70299-6},
-  Pmid                     = {20083042},
-  Timestamp                = {2011.10.10http://dx.doi.org/10.1016/S1474-4422(09)70299-6}
+@ARTICLE{hermosillo,
+  author = {G. Hermosillo and C. Chefd'Hotel and O. Faugeras},
+  title = {A variational approach to multi-modal image matching},
+  journal = {Intl. J. Comp. Vis.},
+  year = {2002},
+  volume = {50},
+  pages = {329-343},
+  number = {3},
+  owner = {stnava},
+  timestamp = {2007.07.18}
 }
 
-@Article{Jenkinson2001,
-  Title                    = {A global optimisation method for robust affine registration of brain images.},
-  Author                   = {Jenkinson, M. and Smith, S.},
-  Journal                  = {Med Image Anal},
-  Year                     = {2001},
-
-  Month                    = {Jun},
-  Number                   = {2},
-  Pages                    = {143--156},
-  Volume                   = {5},
-
-  __markedentry            = {[stnava:]},
-  Abstract                 = {Registration is an important component of medical image analysis and for analysing large amounts of data it is desirable to have fully automatic registration methods. Many different automatic registration methods have been proposed to date, and almost all share a common mathematical framework - one of optimising a cost function. To date little attention has been focused on the optimisation method itself, even though the success of most registration methods hinges on the quality of this optimisation. This paper examines the assumptions underlying the problem of registration for brain images using inter-modal voxel similarity measures. It is demonstrated that the use of local optimisation methods together with the standard multi-resolution approach is not sufficient to reliably find the global minimum. To address this problem, a global optimisation method is proposed that is specifically tailored to this form of registration. A full discussion of all the necessary implementation details is included as this is an important part of any practical method. Furthermore, results are presented for inter-modal, inter-subject registration experiments that show that the proposed method is more reliable at finding the global minimum than several of the currently available registration packages in common usage.},
-  Institution              = {University of Oxford, John Radcliffe Hospital, FMRIB Centre, Oxford OX3 9DU, UK. mark@fmrib.ox.ac.uk},
-  Keywords                 = {Brain Mapping, methods; Costs and Cost Analysis; Humans; Image Processing, Computer-Assisted, economics/methods; Magnetic Resonance Imaging; Mathematics},
-  Medline-pst              = {ppublish},
-  Owner                    = {stnava},
-  Pii                      = {S1361841501000366},
-  Pmid                     = {11516708},
-  Timestamp                = {2012.01.30}
+@ARTICLE{Jack2010a,
+  author = {Jack, Jr, Clifford R and Knopman, David S. and Jagust, William J.
+	and Shaw, Leslie M. and Aisen, Paul S. and Weiner, Michael W. and
+	Petersen, Ronald C. and Trojanowski, John Q.},
+  title = {Hypothetical model of dynamic biomarkers of the {A}lzheimer's pathological
+	cascade.},
+  journal = {Lancet Neurol},
+  year = {2010},
+  volume = {9},
+  pages = {119--128},
+  number = {1},
+  month = {Jan},
+  doi = {10.1016/S1474-4422(09)70299-6},
+  keywords = {Aging, genetics/pathology/physiology; {A}lzheimer Disease, genetics/pathology/physiopathology;
+	Amyloid beta-Peptides, cerebrospinal fluid/metabolism; Apolipoprotein
+	E4, genetics; Biological Markers, cerebrospinal fluid/metabolism;
+	Brain, pathology/physiopathology/radionuclide imaging; Cognition
+	Disorders, genetics/pathology/physiopathology; Disease Progression;
+	Humans; Magnetic Resonance Imaging; Models, Neurological; Plaque,
+	Amyloid, genetics/metabolism/pathology; Positron-Emission Tomography;
+	Signal Transduction; Time Factors; tau Proteins, cerebrospinal fluid/metabolism},
+  medline-pst = {ppublish},
+  owner = {stnava},
+  pii = {S1474-4422(09)70299-6},
+  pmid = {20083042},
+  timestamp = {2011.10.10http://dx.doi.org/10.1016/S1474-4422(09)70299-6}
 }
 
-@Article{Khan2008,
-  Title                    = {FreeSurfer-initiated fully-automated subcortical brain segmentation in MRI using Large Deformation Diffeomorphic Metric Mapping.},
-  Author                   = {Khan, Ali R. and Wang, Lei and Beg, Mirza Faisal},
-  Journal                  = {Neuroimage},
-  Year                     = {2008},
-
-  Month                    = {Jul},
-  Number                   = {3},
-  Pages                    = {735--746},
-  Volume                   = {41},
-
-  Abstract                 = {Fully-automated brain segmentation methods have not been widely adopted for clinical use because of issues related to reliability, accuracy, and limitations of delineation protocol. By combining the probabilistic-based FreeSurfer (FS) method with the Large Deformation Diffeomorphic Metric Mapping (LDDMM)-based label-propagation method, we are able to increase reliability and accuracy, and allow for flexibility in template choice. Our method uses the automated FreeSurfer subcortical labeling to provide a coarse-to-fine introduction of information in the LDDMM template-based segmentation resulting in a fully-automated subcortical brain segmentation method (FS+LDDMM). One major advantage of the FS+LDDMM-based approach is that the automatically generated segmentations generated are inherently smooth, thus subsequent steps in shape analysis can directly follow without manual post-processing or loss of detail. We have evaluated our new FS+LDDMM method on several databases containing a total of 50 subjects with different pathologies, scan sequences and manual delineation protocols for labeling the basal ganglia, thalamus, and hippocampus. In healthy controls we report Dice overlap measures of 0.81, 0.83, 0.74, 0.86 and 0.75 for the right caudate nucleus, putamen, pallidum, thalamus and hippocampus respectively. We also find statistically significant improvement of accuracy in FS+LDDMM over FreeSurfer for the caudate nucleus and putamen of Huntington's disease and Tourette's syndrome subjects, and the right hippocampus of Schizophrenia subjects.},
-  Institution              = {>},
-  Keywords                 = {Adult; Aged; Automation; Brain Mapping, methods; Brain, anatomy /\&/ histology; Female; Humans; Image Processing, Computer-Assisted, methods; Imaging, Three-Dimensional; Magnetic Resonance Imaging; Male},
-  Medline-pst              = {ppublish},
-  Owner                    = {stnava},
-  Pii                      = {S1053-8119(08)00252-8},
-  Pmid                     = {18455931},
-  Timestamp                = {2012.01.30}
+@ARTICLE{Jenkinson2001,
+  author = {Jenkinson, M. and Smith, S.},
+  title = {A global optimisation method for robust affine registration of brain
+	images.},
+  journal = {Med Image Anal},
+  year = {2001},
+  volume = {5},
+  pages = {143--156},
+  number = {2},
+  month = {Jun},
+  abstract = {Registration is an important component of medical image analysis and
+	for analysing large amounts of data it is desirable to have fully
+	automatic registration methods. Many different automatic registration
+	methods have been proposed to date, and almost all share a common
+	mathematical framework - one of optimising a cost function. To date
+	little attention has been focused on the optimisation method itself,
+	even though the success of most registration methods hinges on the
+	quality of this optimisation. This paper examines the assumptions
+	underlying the problem of registration for brain images using inter-modal
+	voxel similarity measures. It is demonstrated that the use of local
+	optimisation methods together with the standard multi-resolution
+	approach is not sufficient to reliably find the global minimum. To
+	address this problem, a global optimisation method is proposed that
+	is specifically tailored to this form of registration. A full discussion
+	of all the necessary implementation details is included as this is
+	an important part of any practical method. Furthermore, results are
+	presented for inter-modal, inter-subject registration experiments
+	that show that the proposed method is more reliable at finding the
+	global minimum than several of the currently available registration
+	packages in common usage.},
+  institution = {University of Oxford, John Radcliffe Hospital, FMRIB Centre, Oxford
+	OX3 9DU, UK. mark@fmrib.ox.ac.uk},
+  keywords = {Brain Mapping, methods; Costs and Cost Analysis; Humans; Image Processing,
+	Computer-Assisted, economics/methods; Magnetic Resonance Imaging;
+	Mathematics},
+  medline-pst = {ppublish},
+  owner = {stnava},
+  pii = {S1361841501000366},
+  pmid = {11516708},
+  timestamp = {2012.01.30}
 }
 
-@Article{Kikinis2011,
-  Title                    = {3D Slicer as a tool for interactive brain tumor segmentation.},
-  Author                   = {Kikinis, Ron and Pieper, Steve},
-  Journal                  = {Conf Proc IEEE Eng Med Biol Soc},
-  Year                     = {2011},
-
-  Month                    = {Aug},
-  Pages                    = {6982--6984},
-  Volume                   = {2011},
-
-  Abstract                 = {User interaction is required for reliable segmentation of brain tumors in clinical practice and in clinical research. By incorporating current research tools, 3D Slicer provides a set of interactive, easy to use tools that can be efficiently used for this purpose. One of the modules of 3D Slicer is an interactive editor tool, which contains a variety of interactive segmentation effects. Use of these effects for fast and reproducible segmentation of a single glioblastoma from magnetic resonance imaging data is demonstrated. The innovation in this work lies not in the algorithm, but in the accessibility of the algorithm because of its integration into a software platform that is practical for research in a clinical setting.},
-  Doi                      = {10.1109/IEMBS.2011.6091765},
-  Medline-pst              = {ppublish},
-  Owner                    = {stnava},
-  Pmid                     = {22255945},
-  Timestamp                = {2012.01.30http://dx.doi.org/10.1109/IEMBS.2011.6091765}
+@ARTICLE{Khan2008,
+  author = {Khan, Ali R. and Wang, Lei and Beg, Mirza Faisal},
+  title = {FreeSurfer-initiated fully-automated subcortical brain segmentation
+	in MRI using Large Deformation Diffeomorphic Metric Mapping.},
+  journal = {Neuroimage},
+  year = {2008},
+  volume = {41},
+  pages = {735--746},
+  number = {3},
+  month = {Jul},
+  abstract = {Fully-automated brain segmentation methods have not been widely adopted
+	for clinical use because of issues related to reliability, accuracy,
+	and limitations of delineation protocol. By combining the probabilistic-based
+	FreeSurfer (FS) method with the Large Deformation Diffeomorphic Metric
+	Mapping (LDDMM)-based label-propagation method, we are able to increase
+	reliability and accuracy, and allow for flexibility in template choice.
+	Our method uses the automated FreeSurfer subcortical labeling to
+	provide a coarse-to-fine introduction of information in the LDDMM
+	template-based segmentation resulting in a fully-automated subcortical
+	brain segmentation method (FS+LDDMM). One major advantage of the
+	FS+LDDMM-based approach is that the automatically generated segmentations
+	generated are inherently smooth, thus subsequent steps in shape analysis
+	can directly follow without manual post-processing or loss of detail.
+	We have evaluated our new FS+LDDMM method on several databases containing
+	a total of 50 subjects with different pathologies, scan sequences
+	and manual delineation protocols for labeling the basal ganglia,
+	thalamus, and hippocampus. In healthy controls we report Dice overlap
+	measures of 0.81, 0.83, 0.74, 0.86 and 0.75 for the right caudate
+	nucleus, putamen, pallidum, thalamus and hippocampus respectively.
+	We also find statistically significant improvement of accuracy in
+	FS+LDDMM over FreeSurfer for the caudate nucleus and putamen of Huntington's
+	disease and Tourette's syndrome subjects, and the right hippocampus
+	of Schizophrenia subjects.},
+  institution = {>},
+  keywords = {Adult; Aged; Automation; Brain Mapping, methods; Brain, anatomy /\&/
+	histology; Female; Humans; Image Processing, Computer-Assisted, methods;
+	Imaging, Three-Dimensional; Magnetic Resonance Imaging; Male},
+  medline-pst = {ppublish},
+  owner = {stnava},
+  pii = {S1053-8119(08)00252-8},
+  pmid = {18455931},
+  timestamp = {2012.01.30}
 }
 
-@Article{Klein2010,
-  Title                    = {elastix: a toolbox for intensity-based medical image registration.},
-  Author                   = {Klein, Stefan and Staring, Marius and Murphy, Keelin and Viergever, Max A. and Pluim, Josien P W.},
-  Journal                  = {IEEE Trans Med Imaging},
-  Year                     = {2010},
-
-  Month                    = {Jan},
-  Number                   = {1},
-  Pages                    = {196--205},
-  Volume                   = {29},
-
-  Abstract                 = {Medical image registration is an important task in medical image processing. It refers to the process of aligning data sets, possibly from different modalities (e.g., magnetic resonance and computed tomography), different time points (e.g., follow-up scans), and/or different subjects (in case of population studies). A large number of methods for image registration are described in the literature. Unfortunately, there is not one method that works for all applications. We have therefore developed elastix, a publicly available computer program for intensity-based medical image registration. The software consists of a collection of algorithms that are commonly used to solve medical image registration problems. The modular design of elastix allows the user to quickly configure, test, and compare different registration methods for a specific application. The command-line interface enables automated processing of large numbers of data sets, by means of scripting. The usage of elastix for comparing different registration methods is illustrated with three example experiments, in which individual components of the registration method are varied.},
-  Doi                      = {10.1109/TMI.2009.2035616},
-  Institution              = {University Medical Center Utrecht, Image Sciences Institute, 3508 GA Utrecht, The Netherlands. s.klein@erasmusmc.nl},
-  Keywords                 = {Diagnostic Imaging, methods; Humans; Image Processing, Computer-Assisted, methods; Models, Biological; Normal Distribution; Software},
-  Medline-pst              = {ppublish},
-  Owner                    = {stnava},
-  Pmid                     = {19923044},
-  Timestamp                = {2012.01.30http://dx.doi.org/10.1109/TMI.2009.2035616}
+@ARTICLE{Kikinis2011,
+  author = {Kikinis, Ron and Pieper, Steve},
+  title = {3D Slicer as a tool for interactive brain tumor segmentation.},
+  journal = {Conf Proc IEEE Eng Med Biol Soc},
+  year = {2011},
+  volume = {2011},
+  pages = {6982--6984},
+  month = {Aug},
+  abstract = {User interaction is required for reliable segmentation of brain tumors
+	in clinical practice and in clinical research. By incorporating current
+	research tools, 3D Slicer provides a set of interactive, easy to
+	use tools that can be efficiently used for this purpose. One of the
+	modules of 3D Slicer is an interactive editor tool, which contains
+	a variety of interactive segmentation effects. Use of these effects
+	for fast and reproducible segmentation of a single glioblastoma from
+	magnetic resonance imaging data is demonstrated. The innovation in
+	this work lies not in the algorithm, but in the accessibility of
+	the algorithm because of its integration into a software platform
+	that is practical for research in a clinical setting.},
+  doi = {10.1109/IEMBS.2011.6091765},
+  medline-pst = {ppublish},
+  owner = {stnava},
+  pmid = {22255945},
+  timestamp = {2012.01.30http://dx.doi.org/10.1109/IEMBS.2011.6091765}
 }
 
-@Article{Metz2011,
-  Title                    = {Nonrigid registration of dynamic medical imaging data using nD + t B-splines and a groupwise optimization approach.},
-  Author                   = {Metz, C. T. and Klein, S. and Schaap, M. and {van Walsum}, T. and Niessen, W. J.},
-  Journal                  = {Med Image Anal},
-  Year                     = {2011},
-
-  Month                    = {Apr},
-  Number                   = {2},
-  Pages                    = {238--249},
-  Volume                   = {15},
-
-  Abstract                 = {A registration method for motion estimation in dynamic medical imaging data is proposed. Registration is performed directly on the dynamic image, thus avoiding a bias towards a specifically chosen reference time point. Both spatial and temporal smoothness of the transformations are taken into account. Optionally, cyclic motion can be imposed, which can be useful for visualization (viewing the segmentation sequentially) or model building purposes. The method is based on a 3D (2D+time) or 4D (3D+time) free-form B-spline deformation model, a similarity metric that minimizes the intensity variances over time and constrained optimization using a stochastic gradient descent method with adaptive step size estimation. The method was quantitatively compared with existing registration techniques on synthetic data and 3D+t computed tomography data of the lungs. This showed subvoxel accuracy while delivering smooth transformations, and high consistency of the registration results. Furthermore, the accuracy of semi-automatic derivation of left ventricular volume curves from 3D+t computed tomography angiography data of the heart was evaluated. On average, the deviation from the curves derived from the manual annotations was approximately 3\%. The potential of the method for other imaging modalities was shown on 2D+t ultrasound and 2D+t magnetic resonance images. The software is publicly available as an extension to the registration package elastix.},
-  Doi                      = {10.1016/j.media.2010.10.003},
-  Institution              = {Departments of Medical Informatics and Radiology, Erasmus MC - University Medical Center Rotterdam, PO Box 2040, 3000 CA, Rotterdam, The Netherlands. c.metz@erasmusmc.nl},
-  Keywords                 = {Algorithms; Artificial Intelligence; Humans; Imaging, Three-Dimensional, methods; Lung, radiography; Pattern Recognition, Automated, methods; Radiographic Image Enhancement, methods; Radiographic Image Interpretation, Computer-Assisted, methods; Reproducibility of Results; Sensitivity and Specificity; Subtraction Technique; Tomography, X-Ray Computed, methods},
-  Medline-pst              = {ppublish},
-  Owner                    = {stnava},
-  Pii                      = {S1361-8415(10)00115-5},
-  Pmid                     = {21075672},
-  Timestamp                = {2012.01.30http://dx.doi.org/10.1016/j.media.2010.10.003}
+@ARTICLE{Klein2010,
+  author = {Klein, Stefan and Staring, Marius and Murphy, Keelin and Viergever,
+	Max A. and Pluim, Josien P W.},
+  title = {elastix: a toolbox for intensity-based medical image registration.},
+  journal = {IEEE Trans Med Imaging},
+  year = {2010},
+  volume = {29},
+  pages = {196--205},
+  number = {1},
+  month = {Jan},
+  abstract = {Medical image registration is an important task in medical image processing.
+	It refers to the process of aligning data sets, possibly from different
+	modalities (e.g., magnetic resonance and computed tomography), different
+	time points (e.g., follow-up scans), and/or different subjects (in
+	case of population studies). A large number of methods for image
+	registration are described in the literature. Unfortunately, there
+	is not one method that works for all applications. We have therefore
+	developed elastix, a publicly available computer program for intensity-based
+	medical image registration. The software consists of a collection
+	of algorithms that are commonly used to solve medical image registration
+	problems. The modular design of elastix allows the user to quickly
+	configure, test, and compare different registration methods for a
+	specific application. The command-line interface enables automated
+	processing of large numbers of data sets, by means of scripting.
+	The usage of elastix for comparing different registration methods
+	is illustrated with three example experiments, in which individual
+	components of the registration method are varied.},
+  doi = {10.1109/TMI.2009.2035616},
+  institution = {University Medical Center Utrecht, Image Sciences Institute, 3508
+	GA Utrecht, The Netherlands. s.klein@erasmusmc.nl},
+  keywords = {Diagnostic Imaging, methods; Humans; Image Processing, Computer-Assisted,
+	methods; Models, Biological; Normal Distribution; Software},
+  medline-pst = {ppublish},
+  owner = {stnava},
+  pmid = {19923044},
+  timestamp = {2012.01.30http://dx.doi.org/10.1109/TMI.2009.2035616}
 }
 
-@Article{Miller2005,
-  Title                    = {Increasing the power of functional maps of the medial temporal lobe by using large deformation diffeomorphic metric mapping.},
-  Author                   = {Miller, Michael I. and Beg, M Faisal and Ceritoglu, Can and Stark, Craig},
-  Journal                  = {Proc Natl Acad Sci U S A},
-  Year                     = {2005},
-
-  Month                    = {Jul},
-  Number                   = {27},
-  Pages                    = {9685--9690},
-  Volume                   = {102},
-
-  Abstract                 = {The functional magnetic resonance imagery responses of declarative memory tasks in the medial temporal lobe (MTL) are examined by using large deformation diffeomorphic metric mapping (LDDMM) to remove anatomical variations across subjects. LDDMM is used to map the structures of the MTL in multiple subjects into extrinsic atlas coordinates; these same diffeomorphic mappings are used to transfer the corresponding functional data activation to the same extrinsic coordinates. The statistical power in the averaged LDDMM mapped signals is significantly increased over conventional Talairach-Tournoux averaging. Activation patterns are highly localized within the MTL. Whereas the present demonstration has been aimed at enhancing alignment within the MTL, this technique is general and can be applied throughout the brain.},
-  Doi                      = {10.1073/pnas.0503892102},
-  Institution              = {Center for Imaging Science, The Whiting School of Engineering, The Johns Hopkins University, 301 Clark Hall, Baltimore, MD 21218, USA. mim@cis.jhu.edu},
-  Keywords                 = {Brain Mapping, methods; Humans; Magnetic Resonance Imaging, methods; Memory, physiology; Temporal Lobe, anatomy /\&/ histology/physiology},
-  Medline-pst              = {ppublish},
-  Owner                    = {stnava},
-  Pii                      = {0503892102},
-  Pmid                     = {15980148},
-  Timestamp                = {2012.01.30http://dx.doi.org/10.1073/pnas.0503892102}
+@ARTICLE{Metz2011,
+  author = {Metz, C. T. and Klein, S. and Schaap, M. and {van Walsum}, T. and
+	Niessen, W. J.},
+  title = {Nonrigid registration of dynamic medical imaging data using nD +
+	t B-splines and a groupwise optimization approach.},
+  journal = {Med Image Anal},
+  year = {2011},
+  volume = {15},
+  pages = {238--249},
+  number = {2},
+  month = {Apr},
+  abstract = {A registration method for motion estimation in dynamic medical imaging
+	data is proposed. Registration is performed directly on the dynamic
+	image, thus avoiding a bias towards a specifically chosen reference
+	time point. Both spatial and temporal smoothness of the transformations
+	are taken into account. Optionally, cyclic motion can be imposed,
+	which can be useful for visualization (viewing the segmentation sequentially)
+	or model building purposes. The method is based on a 3D (2D+time)
+	or 4D (3D+time) free-form B-spline deformation model, a similarity
+	metric that minimizes the intensity variances over time and constrained
+	optimization using a stochastic gradient descent method with adaptive
+	step size estimation. The method was quantitatively compared with
+	existing registration techniques on synthetic data and 3D+t computed
+	tomography data of the lungs. This showed subvoxel accuracy while
+	delivering smooth transformations, and high consistency of the registration
+	results. Furthermore, the accuracy of semi-automatic derivation of
+	left ventricular volume curves from 3D+t computed tomography angiography
+	data of the heart was evaluated. On average, the deviation from the
+	curves derived from the manual annotations was approximately 3\%.
+	The potential of the method for other imaging modalities was shown
+	on 2D+t ultrasound and 2D+t magnetic resonance images. The software
+	is publicly available as an extension to the registration package
+	elastix.},
+  doi = {10.1016/j.media.2010.10.003},
+  institution = {Departments of Medical Informatics and Radiology, Erasmus MC - University
+	Medical Center Rotterdam, PO Box 2040, 3000 CA, Rotterdam, The Netherlands.
+	c.metz@erasmusmc.nl},
+  keywords = {Algorithms; Artificial Intelligence; Humans; Imaging, Three-Dimensional,
+	methods; Lung, radiography; Pattern Recognition, Automated, methods;
+	Radiographic Image Enhancement, methods; Radiographic Image Interpretation,
+	Computer-Assisted, methods; Reproducibility of Results; Sensitivity
+	and Specificity; Subtraction Technique; Tomography, X-Ray Computed,
+	methods},
+  medline-pst = {ppublish},
+  owner = {stnava},
+  pii = {S1361-8415(10)00115-5},
+  pmid = {21075672},
+  timestamp = {2012.01.30http://dx.doi.org/10.1016/j.media.2010.10.003}
 }
 
-@Article{Murphy2011,
-  Title                    = {Evaluation of registration methods on thoracic CT: the EMPIRE10 challenge.},
-  Author                   = {Murphy, Keelin and {van Ginneken}, Bram and et al.},
-  Journal                  = {IEEE Trans Med Imaging},
-  Year                     = {2011},
-
-  Month                    = {Nov},
-  Number                   = {11},
-  Pages                    = {1901--1920},
-  Volume                   = {30},
-
-  Abstract                 = {EMPIRE10 (Evaluation of Methods for Pulmonary Image REgistration 2010) is a public platform for fair and meaningful comparison of registration algorithms which are applied to a database of intrapatient thoracic CT image pairs. Evaluation of nonrigid registration techniques is a nontrivial task. This is compounded by the fact that researchers typically test only on their own data, which varies widely. For this reason, reliable assessment and comparison of different registration algorithms has been virtually impossible in the past. In this work we present the results of the launch phase of EMPIRE10, which comprised the comprehensive evaluation and comparison of 20 individual algorithms from leading academic and industrial research groups. All algorithms are applied to the same set of 30 thoracic CT pairs. Algorithm settings and parameters are chosen by researchers expert in the configuration of their own method and the evaluation is independent, using the same criteria for all participants. All results are published on the EMPIRE10 website (http://empire10.isi.uu.nl). The challenge remains ongoing and open to new participants. Full results from 24 algorithms have been published at the time of writing. This paper details the organization of the challenge, the data and evaluation methods and the outcome of the initial launch with 20 algorithms. The gain in knowledge and future work are discussed.},
-  Doi                      = {10.1109/TMI.2011.2158349},
-  Institution              = {Image Sciences Institute, University Medical Center, Utrecht, The Netherlands.},
-  Medline-pst              = {ppublish},
-  Owner                    = {stnava},
-  Pmid                     = {21632295},
-  Timestamp                = {2012.01.30http://dx.doi.org/10.1109/TMI.2011.2158349}
+@ARTICLE{Miller2005,
+  author = {Miller, Michael I. and Beg, M Faisal and Ceritoglu, Can and Stark,
+	Craig},
+  title = {Increasing the power of functional maps of the medial temporal lobe
+	by using large deformation diffeomorphic metric mapping.},
+  journal = {Proc Natl Acad Sci U S A},
+  year = {2005},
+  volume = {102},
+  pages = {9685--9690},
+  number = {27},
+  month = {Jul},
+  abstract = {The functional magnetic resonance imagery responses of declarative
+	memory tasks in the medial temporal lobe (MTL) are examined by using
+	large deformation diffeomorphic metric mapping (LDDMM) to remove
+	anatomical variations across subjects. LDDMM is used to map the structures
+	of the MTL in multiple subjects into extrinsic atlas coordinates;
+	these same diffeomorphic mappings are used to transfer the corresponding
+	functional data activation to the same extrinsic coordinates. The
+	statistical power in the averaged LDDMM mapped signals is significantly
+	increased over conventional Talairach-Tournoux averaging. Activation
+	patterns are highly localized within the MTL. Whereas the present
+	demonstration has been aimed at enhancing alignment within the MTL,
+	this technique is general and can be applied throughout the brain.},
+  doi = {10.1073/pnas.0503892102},
+  institution = {Center for Imaging Science, The Whiting School of Engineering, The
+	Johns Hopkins University, 301 Clark Hall, Baltimore, MD 21218, USA.
+	mim@cis.jhu.edu},
+  keywords = {Brain Mapping, methods; Humans; Magnetic Resonance Imaging, methods;
+	Memory, physiology; Temporal Lobe, anatomy /\&/ histology/physiology},
+  medline-pst = {ppublish},
+  owner = {stnava},
+  pii = {0503892102},
+  pmid = {15980148},
+  timestamp = {2012.01.30http://dx.doi.org/10.1073/pnas.0503892102}
 }
 
-@Article{Nielsen1997,
-  Title                    = {Regularization, Scale-Space, and Edge Detection Filters},
-  Author                   = {Nielsen, Mads and Florack, Luc and Deriche, Rachid},
-  Journal                  = {J. Math. Imaging Vis.},
-  Year                     = {1997},
-
-  Month                    = {October},
-  Pages                    = {291--307},
-  Volume                   = {7},
-
-  Address                  = {Norwell, MA, USA},
-  ISSN                     = {0924-9907},
-  Keywords                 = {edge detection filters, linear filtering, recursive filtering, regularization, scale invariance, scale-space},
-  Numpages                 = {17},
-  Publisher                = {Kluwer Academic Publishers}
+@ARTICLE{Murphy2011,
+  author = {Murphy, Keelin and {van Ginneken}, Bram and et al.},
+  title = {Evaluation of registration methods on thoracic CT: the EMPIRE10 challenge.},
+  journal = {IEEE Trans Med Imaging},
+  year = {2011},
+  volume = {30},
+  pages = {1901--1920},
+  number = {11},
+  month = {Nov},
+  abstract = {EMPIRE10 (Evaluation of Methods for Pulmonary Image REgistration 2010)
+	is a public platform for fair and meaningful comparison of registration
+	algorithms which are applied to a database of intrapatient thoracic
+	CT image pairs. Evaluation of nonrigid registration techniques is
+	a nontrivial task. This is compounded by the fact that researchers
+	typically test only on their own data, which varies widely. For this
+	reason, reliable assessment and comparison of different registration
+	algorithms has been virtually impossible in the past. In this work
+	we present the results of the launch phase of EMPIRE10, which comprised
+	the comprehensive evaluation and comparison of 20 individual algorithms
+	from leading academic and industrial research groups. All algorithms
+	are applied to the same set of 30 thoracic CT pairs. Algorithm settings
+	and parameters are chosen by researchers expert in the configuration
+	of their own method and the evaluation is independent, using the
+	same criteria for all participants. All results are published on
+	the EMPIRE10 website (http://empire10.isi.uu.nl). The challenge remains
+	ongoing and open to new participants. Full results from 24 algorithms
+	have been published at the time of writing. This paper details the
+	organization of the challenge, the data and evaluation methods and
+	the outcome of the initial launch with 20 algorithms. The gain in
+	knowledge and future work are discussed.},
+  doi = {10.1109/TMI.2011.2158349},
+  institution = {Image Sciences Institute, University Medical Center, Utrecht, The
+	Netherlands.},
+  medline-pst = {ppublish},
+  owner = {stnava},
+  pmid = {21632295},
+  timestamp = {2012.01.30http://dx.doi.org/10.1109/TMI.2011.2158349}
 }
 
-@Article{Peyrat2010,
-  Title                    = {Registration of 4D cardiac CT sequences under trajectory constraints with multichannel diffeomorphic demons.},
-  Author                   = {Peyrat, Jean-Marc and Delingette, Hervé and Sermesant, Maxime and Xu, Chenyang and Ayache, Nicholas},
-  Journal                  = {IEEE Trans Med Imaging},
-  Year                     = {2010},
-
-  Month                    = {Jul},
-  Number                   = {7},
-  Pages                    = {1351--1368},
-  Volume                   = {29},
-
-  Abstract                 = {We propose a framework for the nonlinear spatiotemporal registration of 4D time-series of images based on the Diffeomorphic Demons (DD) algorithm. In this framework, the 4D spatiotemporal registration is decoupled into a 4D temporal registration, defined as mapping physiological states, and a 4D spatial registration, defined as mapping trajectories of physical points. Our contribution focuses more specifically on the 4D spatial registration that should be consistent over time as opposed to 3D registration that solely aims at mapping homologous points at a given time-point. First, we estimate in each sequence the motion displacement field, which is a dense representation of the point trajectories we want to register. Then, we perform simultaneously 3D registrations of corresponding time-points with the constraints to map the same physical points over time called the trajectory constraints. Under these constraints, we show that the 4D spatial registration can be formulated as a multichannel registration of 3D images. To solve it, we propose a novel version of the Diffeomorphic Demons (DD) algorithm extended to vector-valued 3D images, the Multichannel Diffeomorphic Demons (MDD). For evaluation, this framework is applied to the registration of 4D cardiac computed tomography (CT) sequences and compared to other standard methods with real patient data and synthetic data simulated from a physiologically realistic electromechanical cardiac model. Results show that the trajectory constraints act as a temporal regularization consistent with motion whereas the multichannel registration acts as a spatial regularization. Finally, using these trajectory constraints with multichannel registration yields the best compromise between registration accuracy, temporal and spatial smoothness, and computation times. A prospective example of application is also presented with the spatiotemporal registration of 4D cardiac CT sequences of the same patient before and after radiofrequency ablation (RFA) in case of atrial fibrillation (AF). The intersequence spatial transformations over a cardiac cycle allow to analyze and quantify the regression of left ventricular hypertrophy and its impact on the cardiac function.},
-  Doi                      = {10.1109/TMI.2009.2038908},
-  Institution              = {Asclepios Research Project, Sophia Antipolis, France.},
-  Keywords                 = {-Assisted, methods; Algorithms; Cardiac-Gated Imaging Techniques, methods; Humans; Imaging, Three-Dimensional, methods; Pattern Recognition, Automated, methods; Radiographic Image Enhancement, methods; Reproducibility of Results; Sensitivity and Specificity; Subtraction Technique; Tomography, X-Ray Computed, methods},
-  Medline-pst              = {ppublish},
-  Owner                    = {stnava},
-  Pmid                     = {20304732},
-  Timestamp                = {2012.01.30http://dx.doi.org/10.1109/TMI.2009.2038908}
+@ARTICLE{Nielsen1997,
+  author = {Nielsen, Mads and Florack, Luc and Deriche, Rachid},
+  title = {Regularization, Scale-Space, and Edge Detection Filters},
+  journal = {J. Math. Imaging Vis.},
+  year = {1997},
+  volume = {7},
+  pages = {291--307},
+  month = {October},
+  address = {Norwell, MA, USA},
+  issn = {0924-9907},
+  keywords = {edge detection filters, linear filtering, recursive filtering, regularization,
+	scale invariance, scale-space},
+  numpages = {17},
+  publisher = {Kluwer Academic Publishers}
 }
 
-@Article{Rueckert1999,
-  Title                    = {Nonrigid registration using free-form deformations: application to breast MR images.},
-  Author                   = {Rueckert, D. and Sonoda, L. I. and Hayes, C. and Hill, D. L. and Leach, M. O. and Hawkes, D. J.},
-  Journal                  = {IEEE Trans Med Imaging},
-  Year                     = {1999},
-
-  Month                    = {Aug},
-  Number                   = {8},
-  Pages                    = {712--721},
-  Volume                   = {18},
-
-  Abstract                 = {In this paper we present a new approach for the nonrigid registration of contrast-enhanced breast MRI. A hierarchical transformation model of the motion of the breast has been developed. The global motion of the breast is modeled by an affine transformation while the local breast motion is described by a free-form deformation (FFD) based on B-splines. Normalized mutual information is used as a voxel-based similarity measure which is insensitive to intensity changes as a result of the contrast enhancement. Registration is achieved by minimizing a cost function, which represents a combination of the cost associated with the smoothness of the transformation and the cost associated with the image similarity. The algorithm has been applied to the fully automated registration of three-dimensional (3-D) breast MRI in volunteers and patients. In particular, we have compared the results of the proposed nonrigid registration algorithm to those obtained using rigid and affine registration techniques. The results clearly indicate that the nonrigid registration algorithm is much better able to recover the motion and deformation of the breast than rigid or affine registration algorithms.},
-  Doi                      = {10.1109/42.796284},
-  Institution              = {g's College London, Guy's Hospital, London, UK. D.Rueckert@umds.ac.uk},
-  Keywords                 = {Breast, anatomy /\&/ histology; Female; Humans; Image Processing, Computer-Assisted, methods; Magnetic Resonance Imaging, methods},
-  Medline-pst              = {ppublish},
-  Owner                    = {stnava},
-  Pmid                     = {10534053},
-  Timestamp                = {2012.01.30http://dx.doi.org/10.1109/42.796284}
+@ARTICLE{Peyrat2010,
+  author = {Peyrat, Jean-Marc and Delingette, Hervé and Sermesant, Maxime and
+	Xu, Chenyang and Ayache, Nicholas},
+  title = {Registration of 4D cardiac CT sequences under trajectory constraints
+	with multichannel diffeomorphic demons.},
+  journal = {IEEE Trans Med Imaging},
+  year = {2010},
+  volume = {29},
+  pages = {1351--1368},
+  number = {7},
+  month = {Jul},
+  abstract = {We propose a framework for the nonlinear spatiotemporal registration
+	of 4D time-series of images based on the Diffeomorphic Demons (DD)
+	algorithm. In this framework, the 4D spatiotemporal registration
+	is decoupled into a 4D temporal registration, defined as mapping
+	physiological states, and a 4D spatial registration, defined as mapping
+	trajectories of physical points. Our contribution focuses more specifically
+	on the 4D spatial registration that should be consistent over time
+	as opposed to 3D registration that solely aims at mapping homologous
+	points at a given time-point. First, we estimate in each sequence
+	the motion displacement field, which is a dense representation of
+	the point trajectories we want to register. Then, we perform simultaneously
+	3D registrations of corresponding time-points with the constraints
+	to map the same physical points over time called the trajectory constraints.
+	Under these constraints, we show that the 4D spatial registration
+	can be formulated as a multichannel registration of 3D images. To
+	solve it, we propose a novel version of the Diffeomorphic Demons
+	(DD) algorithm extended to vector-valued 3D images, the Multichannel
+	Diffeomorphic Demons (MDD). For evaluation, this framework is applied
+	to the registration of 4D cardiac computed tomography (CT) sequences
+	and compared to other standard methods with real patient data and
+	synthetic data simulated from a physiologically realistic electromechanical
+	cardiac model. Results show that the trajectory constraints act as
+	a temporal regularization consistent with motion whereas the multichannel
+	registration acts as a spatial regularization. Finally, using these
+	trajectory constraints with multichannel registration yields the
+	best compromise between registration accuracy, temporal and spatial
+	smoothness, and computation times. A prospective example of application
+	is also presented with the spatiotemporal registration of 4D cardiac
+	CT sequences of the same patient before and after radiofrequency
+	ablation (RFA) in case of atrial fibrillation (AF). The intersequence
+	spatial transformations over a cardiac cycle allow to analyze and
+	quantify the regression of left ventricular hypertrophy and its impact
+	on the cardiac function.},
+  doi = {10.1109/TMI.2009.2038908},
+  institution = {Asclepios Research Project, Sophia Antipolis, France.},
+  keywords = {-Assisted, methods; Algorithms; Cardiac-Gated Imaging Techniques,
+	methods; Humans; Imaging, Three-Dimensional, methods; Pattern Recognition,
+	Automated, methods; Radiographic Image Enhancement, methods; Reproducibility
+	of Results; Sensitivity and Specificity; Subtraction Technique; Tomography,
+	X-Ray Computed, methods},
+  medline-pst = {ppublish},
+  owner = {stnava},
+  pmid = {20304732},
+  timestamp = {2012.01.30http://dx.doi.org/10.1109/TMI.2009.2038908}
 }
 
-@Article{Shelton2005,
-  Title                    = {Teaching medical image analysis with the Insight Toolkit.},
-  Author                   = {Shelton, Damion and Stetten, George and Aylward, Stephen and Ibáñez, Luis and Cois, Aaron and Stewart, Charles},
-  Journal                  = {Med Image Anal},
-  Year                     = {2005},
-
-  Month                    = {Dec},
-  Number                   = {6},
-  Pages                    = {605--611},
-  Volume                   = {9},
-
-  Abstract                 = {We present several case studies which examine the role that the Insight Toolkit (ITK) played in three medical image analysis courses and several conference tutorials. These courses represent the first use of ITK in a teaching environment, and we believe that a discussion of the teaching approach in each case and the benefits and challenges of ITK will be useful to future medical image analysis course development. ITK was found to provide significant value in a classroom setting since it provides both working "canned" algorithms, including some recently developed methods that are unavailable elsewhere, as well as a framework for developing new techniques and applications. Several areas of difficulty, particularly in regards to code complexity and advanced object-oriented design techniques, have been identified which may make the learning curve of ITK somewhat more complex than a language such as Matlab.},
-  Doi                      = {10.1016/j.media.2005.04.011},
-  Institution              = {Carnegie Mellon University, 214 Smith Hall, 5000 Forbes Avenue, Pittsburgh, PA 15213, USA. dmshelto@andrew.cmu.edu},
-  Keywords                 = {Algorithms; Computer-Assisted Instruction, methods; Curriculum; Diagnostic Imaging, methods; Education, Medical, methods; Image Interpretation, Computer-Assisted, methods; Radiology, education; Software; Software Design},
-  Medline-pst              = {ppublish},
-  Owner                    = {stnava},
-  Pii                      = {S1361-8415(05)00035-6},
-  Pmid                     = {15948658},
-  Timestamp                = {2012.01.30http://dx.doi.org/10.1016/j.media.2005.04.011}
+@ARTICLE{Rueckert1999,
+  author = {Rueckert, D. and Sonoda, L. I. and Hayes, C. and Hill, D. L. and
+	Leach, M. O. and Hawkes, D. J.},
+  title = {Nonrigid registration using free-form deformations: application to
+	breast MR images.},
+  journal = {IEEE Trans Med Imaging},
+  year = {1999},
+  volume = {18},
+  pages = {712--721},
+  number = {8},
+  month = {Aug},
+  abstract = {In this paper we present a new approach for the nonrigid registration
+	of contrast-enhanced breast MRI. A hierarchical transformation model
+	of the motion of the breast has been developed. The global motion
+	of the breast is modeled by an affine transformation while the local
+	breast motion is described by a free-form deformation (FFD) based
+	on B-splines. Normalized mutual information is used as a voxel-based
+	similarity measure which is insensitive to intensity changes as a
+	result of the contrast enhancement. Registration is achieved by minimizing
+	a cost function, which represents a combination of the cost associated
+	with the smoothness of the transformation and the cost associated
+	with the image similarity. The algorithm has been applied to the
+	fully automated registration of three-dimensional (3-D) breast MRI
+	in volunteers and patients. In particular, we have compared the results
+	of the proposed nonrigid registration algorithm to those obtained
+	using rigid and affine registration techniques. The results clearly
+	indicate that the nonrigid registration algorithm is much better
+	able to recover the motion and deformation of the breast than rigid
+	or affine registration algorithms.},
+  doi = {10.1109/42.796284},
+  institution = {g's College London, Guy's Hospital, London, UK. D.Rueckert@umds.ac.uk},
+  keywords = {Breast, anatomy /\&/ histology; Female; Humans; Image Processing,
+	Computer-Assisted, methods; Magnetic Resonance Imaging, methods},
+  medline-pst = {ppublish},
+  owner = {stnava},
+  pmid = {10534053},
+  timestamp = {2012.01.30http://dx.doi.org/10.1109/42.796284}
 }
 
-@Article{Taka2011,
-  Title                    = {NIRViz: 3D visualization software for multimodality optical imaging using visualization toolkit ({V}{T}{K}) and insight segmentation toolkit ({I}{T}{K}).},
-  Author                   = {Taka, Senate Johannes and Srinivasan, Subhadra},
-  Journal                  = {J Digit Imaging},
-  Year                     = {2011},
-
-  Month                    = {Dec},
-  Number                   = {6},
-  Pages                    = {1103--1111},
-  Volume                   = {24},
-
-  Abstract                 = {Optical imaging using near-infrared light is used for noninvasive probing of tissues to recover vascular and molecular status of healthy and diseased tissues using hemoglobin contrast arising due to absorption of light. While multimodality optical techniques exist, visualization techniques in this area are limited. Addressing this issue, we present a simple framework for image overlay of optical and magnetic resonance (MRI) or computerized tomographic images which is intuitive and easily usable, called NIRViz. NIRViz is a multimodality software platform for the display and navigation of Digital Imaging and Communications in Medicine (DICOM) MRI datasets and 3D optical image solutions geared toward visualization and coregistration of optical contrast in diseased tissues such as cancer. We present the design decisions undertaken during the design of the software, the libraries used in the implementation, and other implementation details as well as preliminary results from the software package. Our implementation uses the Visualization Toolkit library to do most of the work, with a Qt graphical user interface for the front end. Challenges encountered include reslicing DICOM image data and coregistration of image space and mesh space. The resulting software provides a simple and customized platform to display surface and volume meshes with optical parameters such as hemoglobin concentration, overlay them on magnetic resonance images, allow the user to interactively change transparency of different image sets, rotate geometries, clip through the resulting datasets, obtain mesh and optical solution information, and successfully interact with both functional and structural medical image information.},
-  Doi                      = {10.1007/s10278-011-9362-5},
-  Institution              = {Department of Computer Science, Dartmouth College, Hanover, NH 03755, USA. senate.taka@dartmouth.edu},
-  Medline-pst              = {ppublish},
-  Owner                    = {stnava},
-  Pmid                     = {21274590},
-  Timestamp                = {2012.01.30http://dx.doi.org/10.1007/s10278-011-9362-5}
+@ARTICLE{Shelton2005,
+  author = {Shelton, Damion and Stetten, George and Aylward, Stephen and Ibáñez,
+	Luis and Cois, Aaron and Stewart, Charles},
+  title = {Teaching medical image analysis with the Insight Toolkit.},
+  journal = {Med Image Anal},
+  year = {2005},
+  volume = {9},
+  pages = {605--611},
+  number = {6},
+  month = {Dec},
+  abstract = {We present several case studies which examine the role that the Insight
+	Toolkit (ITK) played in three medical image analysis courses and
+	several conference tutorials. These courses represent the first use
+	of ITK in a teaching environment, and we believe that a discussion
+	of the teaching approach in each case and the benefits and challenges
+	of ITK will be useful to future medical image analysis course development.
+	ITK was found to provide significant value in a classroom setting
+	since it provides both working "canned" algorithms, including some
+	recently developed methods that are unavailable elsewhere, as well
+	as a framework for developing new techniques and applications. Several
+	areas of difficulty, particularly in regards to code complexity and
+	advanced object-oriented design techniques, have been identified
+	which may make the learning curve of ITK somewhat more complex than
+	a language such as Matlab.},
+  doi = {10.1016/j.media.2005.04.011},
+  institution = {Carnegie Mellon University, 214 Smith Hall, 5000 Forbes Avenue, Pittsburgh,
+	PA 15213, USA. dmshelto@andrew.cmu.edu},
+  keywords = {Algorithms; Computer-Assisted Instruction, methods; Curriculum; Diagnostic
+	Imaging, methods; Education, Medical, methods; Image Interpretation,
+	Computer-Assisted, methods; Radiology, education; Software; Software
+	Design},
+  medline-pst = {ppublish},
+  owner = {stnava},
+  pii = {S1361-8415(05)00035-6},
+  pmid = {15948658},
+  timestamp = {2012.01.30http://dx.doi.org/10.1016/j.media.2005.04.011}
 }
 
-@Article{2004,
-  Title                    = {Accuracy of rigid {C}{T}-{F}{D}{G}-{P}{E}{T} image registration of the liver.},
-  Author                   = {{van Dalen}, J. A. and Vogel, W. and Huisman, H. J. and Oyen, W J G. and Jager, G. J. and Karssemeijer, N.},
-  Journal                  = {Phys Med Biol},
-  Year                     = {2004},
-
-  Month                    = {Dec},
-  Number                   = {23},
-  Pages                    = {5393--5405},
-  Volume                   = {49},
-
-  Abstract                 = {Diagnostic and surgical strategies could benefit from accurate localization of liver malignancies via CT-FDG-PET image registration. However, registration uncertainty occurs due to protocol differences in data-acquisition, the limited spatial resolution of positron emission tomography (PET) and the low uptake of 18F-fluorodeoxyglucose (FDG) in normal liver tissue. To assess this uncertainty, methods were presented to estimate registration precision and systematic bias. A semi-automatic, organ-focused method was investigated to minimize the uncertainty well beyond the typical uncertainty of 5-10 mm obtained by commonly available methods. By restricting registration to the liver region and by isolating the liver on computed tomography (CT) from surrounding structures using a thresholding technique, registration was achieved using the mutual information-based method as implemented in insight toolkit (ITK). CT and FDG-PET images of 10 patients with liver metastases were registered rigidly a number of times. Results of the organ-focused method were compared to results of three commonly available methods (a manual, a landmark-based and a 'standard' mutual information-based method) where no dedicated image processing was performed. The proposed method outperformed the other methods with a precision (mean+/-s.d.) of 2.5+/-1.3 mm and a bias of 1.9 mm with a 95\% CI of [1.0, 2.8] mm. Unlike the commonly available methods, our approach allows for robust CT-FDG-PET registration of the liver, with an accuracy better than the spatial resolution of the PET scanner that was used.},
-  Institution              = {Department of Radiology, University Medical Center Nijmegen St Radboud, Geert Grooteplein-Zuid 10, 6500 HB Nijmegen, The Netherlands. J.vanDalen@rad.umcn.nl},
-  Keywords                 = {Fluorodeoxyglucose F18, metabolism; Humans; Liver, radionuclide imaging; Positron-Emission Tomography, methods; Reproducibility of Results; Sensitivity and Specificity; Tomography, X-Ray Computed, methods},
-  Medline-pst              = {ppublish},
-  Owner                    = {stnava},
-  Pmid                     = {15656285},
-  Timestamp                = {2012.01.30}
+@ARTICLE{Taka2011,
+  author = {Taka, Senate Johannes and Srinivasan, Subhadra},
+  title = {NIRViz: 3D visualization software for multimodality optical imaging
+	using visualization toolkit ({V}{T}{K}) and insight segmentation
+	toolkit ({I}{T}{K}).},
+  journal = {J Digit Imaging},
+  year = {2011},
+  volume = {24},
+  pages = {1103--1111},
+  number = {6},
+  month = {Dec},
+  abstract = {Optical imaging using near-infrared light is used for noninvasive
+	probing of tissues to recover vascular and molecular status of healthy
+	and diseased tissues using hemoglobin contrast arising due to absorption
+	of light. While multimodality optical techniques exist, visualization
+	techniques in this area are limited. Addressing this issue, we present
+	a simple framework for image overlay of optical and magnetic resonance
+	(MRI) or computerized tomographic images which is intuitive and easily
+	usable, called NIRViz. NIRViz is a multimodality software platform
+	for the display and navigation of Digital Imaging and Communications
+	in Medicine (DICOM) MRI datasets and 3D optical image solutions geared
+	toward visualization and coregistration of optical contrast in diseased
+	tissues such as cancer. We present the design decisions undertaken
+	during the design of the software, the libraries used in the implementation,
+	and other implementation details as well as preliminary results from
+	the software package. Our implementation uses the Visualization Toolkit
+	library to do most of the work, with a Qt graphical user interface
+	for the front end. Challenges encountered include reslicing DICOM
+	image data and coregistration of image space and mesh space. The
+	resulting software provides a simple and customized platform to display
+	surface and volume meshes with optical parameters such as hemoglobin
+	concentration, overlay them on magnetic resonance images, allow the
+	user to interactively change transparency of different image sets,
+	rotate geometries, clip through the resulting datasets, obtain mesh
+	and optical solution information, and successfully interact with
+	both functional and structural medical image information.},
+  doi = {10.1007/s10278-011-9362-5},
+  institution = {Department of Computer Science, Dartmouth College, Hanover, NH 03755,
+	USA. senate.taka@dartmouth.edu},
+  medline-pst = {ppublish},
+  owner = {stnava},
+  pmid = {21274590},
+  timestamp = {2012.01.30http://dx.doi.org/10.1007/s10278-011-9362-5}
 }
 
-@Article{Vercauteren2009,
-  Title                    = {Diffeomorphic demons: efficient non-parametric image registration.},
-  Author                   = {Vercauteren, Tom and Pennec, Xavier and Perchant, Aymeric and Ayache, Nicholas},
-  Journal                  = {Neuroimage},
-  Year                     = {2009},
-
-  Month                    = {Mar},
-  Number                   = {1 Suppl},
-  Pages                    = {S61--S72},
-  Volume                   = {45},
-
-  Abstract                 = {We propose an efficient non-parametric diffeomorphic image registration algorithm based on Thirion's demons algorithm. In the first part of this paper, we show that Thirion's demons algorithm can be seen as an optimization procedure on the entire space of displacement fields. We provide strong theoretical roots to the different variants of Thirion's demons algorithm. This analysis predicts a theoretical advantage for the symmetric forces variant of the demons algorithm. We show on controlled experiments that this advantage is confirmed in practice and yields a faster convergence. In the second part of this paper, we adapt the optimization procedure underlying the demons algorithm to a space of diffeomorphic transformations. In contrast to many diffeomorphic registration algorithms, our solution is computationally efficient since in practice it only replaces an addition of displacement fields by a few compositions. Our experiments show that in addition to being diffeomorphic, our algorithm provides results that are similar to the ones from the demons algorithm but with transformations that are much smoother and closer to the gold standard, available in controlled experiments, in terms of Jacobians.},
-  Institution              = {Mauna Kea Technologies, 9 rue d'Enghien, 75010 Paris, France. tom.vercauteren@maunakeatech.com},
-  Keywords                 = {Algorithms; Humans; Image Processing, Computer-Assisted, methods},
-  Medline-pst              = {ppublish},
-  Owner                    = {stnava},
-  Pii                      = {S1053-8119(08)01168-3},
-  Pmid                     = {19041946},
-  Timestamp                = {2012.01.30}
+@ARTICLE{2004,
+  author = {{van Dalen}, J. A. and Vogel, W. and Huisman, H. J. and Oyen, W J
+	G. and Jager, G. J. and Karssemeijer, N.},
+  title = {Accuracy of rigid {C}{T}-{F}{D}{G}-{P}{E}{T} image registration of
+	the liver.},
+  journal = {Phys Med Biol},
+  year = {2004},
+  volume = {49},
+  pages = {5393--5405},
+  number = {23},
+  month = {Dec},
+  abstract = {Diagnostic and surgical strategies could benefit from accurate localization
+	of liver malignancies via CT-FDG-PET image registration. However,
+	registration uncertainty occurs due to protocol differences in data-acquisition,
+	the limited spatial resolution of positron emission tomography (PET)
+	and the low uptake of 18F-fluorodeoxyglucose (FDG) in normal liver
+	tissue. To assess this uncertainty, methods were presented to estimate
+	registration precision and systematic bias. A semi-automatic, organ-focused
+	method was investigated to minimize the uncertainty well beyond the
+	typical uncertainty of 5-10 mm obtained by commonly available methods.
+	By restricting registration to the liver region and by isolating
+	the liver on computed tomography (CT) from surrounding structures
+	using a thresholding technique, registration was achieved using the
+	mutual information-based method as implemented in insight toolkit
+	(ITK). CT and FDG-PET images of 10 patients with liver metastases
+	were registered rigidly a number of times. Results of the organ-focused
+	method were compared to results of three commonly available methods
+	(a manual, a landmark-based and a 'standard' mutual information-based
+	method) where no dedicated image processing was performed. The proposed
+	method outperformed the other methods with a precision (mean+/-s.d.)
+	of 2.5+/-1.3 mm and a bias of 1.9 mm with a 95\% CI of [1.0, 2.8]
+	mm. Unlike the commonly available methods, our approach allows for
+	robust CT-FDG-PET registration of the liver, with an accuracy better
+	than the spatial resolution of the PET scanner that was used.},
+  institution = {Department of Radiology, University Medical Center Nijmegen St Radboud,
+	Geert Grooteplein-Zuid 10, 6500 HB Nijmegen, The Netherlands. J.vanDalen@rad.umcn.nl},
+  keywords = {Fluorodeoxyglucose F18, metabolism; Humans; Liver, radionuclide imaging;
+	Positron-Emission Tomography, methods; Reproducibility of Results;
+	Sensitivity and Specificity; Tomography, X-Ray Computed, methods},
+  medline-pst = {ppublish},
+  owner = {stnava},
+  pmid = {15656285},
+  timestamp = {2012.01.30}
 }
 
-@Article{Wolf2005,
-  Title                    = {The medical imaging interaction toolkit.},
-  Author                   = {Wolf, Ivo and Vetter, Marcus and Wegner, Ingmar and Böttger, Thomas and Nolden, Marco and Schöbinger, Max and Hastenteufel, Mark and Kunert, Tobias and Meinzer, Hans-Peter},
-  Journal                  = {Med Image Anal},
-  Year                     = {2005},
-
-  Month                    = {Dec},
-  Number                   = {6},
-  Pages                    = {594--604},
-  Volume                   = {9},
-
-  Abstract                 = {Thoroughly designed, open-source toolkits emerge to boost progress in medical imaging. The Insight Toolkit (ITK) provides this for the algorithmic scope of medical imaging, especially for segmentation and registration. But medical imaging algorithms have to be clinically applied to be useful, which additionally requires visualization and interaction. The Visualization Toolkit (VTK) has powerful visualization capabilities, but only low-level support for interaction. In this paper, we present the Medical Imaging Interaction Toolkit (MITK). The goal of MITK is to significantly reduce the effort required to construct specifically tailored, interactive applications for medical image analysis. MITK allows an easy combination of algorithms developed by ITK with visualizations created by VTK and extends these two toolkits with those features, which are outside the scope of both. MITK adds support for complex interactions with multiple states as well as undo-capabilities, a very important prerequisite for convenient user interfaces. Furthermore, MITK facilitates the realization of multiple, different views of the same data (as a multiplanar reconstruction and a 3D rendering) and supports the visualization of 3D+t data, whereas VTK is only designed to create one kind of view of 2D or 3D data. MITK reuses virtually everything from ITK and VTK. Thus, it is not at all a competitor to ITK or VTK, but an extension, which eases the combination of both and adds the features required for interactive, convenient to use medical imaging software. MITK is an open-source project (www.mitk.org).},
-  Doi                      = {10.1016/j.media.2005.04.005},
-  Institution              = {Deutsches Krebsforschungszentrum (DKFZ), Div. Medical and Biological Informatics/B010, Im Neuenheimer Feld 280, D-69120 Heidelberg, Germany. i.wolf@dkfz.de},
-  Keywords                 = {Algorithms; Artificial Intelligence; Computer Graphics; Diagnostic Imaging, methods; Image Enhancement, methods; Image Interpretation, Computer-Assisted, methods; Imaging, Three-Dimensional, methods; Pattern Recognition, Automated, methods; Software; User-Computer Interface},
-  Medline-pst              = {ppublish},
-  Owner                    = {stnava},
-  Pii                      = {S1361-8415(05)00034-4},
-  Pmid                     = {15896995},
-  Timestamp                = {2012.01.30http://dx.doi.org/10.1016/j.media.2005.04.005}
+@ARTICLE{Vercauteren2009,
+  author = {Vercauteren, Tom and Pennec, Xavier and Perchant, Aymeric and Ayache,
+	Nicholas},
+  title = {Diffeomorphic demons: efficient non-parametric image registration.},
+  journal = {Neuroimage},
+  year = {2009},
+  volume = {45},
+  pages = {S61--S72},
+  number = {1 Suppl},
+  month = {Mar},
+  abstract = {We propose an efficient non-parametric diffeomorphic image registration
+	algorithm based on Thirion's demons algorithm. In the first part
+	of this paper, we show that Thirion's demons algorithm can be seen
+	as an optimization procedure on the entire space of displacement
+	fields. We provide strong theoretical roots to the different variants
+	of Thirion's demons algorithm. This analysis predicts a theoretical
+	advantage for the symmetric forces variant of the demons algorithm.
+	We show on controlled experiments that this advantage is confirmed
+	in practice and yields a faster convergence. In the second part of
+	this paper, we adapt the optimization procedure underlying the demons
+	algorithm to a space of diffeomorphic transformations. In contrast
+	to many diffeomorphic registration algorithms, our solution is computationally
+	efficient since in practice it only replaces an addition of displacement
+	fields by a few compositions. Our experiments show that in addition
+	to being diffeomorphic, our algorithm provides results that are similar
+	to the ones from the demons algorithm but with transformations that
+	are much smoother and closer to the gold standard, available in controlled
+	experiments, in terms of Jacobians.},
+  institution = {Mauna Kea Technologies, 9 rue d'Enghien, 75010 Paris, France. tom.vercauteren@maunakeatech.com},
+  keywords = {Algorithms; Humans; Image Processing, Computer-Assisted, methods},
+  medline-pst = {ppublish},
+  owner = {stnava},
+  pii = {S1053-8119(08)01168-3},
+  pmid = {19041946},
+  timestamp = {2012.01.30}
 }
 
-@Article{Yoo2002,
-  Title                    = {Engineering and algorithm design for an image processing Api: a technical report on ITK--the Insight Toolkit.},
-  Author                   = {Yoo, Terry S. and Ackerman, Michael J. and Lorensen, William E. and Schroeder, Will and Chalana, Vikram and Aylward, Stephen and Metaxas, Dimitris and Whitaker, Ross},
-  Journal                  = {Stud Health Technol Inform},
-  Year                     = {2002},
-  Pages                    = {586--592},
-  Volume                   = {85},
+@ARTICLE{Wolf2005,
+  author = {Wolf, Ivo and Vetter, Marcus and Wegner, Ingmar and Böttger, Thomas
+	and Nolden, Marco and Schöbinger, Max and Hastenteufel, Mark and
+	Kunert, Tobias and Meinzer, Hans-Peter},
+  title = {The medical imaging interaction toolkit.},
+  journal = {Med Image Anal},
+  year = {2005},
+  volume = {9},
+  pages = {594--604},
+  number = {6},
+  month = {Dec},
+  abstract = {Thoroughly designed, open-source toolkits emerge to boost progress
+	in medical imaging. The Insight Toolkit (ITK) provides this for the
+	algorithmic scope of medical imaging, especially for segmentation
+	and registration. But medical imaging algorithms have to be clinically
+	applied to be useful, which additionally requires visualization and
+	interaction. The Visualization Toolkit (VTK) has powerful visualization
+	capabilities, but only low-level support for interaction. In this
+	paper, we present the Medical Imaging Interaction Toolkit (MITK).
+	The goal of MITK is to significantly reduce the effort required to
+	construct specifically tailored, interactive applications for medical
+	image analysis. MITK allows an easy combination of algorithms developed
+	by ITK with visualizations created by VTK and extends these two toolkits
+	with those features, which are outside the scope of both. MITK adds
+	support for complex interactions with multiple states as well as
+	undo-capabilities, a very important prerequisite for convenient user
+	interfaces. Furthermore, MITK facilitates the realization of multiple,
+	different views of the same data (as a multiplanar reconstruction
+	and a 3D rendering) and supports the visualization of 3D+t data,
+	whereas VTK is only designed to create one kind of view of 2D or
+	3D data. MITK reuses virtually everything from ITK and VTK. Thus,
+	it is not at all a competitor to ITK or VTK, but an extension, which
+	eases the combination of both and adds the features required for
+	interactive, convenient to use medical imaging software. MITK is
+	an open-source project (www.mitk.org).},
+  doi = {10.1016/j.media.2005.04.005},
+  institution = {Deutsches Krebsforschungszentrum (DKFZ), Div. Medical and Biological
+	Informatics/B010, Im Neuenheimer Feld 280, D-69120 Heidelberg, Germany.
+	i.wolf@dkfz.de},
+  keywords = {Algorithms; Artificial Intelligence; Computer Graphics; Diagnostic
+	Imaging, methods; Image Enhancement, methods; Image Interpretation,
+	Computer-Assisted, methods; Imaging, Three-Dimensional, methods;
+	Pattern Recognition, Automated, methods; Software; User-Computer
+	Interface},
+  medline-pst = {ppublish},
+  owner = {stnava},
+  pii = {S1361-8415(05)00034-4},
+  pmid = {15896995},
+  timestamp = {2012.01.30http://dx.doi.org/10.1016/j.media.2005.04.005}
+}
 
-  Abstract                 = {We present the detailed planning and execution of the Insight Toolkit (ITK), an application programmers interface (API) for the segmentation and registration of medical image data. This public resource has been developed through the NLM Visible Human Project, and is in beta test as an open-source software offering under cost-free licensing. The toolkit concentrates on 3D medical data segmentation and registration algorithms, multimodal and multiresolution capabilities, and portable platform independent support for Windows, Linux/Unix systems. This toolkit was built using current practices in software engineering. Specifically, we embraced the concept of generic programming during the development of these tools, working extensively with C++ templates and the freedom and flexibility they allow. Software development tools for distributed consortium-based code development have been created and are also publicly available. We discuss our assumptions, design decisions, and some lessons learned.},
-  Institution              = {National Library of Medicine, National Institutes of Health, Bethesda, MD 20894, USA.},
-  Keywords                 = {Algorithms; Anatomy, Cross-Sectional; Computer Systems; Head, anatomy /\&/ histology; Humans; Image Processing, Computer-Assisted; Imaging, Three-Dimensional; Medical Informatics Applications; National Library of Medicine (U.S.); Neck, anatomy /\&/ histology; Software; United States; User-Computer Interface},
-  Medline-pst              = {ppublish},
-  Owner                    = {stnava},
-  Pmid                     = {15458157},
-  Timestamp                = {2012.01.30}
+@ARTICLE{Yoo2002,
+  author = {Yoo, Terry S. and Ackerman, Michael J. and Lorensen, William E. and
+	Schroeder, Will and Chalana, Vikram and Aylward, Stephen and Metaxas,
+	Dimitris and Whitaker, Ross},
+  title = {Engineering and algorithm design for an image processing Api: a technical
+	report on ITK--the Insight Toolkit.},
+  journal = {Stud Health Technol Inform},
+  year = {2002},
+  volume = {85},
+  pages = {586--592},
+  abstract = {We present the detailed planning and execution of the Insight Toolkit
+	(ITK), an application programmers interface (API) for the segmentation
+	and registration of medical image data. This public resource has
+	been developed through the NLM Visible Human Project, and is in beta
+	test as an open-source software offering under cost-free licensing.
+	The toolkit concentrates on 3D medical data segmentation and registration
+	algorithms, multimodal and multiresolution capabilities, and portable
+	platform independent support for Windows, Linux/Unix systems. This
+	toolkit was built using current practices in software engineering.
+	Specifically, we embraced the concept of generic programming during
+	the development of these tools, working extensively with C++ templates
+	and the freedom and flexibility they allow. Software development
+	tools for distributed consortium-based code development have been
+	created and are also publicly available. We discuss our assumptions,
+	design decisions, and some lessons learned.},
+  institution = {National Library of Medicine, National Institutes of Health, Bethesda,
+	MD 20894, USA.},
+  keywords = {Algorithms; Anatomy, Cross-Sectional; Computer Systems; Head, anatomy
+	/\&/ histology; Humans; Image Processing, Computer-Assisted; Imaging,
+	Three-Dimensional; Medical Informatics Applications; National Library
+	of Medicine (U.S.); Neck, anatomy /\&/ histology; Software; United
+	States; User-Computer Interface},
+  medline-pst = {ppublish},
+  owner = {stnava},
+  pmid = {15458157},
+  timestamp = {2012.01.30}
 }
 
 @comment{jabref-meta: selector_review:}
