@@ -371,7 +371,7 @@ performance. Here, we summarize how \tk works toward these goals.
 \begin{tabular}{c}
 \includegraphics[width=5in]{figs/software_design.pdf}
 \end{tabular}
-\caption{\baselineskip 12pt \small A schematic overview of the
+\caption{A schematic overview of the
   prototypical \tk registration method.  This design is overall similar to
   that of \tkt.  A few key components differ:  (1) optimizers request that
   transforms update themselves; (2) metrics and optimizers are
@@ -476,7 +476,7 @@ Metric gradient memory is shared between optimizer and metric, and modifications
 \begin{tabular}{c}
 \includegraphics[width=5in]{figs/RegistrationNomenclature.pdf}
 \end{tabular}
-\caption{\baselineskip 12pt \small Define $x$ in $\Omega_I$ and $z$ in
+\caption{Define $x$ in $\Omega_I$ and $z$ in
   $\Omega_J$ as the same material point but existing in different
   domains.  The point $y$ is in a domain that is intermediate between
   $\Omega_I$ and $\Omega_J$.  The standard approach in the ITKv4
@@ -737,7 +737,7 @@ TransformCovariantVector(mappedMovingImageGradient, mappedMovingPoint )}.
 \includegraphics[height=1.6in]{figs/c_chalf.pdf}
 \includegraphics[height=1.6in]{figs/c_half_c_grids.pdf}
 \end{tabular}
-\caption{\baselineskip 12pt \small An ITK diffeomorphic mapping of the
+\caption{An ITK diffeomorphic mapping of the
   type $I \leftrightsquigarrow J $.  The 
 ``C'' and 1/2 ``C'' example illustrate the large deformations that may
 be achieved with time varying velocity fields.  In this case, the moving (deforming) image is
@@ -968,7 +968,7 @@ registration technology.
 \begin{figure}[t]
 \begin{center}
 \includegraphics[width=6.5in]{figs/appleorange.pdf}
-\caption{\baselineskip 12pt \small This RGB image registration example employs
+\caption{This RGB image registration example employs
   \tk code that repurposes a scalar metric
   (\texttt{itkMeanSquaresImageToImageMetricv4}) for
   multichannel registration via C$++$ ``magic''.}
@@ -1020,7 +1020,7 @@ reducing user burden.
 \begin{figure}[t]
 \begin{center}
 \includegraphics[width=4.5in]{figs/three.pdf}
-\caption{\baselineskip 12pt \small Three references images, $I$
+\caption{Three references images, $I$
 (left), $J$ (middle top), and $K$ (right top), are used to illustrate
 the robustness of our parameter scale estimation for setting
 consistent parameters across both metrics and transform types.  $K$ is
@@ -1039,7 +1039,7 @@ general optimization process given in equation~\ref{eq:gen}.}
 
 \begin{figure}[t]
 \begin{center}
-\includegraphics[width=4.5in]{figs/figEval.png}
+\includegraphics[width=5.5in]{figs/figEval.png}
 \caption{We compare a \tk composite schema as $I
 ~\approx_\text{cc}  \leftrightsquigarrow \approx_\text{mi}  \rightarrow
 J_i $ for mapping a set of $\{ J_i \}$ images
@@ -1048,7 +1048,10 @@ to a template $I$ to a \tkt schema:  $I
 J_i $.  We use this schematic in a registration-based
 segmentation of multiple brain structures in a pediatric population as a benchmark
 for algorithm performance, similar to \cite{Klein2010}.  An example ANTs-based
-large-deformation result from the dataset is shown for illustration.
+large-deformation result from the dataset is shown for illustration
+where we render the extracted brains as well as show select axial
+slices.  All registrations were run on the original MRI data with no
+preprocessing except what is done by ANTs or BRAINSFit internally.
 Overall, the largest
 improvement in performance is within FIXME, where a FIXME \%
 improvement in v4 is gained.  Overlap improvement from v3 to v4, quantified via
@@ -1097,16 +1100,34 @@ ad7e114ab1c92bd800819b80e0548259398931c8.  Both programs were run on a
 MacBook Pro running OS X 10.9 (13A3028) with a 2.6 GHz Intel Core i7 and 16GB of RAM.
 \begin{figure}[t]
 \begin{center}
-\includegraphics[width=4.5in]{figs/star_ants_bfit.pdf}
-\caption{\baselineskip 12pt \small We use star plots of
+\includegraphics[width=6in]{figs/star_ants.pdf}
+\includegraphics[width=6in]{figs/star_bfit.pdf}
+\caption{We use star plots of
   per-brain-region Dice overlap to compare, for 10 subjects, the \tk
   implementation of SyN with the \tkt-based BRAINSFit algorithm.  The
-  \tk SyN algorithm, with it's classic neighborhood correlation
-  metric, outperforms BRAINSFit in ...}
+  \tk SyN algorithm, with its classic neighborhood correlation
+  metric, outperforms BRAINSFit in several regions and more strongly
+  in some subject pairs than others.}
 \label{fig:antsbfit}
 \end{center}
 \end{figure}
+To help isolate which subject pairs to deformably register, 
+we first clustered the initial dataset based on an all pairs
+affine registration which revealed five representative subject
+clusters.   The subject pairings used during evaluation were chosen 
+such that each subject pair contained the most representative subject
+for one cluster paired with the most representative subject from
+another cluster; thus, the study design allows us to focus, in a
+principled manner, on a set of 10 representative shape comparisons
+where the comparisons are made across different image types.
 
+The new methods in \tk show enhanced performance 
+within all 10 registration pairs.   The mean overall performance gain
+was FIXME with a standard deviation of FIXME and p-value FIXME.   We
+also identified which regions were most improved in \tk versus \tkt.
+These regions incude FIXME.   Figure~\ref{fig:antsbfit} summarizes all
+of these findings by using star plots to visualize the Dice results
+for every region in every subject.
 
 \section{Discussion} 
 ITK is a community built and maintained toolkit and is a public
