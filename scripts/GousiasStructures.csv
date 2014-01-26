@@ -1,0 +1,84 @@
+LabelName,Value,BriefName
+R Hippocampus,3,HippR
+L Hippocampus,6,HippL
+R Amygdala,9,AmygR
+L Amygdala,12,AmygL
+R AnteriorTemporalLobeMedialPart,15,AtlmL
+L AnteriorTemporalLobeMedialPart,18,AtlmR
+R AnteriorTemporalLobeLateralPart,21,AtllL
+L AnteriorTemporalLobeLateralPart,24,AtllR
+R Gyri parahippocampalis et ambiens,27,PhgR
+L Gyri parahippocampalis et ambiens,30,PhgL
+R Superior temporal gyrus posterior,33,StgpR
+L Superior temporal gyrus posterior,36,StgpL
+R Medial and inferior temporal gyri,39,MitgR
+L Medial and inferior temporal gyri,43,MitgL
+R Lateral occipitotemporal gyrus (gyrus fusiformis),46,FusR
+L Lateral occipitotemporal gyrus (gyrus fusiformis),49,FusL
+R Cerebellum,52,CerebelR
+L Cerebellum,55,CerebelL
+Brainstem,58 ,BStem
+R Insula,61,InsL
+L Insula,64,InsR
+R Occipital lobe,67,OccR
+L Occipital lobe,70,OccL
+R Cingulate gyrus anterior part,73,AntCingR
+L Cingulate gyrus anterior part,76,AntCingL
+R Cingulate gyrus posterior part,79,PostCingR
+L Cingulate gyrus posterior part,82,PostCingL
+R Frontal lobe,86,FtlL
+L Frontal lobe,89,FtlR
+R Posterior temporal lobe,92,PostTL
+L Posterior temporal lobe,95,PostTR
+R Parietal lobe,98,ParietalR
+L Parietal lobe,101,ParietalL
+R Caudate nucleus,104,CaudR
+L Caudate nucleus,107,CaudL
+R Nucleus accumbens,110,NucAccR
+L Nucleus accumbens,113,NucAccL
+R Putamen,116,PutR
+L Putamen,119,PutL
+R Thalamus,122,ThalR
+L Thalamus,125,ThalL
+R Pallidum,129,PallR
+L Pallidum,132,PallL
+Corpus callosum,135,CC
+R Lateral ventricle frontal horn central part and occipital horn,138,VentR
+L Lateral ventricle frontal horn central part and occipital horn,141,VentL
+R Lateral ventricle temporal horn,144,VentTR
+L Lateral ventricle temporal horn,147,VentTL
+Third ventricle,150,3rdVent
+R Precentral gyrus,153,PreGyrR
+L Precentral gyrus,156,PreGyrL
+R gyrus rectus,159,GyrRectR
+L gyrus rectus,162,GyrRectL
+R Anterior orbital gyrus,165,AntOrbGR
+L Anterior orbital gyrus,168,AntOrbGL
+R Inferior frontal gyrus,172,IfgR
+L Inferior frontal gyrus,175,IfgL
+R Superior frontal gyrus,178,SfgR
+L Superior frontal gyrus,181,SfgL
+R Postcentral gyrus,184,PostCentGR
+L Postcentral gyrus,187,PostCentGL
+R Superior parietal gyrus,190,SupParGR
+L Superior parietal gyrus,193,SupParGL
+R Lingual gyrus,196,LingGR
+L Lingual gyrus, 199,LingGL
+R Cuneus,202,CunR
+L Cuneus,205,CunL
+R Medial orbital gyrus,208,MedOrbGR
+L Medial orbital gyrus,211,MedOrbGL
+R Lateral orbital gyrus,215 ,LatOrbGR
+L Lateral orbital gyrus,218 ,LatOrbGL
+R Posterior orbital gyrus,221,PostOrbGR
+L Posterior orbital gyrus,224,PostOrbGL
+R Substantial nigra,227,NigraR
+L Substantial nigra,230,NigraL
+R Subgenual frontal cortex,233,SubGFCR
+L Subgenual frontal cortex,236,SubGFCL
+R Subcallosal area,239 ,SubCCR
+L Subcallosal area,242 ,SubCCL
+R Pre-subgenual frontal cortex,245 ,PSubGFCR
+L Pre-subgenual frontal cortex,248 ,PSubGFCL
+R Superior temporal gyrus anterior part,251,StgaR
+L Superior temporal gyrus anterior part,255,StgaL

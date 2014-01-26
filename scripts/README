@@ -1,0 +1,134 @@
+
+###########################################################################################
+library(ANTsR)
+source("~/code/ANTsR/R/pairwiseImageDistanceMatrix.R")
+dd<-paste(getwd(),"brains",sep='/')
+myFileList<-list.files(path=dd, pattern = glob2rx("*.nii.gz"),full.names = T,recursive = T)
+sublist<-myFileList[1:4]
+# dsimdata<-pairwiseImageDistanceMatrix( 3, sublist ) 
+###########################################################################################
+regpairs<-matrix( rep( 0,(2*10) ), ncol=2 )
+myreps<-c("33","12","06","24","14")
+regpairs[1, ]<-c(myreps[5],myreps[4])
+regpairs[2, ]<-c(myreps[5],myreps[3])
+regpairs[3, ]<-c(myreps[5],myreps[2])
+regpairs[4, ]<-c(myreps[5],myreps[1])
+regpairs[5, ]<-c(myreps[4],myreps[3])
+regpairs[6, ]<-c(myreps[4],myreps[2])
+regpairs[7, ]<-c(myreps[4],myreps[1])
+regpairs[8, ]<-c(myreps[3],myreps[2])
+regpairs[9, ]<-c(myreps[3],myreps[1])
+regpairs[10,]<-c(myreps[2],myreps[1])
+myantstimes<-rep(0,nrow(regpairs))
+mybfittimes<-rep(0,nrow(regpairs))
+for ( pSp in 1:nrow(regpairs) )
+{
+  ptm <- proc.time()
+  cmd<-paste( "./runBFit.sh ", regpairs[pp,1] , regpairs[pp,2] )
+  # system( cmd )
+  tdif<-(  proc.time() - ptm )
+  mybfittimes[pp]<-tdif[4]
+  ptm <- proc.time()
+  cmd<-paste( "./runANTs.sh ", regpairs[pp,1] , regpairs[pp,2] ) 
+  # system( cmd )
+  tdif<-(  proc.time() - ptm )
+  myantstimes[pp]<-tdif[4]
+}
+antsdicefn<-Sys.glob("eval/*ant*sv")
+bfitdicefn<-Sys.glob("eval/*bf*sv")
+mydice<-matrix( rep(1, (length(antsdicefn)*83*2) ), nrow=83 )
+colnames(mydice)<-mynames
+olabelnames<-read.csv("GousiasStructures.csv")$LabelName
+labelnames<-read.csv("GousiasStructures.csv")$BriefName
+rownames(mydice)<-labelnames
+mynames<-rep(NA,ncol(mydice) )
+pairttests<-rep(NA,length(antsdicefn))
+ct<-1
+for ( i in 1:length(antsdicefn) )
+ {
+ mynames[ct]<-antsdicefn[i]
+ mydice[,ct]<-read.csv(antsdicefn[i])$Dice[2:84]
+ ct<-ct+1
+ mynames[ct]<-bfitdicefn[i]
+ mydice[,ct]<-read.csv(bfitdicefn[i])$Dice[2:84]
+ pairttests[i]<-t.test( mydice[,ct-1], mydice[,ct] , type="paired")$p.value
+ print( t.test( mydice[,ct-1], mydice[,ct] , type="paired") )
+ ct<-ct+1
+ }
+# now do ttests for each structure 
+structests<-rep(NA,nrow(mydice))
+structestst<-rep(NA,nrow(mydice))
+antsinds<-c(1,3,5,7,9,11,13,15,17,19,21)
+bfitinds<-antsinds+1
+for ( i in 1:nrow(mydice) )
+  {
+  structests[i]<-t.test( mydice[i,antsinds], mydice[i,bfitinds]  , type="paired")$p.value
+  structestst[i]<-t.test( mydice[i,antsinds], mydice[i,bfitinds]  , type="paired")$statistic
+  }
+print( labelnames[p.adjust(structests,method="BH") < 0.05 ] )
+palette(rainbow(83, s = 0.6, v = 0.75))
+pdf("star_ants.pdf")
+stars( t(mydice[,antsinds]), len = 0.8,main = "ANTs Dice Overlap", nrow=2, ncol=6,draw.segments = T,  scale=F )
+dev.off()
+labelnamemod<-labelnames
+labelnamemod[(1:42)*2]<-NA
+pdf("star_bfit.pdf")
+stars( t(mydice[,bfitinds]), len = 0.8,key.loc = c(14,2.25),main = "BRAINSFit Dice Overlap", nrow=2,ncol=6, draw.segments = T,  scale=F , cex=0.3 , key.labels = labelnamemod )
+dev.off()
+# 
+
+# mean ants values perregion
+meanants<-apply( mydice[,antsinds] ,FUN=mean,MARGIN=1)
+meanbfit<-apply( mydice[,bfitinds] ,FUN=mean,MARGIN=1)
+sdants<-apply( mydice[,antsinds] ,FUN=sd,MARGIN=1)
+sdbfit<-apply( mydice[,bfitinds] ,FUN=sd,MARGIN=1)
+qval<-p.adjust(structests,method="BH")
+wh<-( qval < 0.01 )
+mydf<-data.frame(meanants=meanants[wh],meanbfit=meanbfit[wh],pval=qval[wh] )
+rownames(mydf)<-olabelnames[wh]
+library(xtable)
+xtbl<-xtable(mydf,caption="Dice Overlap for ANTs and BRAINSFit")
+digits(xtbl) <- c(3,3,3,4)
+print(xtbl)
+
+mydf$labelnames <- with(mydf, factor(mydf$labelnames, levels=mydf[order(-meanants), ]$labelnames))
+p <- ggplot(mydf)
+p + geom_bar(aes(labelnames, meanbfit), stat = "identity", position="dodge") + scale_fill_brewer(palette = "Set1")+
+    theme(text = element_text(size=20),axis.text.x = element_text(angle=90, vjust=1)) 
+
+
+Dice<-rep(NA,83*2)
+Algorithm<-rep(NA,83*2)
+BrainRegion<-rep("",83*2)
+ct<-1
+for ( i in 1:83 ) { 
+    Dice[ct]<-meanants[i] 
+    Algorithm[ct]="ANTs"; 
+    BrainRegion[ct]<-as.character(labelnames[i])
+    ct<-ct+1; 
+    Dice[ct]<-meanbfit[i]  
+    BrainRegion[ct]<-as.character(labelnames[i])
+    Algorithm[ct]="BFit" 
+    ct<-ct+1; 
+    }
+mydf<-data.frame( Algorithm=Algorithm, Dice=Dice, BrainRegion=BrainRegion )
+mydf$BrainRegion <- with(mydf, factor(mydf$BrainRegion, levels=mydf[order(-Dice), ]$BrainRegion))
+pdf("barplot.pdf",width=16,height=5)
+p <- ggplot(mydf)  +  theme(text = element_text(size=20),axis.text.x = element_text(angle=90, vjust=1)) +coord_cartesian(ylim=c(0.5, 1))
+p + geom_bar(aes(BrainRegion, Dice, fill=Algorithm), stat = "identity", position="dodge") + scale_fill_brewer(palette = "Set1")
+dev.off()
+
+
+if (FALSE){
+library(plyr)
+ library(ggplot2)
+ data(mpg)
+ hwy.avg <- ddply(mydf, c("BrainRegion", "Algorithm"), 
+                   function(df) return(c(hwy.avg=mean(df$hwy), hwy.sd=sd(df$hwy))))
+ avg.plot <- qplot(class, hwy.avg, fill=factor(year), data=hwy.avg, geom="bar", 
+                    position="dodge")
+ pl <- avg.plot + 
+    geom_errorbar(aes(ymax=hwy.avg+hwy.sd, ymin=hwy.avg-hwy.sd), position="dodge") +
+    theme_bw()
+ print(pl)
+}

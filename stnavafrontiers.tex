@@ -1100,6 +1100,7 @@ ad7e114ab1c92bd800819b80e0548259398931c8.  Both programs were run on a
 MacBook Pro running OS X 10.9 (13A3028) with a 2.6 GHz Intel Core i7 and 16GB of RAM.
 \begin{figure}[t]
 \begin{center}
+\includegraphics[width=6in]{figs/barplot.pdf}
 \includegraphics[width=6in]{figs/star_ants.pdf}
 \includegraphics[width=6in]{figs/star_bfit.pdf}
 \caption{We use star plots of
@@ -1107,7 +1108,8 @@ MacBook Pro running OS X 10.9 (13A3028) with a 2.6 GHz Intel Core i7 and 16GB of
   implementation of SyN with the \tkt-based BRAINSFit algorithm.  The
   \tk SyN algorithm, with its classic neighborhood correlation
   metric, outperforms BRAINSFit in several regions and more strongly
-  in some subject pairs than others.}
+  in some subject pairs than others.  The legend for the plots is at
+  lower right and shows the maximum possible value for each region.}
 \label{fig:antsbfit}
 \end{center}
 \end{figure}
@@ -1139,6 +1141,51 @@ and BRAINSFit each use a different multithreading strategies,
 similarity metric implementations, 
 rigid/affine registration mechansisms and optimizers making this overall comparison
 less than ideal.  
+
+% latex table generated in R 3.0.2 by xtable 1.7-1 package
+% Sun Jan 26 13:01:37 2014
+\begin{table}[ht]
+\begin{tiny}
+\centering
+\begin{tabular}{rrrr}
+  \hline
+ & meanants & meanbfit & FDR-adjusted $p$-value \\ 
+  \hline
+R Hippocampus & 0.835 & 0.770 & 0.0083 \\ 
+  L Hippocampus & 0.834 & 0.782 & 0.0063 \\ 
+  R Amygdala & 0.843 & 0.752 & 0.0027 \\ 
+  L Amygdala & 0.851 & 0.773 & 0.0037 \\ 
+  L AnteriorTemporalLobeMedialPart & 0.849 & 0.752 & 0.0005 \\ 
+  R AnteriorTemporalLobeLateralPart & 0.754 & 0.633 & 0.0002 \\ 
+  L AnteriorTemporalLobeLateralPart & 0.786 & 0.668 & 0.0083 \\ 
+  R Gyri parahippocampalis et ambiens & 0.813 & 0.756 & 0.0037 \\ 
+  L Gyri parahippocampalis et ambiens & 0.823 & 0.749 & 0.0007 \\ 
+  R Superior temporal gyrus posterior & 0.892 & 0.827 & 0.0001 \\ 
+  R Medial and inferior temporal gyri & 0.891 & 0.823 & 0.0007 \\ 
+  R Lateral occipitotemporal gyrus (gyrus fusiformis) & 0.801 & 0.690 & 0.0023 \\ 
+  R Cerebellum & 0.953 & 0.937 & 0.0066 \\ 
+  Brainstem & 0.944 & 0.923 & 0.0001 \\ 
+  R Insula & 0.910 & 0.864 & 0.0001 \\ 
+  L Insula & 0.915 & 0.863 & 0.0001 \\ 
+  L Occipital lobe & 0.895 & 0.819 & 0.0049 \\ 
+  L Posterior temporal lobe & 0.912 & 0.862 & 0.0001 \\ 
+  L Parietal lobe & 0.885 & 0.815 & 0.0052 \\ 
+  R Putamen & 0.909 & 0.869 & 0.0002 \\ 
+  L Putamen & 0.911 & 0.862 & 0.0003 \\ 
+  R Pallidum & 0.838 & 0.721 & 0.0037 \\ 
+  L Pallidum & 0.846 & 0.766 & 0.0049 \\ 
+  L Lingual gyrus & 0.876 & 0.795 & 0.0037 \\ 
+  L Cuneus & 0.825 & 0.684 & 0.0083 \\ 
+  L Lateral orbital gyrus & 0.728 & 0.598 & 0.0037 \\ 
+  L Substantial nigra & 0.831 & 0.741 & 0.0023 \\ 
+  L Superior temporal gyrus anterior part & 0.818 & 0.752 & 0.0043 \\ 
+   \hline
+\end{tabular}
+\caption{Dice Overlap for ANTs and BRAINSFit where only regions with
+  $q$-value $<0.01$ are shown.} 
+\end{tiny}
+\end{table}
+
 
 \section{Discussion} 
 ITK is a community built and maintained toolkit and is a public
@@ -1184,57 +1231,3 @@ for diffusion tensor registration and additional evaluation.
 
 
 
-
-
-
-
-
-library(ANTsR)
-dd<-paste(getwd(),"brains",sep='/')
-myFileList<-list.files(path=dd, pattern = glob2rx("*.nii.gz"),full.names = T,recursive = T)
-dsimdata<-pairwiseImageDistanceMatrix( 3, myFileList, nclusters = 5 ) 
-
-regpairs<-matrix( rep( 0,(2*10) ), ncol=2 )
-myreps<-c("01","02","03","04","05")
-regpairs[1, ]<-c(myreps[5],myreps[4])
-regpairs[2, ]<-c(myreps[5],myreps[3])
-regpairs[3, ]<-c(myreps[5],myreps[2])
-regpairs[4, ]<-c(myreps[5],myreps[1])
-regpairs[5, ]<-c(myreps[4],myreps[3])
-regpairs[6, ]<-c(myreps[4],myreps[2])
-regpairs[7, ]<-c(myreps[4],myreps[1])
-regpairs[8, ]<-c(myreps[3],myreps[2])
-regpairs[9, ]<-c(myreps[3],myreps[1])
-regpairs[10,]<-c(myreps[2],myreps[1])
-for ( pp in 1:nrow(regpairs) )
-{
-  cmd<-paste( "./runBFit.sh ", regpairs[pp,1] , regpairs[pp,2] ) 
-  cmd<-paste( "./runANTs.sh ", regpairs[pp,1] , regpairs[pp,2] ) 
-  cmd<-paste( "./runANTsMI.sh ", regpairs[pp,1] , regpairs[pp,2] ) 
-  print( cmd )
-}
-
-
-antsdicefn<-Sys.glob("*/*ant*sv")[c(1,2)]
-bfitdicefn<-Sys.glob("*/*bf*sv")
-mydice<-matrix( rep(1, (length(antsdicefn)*83*2) ), nrow=83 )
-labelnames<-read.csv("GousiasStructures.csv")$LabelName
-labelnames<-read.csv("GousiasStructures.csv")$BriefName
-rownames(mydice)<-labelnames
-mynames<-rep(NA,ncol(mydice) )
-ct<-1
-for ( i in 1:length(antsdicefn) )
- {
- mynames[ct]<-antsdicefn[i]
- mydice[,ct]<-read.csv(antsdicefn[i])$Dice[2:84]
- ct<-ct+1
- mynames[ct]<-bfitdicefn[i]
- mydice[,ct]<-read.csv(bfitdicefn[i])$Dice[2:84]
- ct<-ct+1
- }
-colnames(mydice)<-mynames
-palette(rainbow(83, s = 0.6, v = 0.75))
-pdf("star_ants_bfit.pdf")
-stars( t(mydice), len = 0.8,main = "BFIT V ANTS", nrow=2, draw.segments = F,  scale=F )
-dev.off()
-# key.loc = c(4.5,2.25),
