@@ -1129,6 +1129,16 @@ These regions incude FIXME.   Figure~\ref{fig:antsbfit} summarizes all
 of these findings by using star plots to visualize the Dice results
 for every region in every subject.
 
+We also recorded the amount of processing time spent on each subject,
+for each algorithm.  Noting that the \tk algorithm also provides a
+dense and high-resolution forward and inverse transform and does
+explicit transformation regularization to guarantee a diffeomorphism,
+the algorithm takes, on average, only about two times as long as the
+\tkt BRAINSFit algorithm ($\approx 15$ minutes).  Note also that ANTs
+and BRAINSFit each use a different similarity metric, strategy for
+rigid/affine registration and optimizer making this overall comparison
+less than ideal.
+
 \section{Discussion} 
 ITK is a community built and maintained toolkit and is a public
 resource for reproducible methods.  The updated \tk registration
