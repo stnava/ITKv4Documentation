@@ -257,7 +257,8 @@ on design/comparison of registration strategies.  In total, the \tk contribution
 support reproducible research practices, will provide a more extensive
 foundation against which to evaluate new work in image registration
 and also enable application level programmers a broad suite of tools
-on which to build. \footnote{This work is supported by National
+on which to build.  Finally, we contextualize this work with a reference registration
+evaluation study with application to pediatric brain labeling.\footnote{This work is supported by National
 Library of Medicine sponsored ARRA stimulus funding.}
 \end{abstract}
 
@@ -930,7 +931,9 @@ A list of these examples follows:
     image and stores the resampled set in a new 4D image.  All
     transformation parameters are stored in a corresponding csv file.
    \item~ An advanced example with heavy use of statistics via \textit{R} and \href{http://stnava.github.io/ANTsR/}{\textit{ANTsR}} is in
-     a study of \href{http://stnava.github.io/RfMRI/}{public test-retest fmri data}. % done
+     a study of \href{http://stnava.github.io/RfMRI/}{public
+       test-retest fmri data}.  This study is not published and may be
+      subject to change.
   \item~The classic car example shown in ANTs talks is
     \href{http://stnava.github.io/cars/}{here}.  This illustrates the
     benefit of mutual information in deformably mapping wild-type
@@ -1051,16 +1054,15 @@ for algorithm performance, similar to \cite{Klein2010}.  An example ANTs-based
 large-deformation result from the dataset is shown for illustration
 where we render the extracted brains as well as show select axial
 slices.  All registrations were run on the original MRI data with no
-preprocessing except what is done by ANTs or BRAINSFit internally.
-Overall, the largest
-improvement in performance is within FIXME, where a FIXME \%
-improvement in v4 is gained.  Overlap improvement from v3 to v4, quantified via
-paired t-test, is significant at level FIXME.}
+preprocessing except what is done by ANTs or BRAINSFit internally. Overlap improvement from v3 to v4, quantified via
+paired t-test, is highly significant.}
 \label{fig:eval}
 \end{center}
 \end{figure}
 
 \subsubsection{Automated Brain Labeling Task}
+All \textit{R} and bash analysis scripts for this section are here:
+\href{https://github.com/stnava/ITKv4Documentation/tree/frontiers/scripts}{https://github.com/stnava/ITKv4Documentation/tree/frontiers/scripts}.
 The \tk core functionality formed the heart of the reference results
 provided for the SATA2013 challenge at MICCAI 2013.  In this sense,
 these methods have been heavily evaluated on both basic brain mapping
@@ -1103,8 +1105,9 @@ MacBook Pro running OS X 10.9 (13A3028) with a 2.6 GHz Intel Core i7 and 16GB of
 \includegraphics[width=6in]{figs/barplot.pdf}
 \includegraphics[width=6in]{figs/star_ants.pdf}
 \includegraphics[width=6in]{figs/star_bfit.pdf}
-\caption{We use star plots of
-  per-brain-region Dice overlap to compare, for 10 subjects, the \tk
+\caption{Above, a barplot shows the mean Dice score for each region
+  and each algorithm, sorted by ANTs performance.  Below, we use star plots of
+  per-brain-region Dice overlap to compare, for each subject, the \tk
   implementation of SyN with the \tkt-based BRAINSFit algorithm.  The
   \tk SyN algorithm, with its classic neighborhood correlation
   metric, outperforms BRAINSFit in several regions and more strongly
@@ -1113,6 +1116,7 @@ MacBook Pro running OS X 10.9 (13A3028) with a 2.6 GHz Intel Core i7 and 16GB of
 \label{fig:antsbfit}
 \end{center}
 \end{figure}
+
 To help isolate which subject pairs to deformably register, 
 we first clustered the initial dataset based on an all pairs
 affine registration which revealed five representative subject
@@ -1120,27 +1124,35 @@ clusters.   The subject pairings used during evaluation were chosen
 such that each subject pair contained the most representative subject
 for one cluster paired with the most representative subject from
 another cluster; thus, the study design allows us to focus, in a
-principled manner, on a set of 10 representative shape comparisons
+principled manner, on a set of representative shape comparisons
 where the comparisons are made across different image types.
 
-The new methods in \tk show enhanced performance 
-within all 10 registration pairs.   The mean overall performance gain
-was FIXME with a standard deviation of FIXME and p-value FIXME.   We
-also identified which regions were most improved in \tk versus \tkt.
-These regions incude FIXME.   Figure~\ref{fig:antsbfit} summarizes all
-of these findings by using star plots to visualize the Dice results
-for every region in every subject.
+The new methods in \tk show enhanced performance within all
+registration pairs.  The mean overall performance gain was
+approximately 6.3\% with a standard deviation of 5\% and
+$T$-statistic/$p$-value, over all structures, of 12.6 / $p < 1.e-16$.
+We also identified which regions were most improved in \tk versus
+\tkt.  These regions incude the left and right Insula, the brainstem,
+the superior temporal gyrus, parahippocampal gyrus, putamen and the
+substantia nigra.  Table~\ref{tbl:tbl} lists all structures and the
+mean Dice score for each algorithm, along with the $p$-value.
+Figure~\ref{fig:antsbfit} summarizes all of these findings by using
+star plots to visualize the Dice results for every region in every
+subject.
 
 We also recorded the amount of processing time spent on each subject,
 for each algorithm.  Noting that the \tk algorithm also provides a
 dense and high-resolution forward and inverse transform and does
 explicit transformation regularization to guarantee a diffeomorphism,
-the algorithm takes, on average, only about two times as long as the
-\tkt BRAINSFit algorithm ($\approx 15$ minutes).  Note also that ANTs
-and BRAINSFit each use a different multithreading strategies,
-similarity metric implementations, 
-rigid/affine registration mechansisms and optimizers making this overall comparison
-less than ideal.  
+the algorithm takes, on average, 5 times as long as the \tkt BRAINSFit
+algorithm ($\approx 10$ minutes), assuming default settings.  Much of
+this time, in ANTs, is taken up by full resolution image registration.
+If this fine level is avoided, then the disparity in timing reduces
+to less than a factor of two, without much loss in accuracy.
+Note also that ANTs and BRAINSFit each use a different multithreading
+strategies, similarity metric implementations, rigid/affine
+registration mechansisms and optimizers making this overall comparison
+less than ideal.
 
 % latex table generated in R 3.0.2 by xtable 1.7-1 package
 % Sun Jan 26 13:01:37 2014
@@ -1182,7 +1194,7 @@ R Hippocampus & 0.835 & 0.770 & 0.0083 \\
    \hline
 \end{tabular}
 \caption{Dice Overlap for ANTs and BRAINSFit where only regions with
-  $q$-value $<0.01$ are shown.} 
+  $q$-value $<0.01$ are shown.\label{tbl:tbl}} 
 \end{tiny}
 \end{table}
 
