@@ -623,7 +623,12 @@ reason is that we usually seek a deformable mapping into a template
 space that is common across many subjects (i.e., the ``tail'' is in the
 same domain across subjects).  This enables methods such as
 Jacobian-based morphometry and other groupwise comparison
-conveniences.  It is not, however, the only way to do things.}
+conveniences.  For example, see Figures 1 through 4 in \cite{Kim2008}
+which explains the classical approach of Jacobian-based morphometry as
+applied to traumatic brain injury.  See also
+\cite{Studholme2007,Lepore2006,Rohlfing2006,Dubb2005,Riddle2004,Gaser2001}.
+Additional uses of Jacobian-based morphometry are shown in our examples section in the
+``C'' example and the ``asymmetry'' example.}
 
 
 \subsection{Optimization Framework}
@@ -756,7 +761,10 @@ the Runge-Kutta ODE integration over the velocity field.  A two
 core MacBook Air computed this registration in 110 seconds.  The images
 each were of size $150 \times 150$.  See
 \href{http://stnava.github.io/C/}{C} for a reproducible example of
-this registration and the data.}
+this registration and the data.  In addition, we provide an example of
+how the Jacobian determinant is computed from the deformation field
+resulting from this registration via an \textit{ANTs}
+program \texttt{CreateJacobianDeterminantImage}.}
 \label{fig:chalf}
 \end{center}
 \end{figure}
@@ -952,6 +960,11 @@ A list of these examples follows:
    \item~  This \href{http://stnava.github.io/asymmetry/}{asymmetry
        analysis} example uses the ``virtual domain'' feature to reduce
      bias caused by mapping an image asymmetrically to a reference.
+     Note that we measure the point-wise asymmetry, in this example,
+     via the Jacobian determinant image as in \cite{Kim2008}.  If one
+     repeats this analysis across a population---and maps the Jacobian
+     measurements of asymmetry to a common space---then one may perform a
+     statistical analysis of population-level asymmetry.
      Longitudinal analysis and asymmetry analysis potentially suffer
      from the same confound \cite{Yushkevich2010a}.  A related
      longitudinal mapping script is \href{https://github.com/stnava/ANTs/blob/master/Scripts/unbiased_longitudinal_map}{here}.
@@ -1100,7 +1113,7 @@ The scripts for running this study are available at
 \href{https://github.com/stnava/ITKv4Documentation/tree/frontiers/scripts}{https://github.com/stnava/ITKv4Documentation/tree/frontiers/scripts}.
 The git hashtag for the ANTs version used in this evaluation \href{https://github.com/stnava/ANTs}{https://github.com/stnava/ANTs}
 is
-936288fb2b8c4467059667a42178bca986219665.  The associated ITK tag is contained
+ce8b5a7414ae9e389071d756c5f36ee6cecbcfd8.  The associated ITK tag is contained
 within the ANTs repository.  
 The git hashtag for the BRAINSFit version \href{https://github.com/BRAINSia/BRAINSTools}{https://github.com/BRAINSia/BRAINSTools} used in this evaluation is
 ad7e114ab1c92bd800819b80e0548259398931c8.  Both programs were run on a
@@ -1241,7 +1254,11 @@ core groupwise strategies are not currently implemented although one
 may consider basing an implementation on exisiting multi-metric /
 multivariate registration tools within the current code base.  While
 \tk does contain a statistics infrastructure, we currently prefer
-using \textit{R} and \textit{ANTsR} for analyzing our data.  
+using \textit{R} and \textit{ANTsR} for analyzing our data.  However,
+the lack of visualization methods in ITK means that one must still
+move to another package to look at one's results.  Therefore, direct
+interfaces to \textit{R} remain useful.  SimpleITK also has a
+promising \textit{R} interface that is similar to \textit{ANTsR}.
 
 A primary challenge to the future of \tk includes, beyond
 documentation, reduced $C++$ fluency.  As \tk leverages several
@@ -1260,7 +1277,7 @@ specialization in solving high-impact and translational applications.
 Hopefully, this transition will occur in the near future.
 
 \bibliographystyle{frontiersinSCNS}
-\bibliography{itk}
+\bibliography{itk,../CV/avantsCV}
 \end{document}
 
 
